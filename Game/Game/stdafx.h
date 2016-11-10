@@ -21,4 +21,6 @@
 using namespace tkEngine;
 #include "tkEngine/random/tkRandom.h"
 
+extern CLight g_defaultLight;	//デフォルトライト。
+
 #endif // _STDAFX_H_
