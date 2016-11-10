@@ -10,7 +10,7 @@ struct SMapInfo {
 
 //マップの配置情報。
 SMapInfo mapLocInfo[] = {
-#include "locationInfo.h"
+#include "Sample.h"
 };
 
 Map::Map()
