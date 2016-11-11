@@ -1,4 +1,2 @@
-﻿  Map.cpp
-Map.cpp(13): fatal error C1083: include ファイルを開けません。'Sample.h':No such file or directory
-  main.cpp
-  コードを生成中...
+﻿  Game.vcxproj -> C:\Users\kbc16b15\Desktop\github\GFF4M\Game\x64\Release\Game.exe
+  Game.vcxproj -> C:\Users\kbc16b15\Desktop\github\GFF4M\Game\x64\Release\Game.pdb (Full PDB)
