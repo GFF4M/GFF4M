@@ -18,6 +18,9 @@
     <Filter Include="Source Files\Player">
       <UniqueIdentifier>{3c5faa50-1040-4d6b-a4b6-80c1250f4286}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Scene">
+      <UniqueIdentifier>{76cf3146-c705-4aa3-b7c0-91a4661dacfe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -38,6 +41,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>Source Files\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -55,5 +61,6 @@
     <ClInclude Include="Player.h">
       <Filter>Source Files\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Scene.h" />
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 class Camera : public IGameObject
 {
 public:
-	//ここからメンバ関数。
+
 	Camera();
 	~Camera();
 	void Start();
@@ -15,7 +15,8 @@ public:
 	{
 		return camera.GetProjectionMatrix();
 	}
-	//ここからメンバ変数。
+
+private:
 	CCamera camera;	//カメラ。
 };
 
