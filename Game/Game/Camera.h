@@ -9,15 +9,15 @@ public:
 	void Update();
 	const CMatrix& GetViewMatrix() const
 	{
-		return camera.GetViewMatrix();
+		return m_camera.GetViewMatrix();
 	}
 	const CMatrix& GetProjectionMatrix() const
 	{
-		return camera.GetProjectionMatrix();
+		return m_camera.GetProjectionMatrix();
 	}
 
 private:
-	CCamera camera;	//カメラ。
+	CCamera m_camera;	//カメラ。
 };
 
 extern Camera* g_gameCamera;

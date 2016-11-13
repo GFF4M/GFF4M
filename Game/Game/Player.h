@@ -10,10 +10,20 @@ public:
 	void Update();
 	void Render(CRenderContext& renderContext);
 
+	void SetPos(CVector3 pos)
+	{
+		m_position = pos;
+	}
+
+	CVector3 GetPos()
+	{
+		return m_position;
+	}
+
 private:
-	CSkinModel				skinModel;					//スキンモデル。
-	CSkinModelData			skinModelData;				//スキンモデルデータ。
-	CCharacterController	characterController;		//キャラクタ―コントローラー。
-	CVector3				position = CVector3::Zero;	//座標。
+	CSkinModel				m_skinModel;					//スキンモデル。
+	CSkinModelData			m_skinModelData;				//スキンモデルデータ。
+	CCharacterController	m_characterController;		//キャラクタ―コントローラー。
+	CVector3				m_position = CVector3::Zero;	//座標。
 };
 
