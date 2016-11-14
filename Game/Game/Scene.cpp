@@ -18,10 +18,4 @@ void Scene::Start()
 
 void Scene::Update()
 {
-	m_time++;
-	if (m_time == 10)
-	{
-		m_map->Change();
-		m_time = 0;
-	}
 }

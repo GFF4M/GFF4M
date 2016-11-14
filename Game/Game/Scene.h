@@ -6,6 +6,13 @@
 class Scene : public IGameObject
 {
 public:
+	enum Scenes
+	{
+		START,
+		LOAD,
+
+	};
+	
 	Scene();
 	~Scene();
 
