@@ -21,6 +21,9 @@
     <Filter Include="Source Files\Scene">
       <UniqueIdentifier>{76cf3146-c705-4aa3-b7c0-91a4661dacfe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Text">
+      <UniqueIdentifier>{4d7a67cd-8b39-49bb-8435-56435cf3ac07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -44,6 +47,9 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Text.cpp">
+      <Filter>Source Files\Text</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -65,5 +71,8 @@
       <Filter>Source Files\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Coin.h" />
+    <ClInclude Include="..\..\..\..\Text.h">
+      <Filter>Source Files\Text</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
