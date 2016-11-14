@@ -22,7 +22,11 @@
       <UniqueIdentifier>{76cf3146-c705-4aa3-b7c0-91a4661dacfe}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Text">
+<<<<<<< HEAD
       <UniqueIdentifier>{a5d64c42-2a17-4413-889b-b83cf2d00ca1}</UniqueIdentifier>
+=======
+      <UniqueIdentifier>{4d7a67cd-8b39-49bb-8435-56435cf3ac07}</UniqueIdentifier>
+>>>>>>> 15bf686162f68478a4faa98d80c6a5330eee76be
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -47,7 +51,11 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Text.cpp">
+=======
+    <ClCompile Include="..\..\..\..\Text.cpp">
+>>>>>>> 15bf686162f68478a4faa98d80c6a5330eee76be
       <Filter>Source Files\Text</Filter>
     </ClCompile>
   </ItemGroup>
@@ -70,7 +78,12 @@
     <ClInclude Include="Scene.h">
       <Filter>Source Files\Scene</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Text.h">
+=======
+    <ClInclude Include="Coin.h" />
+    <ClInclude Include="..\..\..\..\Text.h">
+>>>>>>> 15bf686162f68478a4faa98d80c6a5330eee76be
       <Filter>Source Files\Text</Filter>
     </ClInclude>
   </ItemGroup>
