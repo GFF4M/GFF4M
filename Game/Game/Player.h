@@ -23,7 +23,7 @@ public:
 private:
 	CSkinModel				m_skinModel;					//スキンモデル。
 	CSkinModelData			m_skinModelData;				//スキンモデルデータ。
-	CCharacterController	m_characterController;		//キャラクタ―コントローラー。
+	CCharacterController	m_characterController;			//キャラクタ―コントローラー。
 	CVector3				m_position = CVector3::Zero;	//座標。
 };
 
