@@ -20,6 +20,7 @@
 #include "tkEngine/Physics/tkPhysics.h"
 using namespace tkEngine;
 #include "tkEngine/random/tkRandom.h"
+#include "tkEngine/graphics/sprite/tkSprite.h"
 
 extern CLight g_defaultLight;	//デフォルトライト。
 
