@@ -18,8 +18,8 @@
     <ClCompile Include="Player.cpp">
       <Filter>Player</Filter>
     </ClCompile>
-    <ClCompile Include="Text.cpp">
-      <Filter>Text</Filter>
+    <ClCompile Include="Start.cpp">
+      <Filter>Screen\Start</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -39,8 +39,8 @@
     <ClInclude Include="Player.h">
       <Filter>Player</Filter>
     </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>Text</Filter>
+    <ClInclude Include="Start.h">
+      <Filter>Screen\Start</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -56,8 +56,11 @@
     <Filter Include="Player">
       <UniqueIdentifier>{59b06482-3ec1-42ed-83ec-10a74273d411}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Text">
+    <Filter Include="Screen">
       <UniqueIdentifier>{fba00017-3ef3-4aff-94c3-3c5b8d18075c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screen\Start">
+      <UniqueIdentifier>{041a3a7e-2eaf-44e2-8189-bd62c08f96cf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

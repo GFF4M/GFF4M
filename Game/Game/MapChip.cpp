@@ -52,9 +52,3 @@ void MapChip::Render(CRenderContext& renderContext)
 {
 	m_skinModel.Draw(renderContext, g_gameCamera->GetViewMatrix(), g_gameCamera->GetProjectionMatrix());
 }
-
-void MapChip::Delete()
-{
-	PhysicsWorld().RemoveRigidBody(&m_rigidBody);
-	DeleteGO(this);
-}

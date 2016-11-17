@@ -11,7 +11,6 @@ public:
 	void Init(const char* modelName, CVector3 position, CQuaternion rotation);
 	void Update();
 	void Render(CRenderContext& renderContext);
-	void Delete();
 private:
 	CSkinModel			m_skinModel;		//スキンモデル。
 	CSkinModelData		m_skinModelData;	//スキンモデルデータ。

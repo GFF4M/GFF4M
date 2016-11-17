@@ -2,15 +2,16 @@
 
 #include "Map.h"
 #include "Player.h"
+#include "Start.h"
 
 class Scene : public IGameObject
 {
 public:
 	enum Scenes
 	{
+		NOSTAT,
 		START,
-		LOAD,
-
+		STAGE_HOUSE,
 	};
 	
 	Scene();
@@ -19,10 +20,14 @@ public:
 	void Start();
 	void Update();
 
+	void Change(Scenes scenes);
+
 private:
 	Player*		m_play;
 	Map*		m_map;
+	SC_Start*	m_start;
 
-	int			m_time = 0;
+	Scenes		m_scene;
+	Scenes		m_changeto;
 };
 

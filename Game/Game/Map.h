@@ -8,12 +8,11 @@ public:
 	Map();
 	~Map();
 	void Start();
+	void SetField();
 	void Update();
 
-	void Change();
+	void Delete();
 
 private:
-	MapChip*	m_mapchip[MAP_CHIP_MAX];
-	int			m_mapchipnum = 0;
 };
 
