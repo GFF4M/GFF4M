@@ -21,6 +21,9 @@
     <ClCompile Include="Start.cpp">
       <Filter>Screen\Start</Filter>
     </ClCompile>
+    <ClCompile Include="Load.cpp">
+      <Filter>Screen\Load</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -42,6 +45,9 @@
     <ClInclude Include="Start.h">
       <Filter>Screen\Start</Filter>
     </ClInclude>
+    <ClInclude Include="Load.h">
+      <Filter>Screen\Load</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Camera">
@@ -61,6 +67,9 @@
     </Filter>
     <Filter Include="Screen\Start">
       <UniqueIdentifier>{041a3a7e-2eaf-44e2-8189-bd62c08f96cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screen\Load">
+      <UniqueIdentifier>{77e8ae30-2a40-47b9-87cd-e77c2696db4e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

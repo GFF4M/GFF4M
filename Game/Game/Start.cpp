@@ -13,10 +13,10 @@ SC_Start::~SC_Start()
 void SC_Start::Start()
 {
 
-	haikeiTex.Load("Assets/Sprite/siro.png");
-	newGameTex.Load("Assets/Sprite/NEW.png");
-	contenyuTex.Load("Assets/Sprite/cc.png");
-	TitleTex.Load("Assets/Sprite/Title.png");
+	haikeiTex.Load("Assets/Sprite/White-1.png");
+	newGameTex.Load("Assets/Sprite/New Game-1.png");
+	contenyuTex.Load("Assets/Sprite/Continue-1.png");
+	TitleTex.Load("Assets/Sprite/Title-1.png");
 
 	haikei.Init(&haikeiTex);
 	contenyu.Init(&contenyuTex);
