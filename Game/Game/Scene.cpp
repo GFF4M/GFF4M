@@ -54,6 +54,7 @@ void Scene::LoadCheck()
 
 	case LOADFIN:
 		m_load->Delete();
+		m_load = nullptr;
 		m_loadstat = NOSTAT;
 		break;
 
@@ -71,10 +72,12 @@ void Scene::Change(Scenes scenes)
 
 	case START:
 		m_start->Delete();
+		m_start = nullptr;
 		break;
 
 	case STAGE_HOUSE:
 		m_map->Delete();
+		m_map = nullptr;
 		break;
 
 	default:

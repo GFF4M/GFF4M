@@ -13,27 +13,28 @@ public:
 	void Delete();
 private:
 	/*CSoundSource	soundSource;*/
-	CSprite  haikei;			//背景。
-	CTexture haikeiTex;		//背景のテクスチャ。
+	CSprite		m_back;			//背景。
+	CTexture	m_back_tex;			//背景のテクスチャ。
 
-	CSprite contenyu;		//つづきから
-	CTexture contenyuTex	//つづきからのテクスチャ
-		;
+	CSprite		m_continue;			//つづきから
+	CTexture	m_continue_tex;		//つづきからのテクスチャ
 
-	CSprite  newGame;			//はじめから
-	CTexture newGameTex;		//はじめからのテクスチャ
+	CSprite		m_newgame;			//はじめから
+	CTexture	m_newgame_tex;		//はじめからのテクスチャ
 
-	CSprite Title;				//タイトル
-	CTexture TitleTex;			//タイトルのテクスチャ
-
+	CSprite		m_title;				//タイトル
+	CTexture	m_title_tex;			//タイトルのテクスチャ
 
 
-	const CVector2 haikeiPos = { 0.0f, 0.0f };
-	const CVector2 haikeiMaxSize = { 1500.0f, 1000.0f };
-	const CVector2 newGameMaxSize = { 230.0f, 80.0f };
-	const CVector2 newGamePos = { 0.0f, -100.0f };
-	const CVector2 contenyuPos = { 0.0f,-280.0f };
-	const CVector2 contenyuMaxSize = { 230.0f,80.0f };
-	const CVector2 TitlePos = { 0.0f,150.0f };
-	const CVector2 TitleMaxSize = { 700.0f,200.0f };
+	const CVector2 BACKPOS			= { 0.0f, 0.0f };
+	const CVector2 BACKMAXSIZE		= { 1500.0f, 1000.0f };
+
+	const CVector2 NEWGAMEPOS		= { 0.0f, -100.0f };
+	const CVector2 NEWGAMEMAXSIZE	= { 230.0f, 80.0f };
+
+	const CVector2 CONTINUEPOS		= { 0.0f,-280.0f };
+	const CVector2 CONTINUEMAXSIZE	= { 230.0f,80.0f };
+
+	const CVector2 TITLEPOS			= { 0.0f,150.0f };
+	const CVector2 TITLEMAXSIZE		= { 700.0f,200.0f };
 };
