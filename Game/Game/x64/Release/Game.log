@@ -1,1 +1,16 @@
-﻿
+﻿  stdafx.cpp
+  Camera.cpp
+  Load.cpp
+  main.cpp
+  Map.cpp
+  MapChip.cpp
+  ModelHandle.cpp
+  Player.cpp
+Player.cpp(59): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
+  Scene.cpp
+  Start.cpp
+  コードを生成中...
+LINK : warning LNK4075: /INCREMENTAL は /LTCG の指定によって無視されます。
+  LINK : /LTCG が指定されましたが、コードの生成は必要ありません。リンク コマンド ラインから /LTCG を削除し、リンカーの性能を改善してください。
+  Game.vcxproj -> C:\Users\kbc16b12\Documents\github\GFF4M\Game\x64\Release\Game.exe
+  Game.vcxproj -> C:\Users\kbc16b12\Documents\github\GFF4M\Game\x64\Release\Game.pdb (Full PDB)

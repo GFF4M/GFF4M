@@ -5,6 +5,7 @@ Camera* g_gameCamera;
 
 Camera::Camera()
 { 
+	m_position = CVector3::Zero;
 }
 
 

@@ -13,21 +13,16 @@ public:
 	void Delete();
 private:
 	/*CSoundSource	soundSource;*/
-	CSprite		m_back;			//背景。
-	CTexture	m_back_tex;			//背景のテクスチャ。
 
-	CSprite		m_continue;			//つづきから
-	CTexture	m_continue_tex;		//つづきからのテクスチャ
+	CSprite		m_continue;				//つづきから
+	CTexture	m_continue_tex;			//つづきからのテクスチャ
 
-	CSprite		m_newgame;			//はじめから
-	CTexture	m_newgame_tex;		//はじめからのテクスチャ
+	CSprite		m_newgame;				//はじめから
+	CTexture	m_newgame_tex;			//はじめからのテクスチャ
 
 	CSprite		m_title;				//タイトル
 	CTexture	m_title_tex;			//タイトルのテクスチャ
 
-
-	const CVector2 BACKPOS			= { 0.0f, 0.0f };
-	const CVector2 BACKMAXSIZE		= { 1500.0f, 1000.0f };
 
 	const CVector2 NEWGAMEPOS		= { 0.0f, -100.0f };
 	const CVector2 NEWGAMEMAXSIZE	= { 230.0f, 80.0f };
