@@ -8,10 +8,10 @@ Camera::Camera()
 	m_position = CVector3::Zero;
 }
 
-
 Camera::~Camera()
 {
 }
+
 void Camera::Start()
 {
 	//Î‚ßã‚©‚çŒ©‰º‚ë‚·Š´‚¶‚ÌƒJƒƒ‰‚É‚·‚é
