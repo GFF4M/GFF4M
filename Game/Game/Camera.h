@@ -2,21 +2,23 @@
 class Camera : public IGameObject
 {
 public:
-	//ここからメンバ関数。
+
 	Camera();
 	~Camera();
 	void Start();
 	void Update();
 	const CMatrix& GetViewMatrix() const
 	{
-		return camera.GetViewMatrix();
+		return m_camera.GetViewMatrix();
 	}
 	const CMatrix& GetProjectionMatrix() const
 	{
-		return camera.GetProjectionMatrix();
+		return m_camera.GetProjectionMatrix();
 	}
-	//ここからメンバ変数。
-	CCamera camera;	//カメラ。
+
+private:
+	CCamera		m_camera;	//カメラ。
+	CVector3	m_position; //座標。
 };
 
 extern Camera* g_gameCamera;

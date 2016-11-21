@@ -1,50 +1,84 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Source Files\Camera">
-      <UniqueIdentifier>{29d43a2c-4aa1-4a41-8ebf-fffbe811a2ed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Map">
-      <UniqueIdentifier>{b66b3250-17c0-47db-bb2f-2eb3d7064397}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\Camera</Filter>
+      <Filter>Camera</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
-      <Filter>Source Files\Map</Filter>
+      <Filter>Map</Filter>
     </ClCompile>
     <ClCompile Include="MapChip.cpp">
-      <Filter>Source Files\Map</Filter>
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Start.cpp">
+      <Filter>Screen\Start</Filter>
+    </ClCompile>
+    <ClCompile Include="Load.cpp">
+      <Filter>Screen\Load</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelHandle.cpp">
+      <Filter>ModelHandle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
+    <ClInclude Include="stdafx.h" />
     <ClInclude Include="Camera.h">
-      <Filter>Source Files\Camera</Filter>
+      <Filter>Camera</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
-      <Filter>Source Files\Map</Filter>
+      <Filter>Map</Filter>
     </ClInclude>
     <ClInclude Include="MapChip.h">
-      <Filter>Source Files\Map</Filter>
+      <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Start.h">
+      <Filter>Screen\Start</Filter>
+    </ClInclude>
+    <ClInclude Include="Load.h">
+      <Filter>Screen\Load</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelHandle.h">
+      <Filter>ModelHandle</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{7aee3c0d-1891-4153-a3d4-e2c70538f603}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{5d52c9c9-5f03-4355-a33e-124aa6ed8353}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{1e45ac89-6e84-403f-af90-1ebf235717a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{59b06482-3ec1-42ed-83ec-10a74273d411}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screen">
+      <UniqueIdentifier>{fba00017-3ef3-4aff-94c3-3c5b8d18075c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screen\Start">
+      <UniqueIdentifier>{041a3a7e-2eaf-44e2-8189-bd62c08f96cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screen\Load">
+      <UniqueIdentifier>{77e8ae30-2a40-47b9-87cd-e77c2696db4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModelHandle">
+      <UniqueIdentifier>{cae30e64-a128-4282-80a9-4387686b59d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Camera.h"
-#include "Map.h"
+#include "Scene.h"
  
 CLight g_defaultLight;	//デフォルトライト。
 
@@ -76,8 +76,8 @@ int WINAPI wWinMain(
 	InitTkEngine( hInst );
 	
 	g_gameCamera = NewGO<Camera>(0);	//カメラを生成。									//プレイヤー。
-	NewGO<Map>(0);
-	Engine().RunGameLoop();		//ゲームループを実行。
+	NewGO<Scene>(0);
+	Engine().RunGameLoop();				//ゲームループを実行。
 
 	return 0;
 }

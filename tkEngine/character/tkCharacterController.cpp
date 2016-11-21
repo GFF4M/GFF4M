@@ -1,13 +1,16 @@
 /*!
- * @brief	キャラクタのコリジョンコントロール。
- */
+* @brief	キャラクタのコリジョンコントロール。
+*/
 
 #include "tkEngine/tkEnginePreCompile.h"
 #include "tkEngine/character/tkCharacterController.h"
 #include "tkEngine/character/tkCollisionAttr.h"
-namespace tkEngine{
 
-	namespace{
+#define	WALL 54.0f
+
+namespace tkEngine {
+
+	namespace {
 		//衝突したときに呼ばれる関数オブジェクト(地面用)
 		struct SweepResultGround : public btCollisionWorld::ConvexResultCallback
 		{
@@ -17,13 +20,13 @@ namespace tkEngine{
 			CVector3 hitNormal = CVector3::Zero;				//衝突点の法線。
 			btCollisionObject* me = nullptr;					//自分自身。自分自身との衝突を除外するためのメンバ。
 			float dist = FLT_MAX;								//衝突点までの距離。一番近い衝突点を求めるため。FLT_MAXは単精度の浮動小数点が取りうる最大の値。
-			
-			//衝突したときに呼ばれるコールバック関数。
+
+																//衝突したときに呼ばれるコールバック関数。
 			virtual	btScalar	addSingleResult(btCollisionWorld::LocalConvexResult& convexResult, bool normalInWorldSpace)
 			{
-				if (convexResult.m_hitCollisionObject == me 
+				if (convexResult.m_hitCollisionObject == me
 					|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Character
-				) {
+					) {
 					//自分に衝突した。or キャラクタ属性のコリジョンと衝突した。
 					return 0.0f;
 				}
@@ -32,9 +35,9 @@ namespace tkEngine{
 				//上方向と法線のなす角度を求める。
 				float angle = hitNormalTmp.Dot(CVector3::Up);
 				angle = fabsf(acosf(angle));
-				if (angle < CMath::DegToRad(54.0f)		//地面の傾斜が54度より小さいので地面とみなす。
+				if (angle < CMath::DegToRad(WALL)		//地面の傾斜が54度より小さいので地面とみなす。
 					|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Ground //もしくはコリジョン属性が地面と指定されている。
-				) {
+					) {
 					//衝突している。
 					isHit = true;
 					CVector3 hitPosTmp = *(CVector3*)&convexResult.m_hitPointLocal;
@@ -61,10 +64,10 @@ namespace tkEngine{
 			float dist = FLT_MAX;					//衝突点までの距離。一番近い衝突点を求めるため。FLT_MAXは単精度の浮動小数点が取りうる最大の値。
 			CVector3 hitNormal = CVector3::Zero;	//衝突点の法線。
 			btCollisionObject* me = nullptr;		//自分自身。自分自身との衝突を除外するためのメンバ。
-			//衝突したときに呼ばれるコールバック関数。
+													//衝突したときに呼ばれるコールバック関数。
 			virtual	btScalar	addSingleResult(btCollisionWorld::LocalConvexResult& convexResult, bool normalInWorldSpace)
 			{
-				if (convexResult.m_hitCollisionObject == me ) {
+				if (convexResult.m_hitCollisionObject == me) {
 					//自分に衝突した。or 地面に衝突した。
 					return 0.0f;
 				}
@@ -73,9 +76,9 @@ namespace tkEngine{
 				hitNormalTmp.Set(convexResult.m_hitNormalLocal);
 				//上方向と衝突点の法線のなす角度を求める。
 				float angle = fabsf(acosf(hitNormalTmp.Dot(CVector3::Up)));
-				if (angle >= CMath::PI * 0.3f		//地面の傾斜が54度以上なので壁とみなす。
+				if (angle >= CMath::DegToRad(WALL)		//地面の傾斜が54度以上なので壁とみなす。
 					|| convexResult.m_hitCollisionObject->getUserIndex() == enCollisionAttr_Character	//もしくはコリジョン属性がキャラクタなので壁とみなす。
-				) {
+					) {
 					isHit = true;
 					CVector3 hitPosTmp;
 					hitPosTmp.Set(convexResult.m_hitPointLocal);
@@ -96,7 +99,7 @@ namespace tkEngine{
 		};
 	}
 
-	
+
 	void CCharacterController::Init(float radius, float height, const CVector3& position)
 	{
 		m_position = position;
@@ -129,7 +132,7 @@ namespace tkEngine{
 		CVector3 addPos = m_moveSpeed;
 		addPos.Scale(GameTime().GetFrameDeltaTime());
 		nextPosition.Add(addPos);
-			
+
 		//XZ平面での衝突検出と衝突解決を行う。
 		{
 			int loopCount = 0;
@@ -162,7 +165,7 @@ namespace tkEngine{
 				callback.startPos = posTmp;
 				//衝突検出。
 				PhysicsWorld().ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callback);
-			
+
 				if (callback.isHit) {
 					//当たった。
 					//壁。
@@ -203,9 +206,9 @@ namespace tkEngine{
 		{
 			CVector3 addPos;
 			addPos.Subtract(nextPosition, m_position);
-			
+
 			m_position = nextPosition;	//移動の仮確定。
-			//レイを作成する。
+										//レイを作成する。
 			btTransform start, end;
 			start.setIdentity();
 			end.setIdentity();

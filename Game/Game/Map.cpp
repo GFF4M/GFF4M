@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Map.h"
-#include "MapChip.h"
 
 struct SMapInfo {
 	const char* modelName;
@@ -9,7 +8,8 @@ struct SMapInfo {
 };
 
 //マップの配置情報。
-SMapInfo mapLocInfo[] = {
+SMapInfo mapLocInfo[] = 
+{
 #include "MapData/Sample.h"
 };
 
@@ -21,18 +21,24 @@ Map::Map()
 Map::~Map()
 {
 }
+
 void Map::Start()
 {
 	//マップにいくつのオブジェクトが配置されているか調べる。
 	int numObject = sizeof(mapLocInfo) / sizeof(mapLocInfo[0]);
 	//置かれているオブジェクトの数だけマップチップを生成する。
 	for (int i = 0; i < numObject; i++) {
-		MapChip* mapChip = NewGO<MapChip>(0);
 		//モデル名、座標、回転を与えてマップチップを初期化する。
-		mapChip->Init(mapLocInfo[i].modelName, mapLocInfo[i].position, mapLocInfo[i].rotation);
+		NewGO<MapChip>(0) -> Init(mapLocInfo[i].modelName, mapLocInfo[i].position, mapLocInfo[i].rotation);
 	}
 }
+
 void Map::Update()
 {
 
+}
+
+void Map::Delete()
+{
+	DeleteGO(this);
 }
