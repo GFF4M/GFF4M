@@ -24,6 +24,9 @@
     <ClCompile Include="Load.cpp">
       <Filter>Screen\Load</Filter>
     </ClCompile>
+    <ClCompile Include="ModelHandle.cpp">
+      <Filter>ModelHandle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -48,6 +51,9 @@
     <ClInclude Include="Load.h">
       <Filter>Screen\Load</Filter>
     </ClInclude>
+    <ClInclude Include="ModelHandle.h">
+      <Filter>ModelHandle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Camera">
@@ -70,6 +76,9 @@
     </Filter>
     <Filter Include="Screen\Load">
       <UniqueIdentifier>{77e8ae30-2a40-47b9-87cd-e77c2696db4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModelHandle">
+      <UniqueIdentifier>{cae30e64-a128-4282-80a9-4387686b59d7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

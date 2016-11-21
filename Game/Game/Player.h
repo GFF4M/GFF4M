@@ -9,6 +9,8 @@ public:
 	void Start();
 	void Update();
 	void Render(CRenderContext& renderContext);
+	void Delete();
+	void Move();
 
 	void SetPos(CVector3 pos)
 	{
@@ -24,6 +26,8 @@ private:
 	CSkinModel				m_skinModel;					//スキンモデル。
 	CSkinModelData			m_skinModelData;				//スキンモデルデータ。
 	CCharacterController	m_characterController;			//キャラクタ―コントローラー。
-	CVector3				m_position = CVector3::Zero;	//座標。
+	CVector3				m_position;						//座標。
+	CQuaternion				m_rotation;						//回転。
+	float					m_angle;						//角度。
 };
 

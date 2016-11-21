@@ -5,6 +5,9 @@
 
 Player::Player()
 {
+	m_angle = 0.0f;
+	m_position = CVector3::Zero;
+	m_rotation = CQuaternion::Identity;
 }
 
 
@@ -24,6 +27,13 @@ void Player::Start()
 
 void Player::Update()
 {
+	Move();
+	//ワールド行列の更新。
+	m_skinModel.Update(m_position, m_rotation, CVector3::One);
+}
+
+void Player::Move()
+{
 	//キャラクターの移動速度を決定。
 	CVector3 move = m_characterController.GetMoveSpeed();
 	move.x = -Pad(0).GetLStickXF() * 5.0f;
@@ -35,10 +45,33 @@ void Player::Update()
 	m_characterController.Execute();
 	//実行結果を受け取る。
 	m_position = m_characterController.GetPosition();
-	//ワールド行列の更新。
-	m_skinModel.Update(m_position, CQuaternion::Identity, CVector3::One);
+
+	//回転させる
+	CVector3 moveXZ = move;						//方向ベクトル
+	moveXZ.y = 0.0f;
+	
+	//AxisZとmoveXZのなす角を求める
+	if (moveXZ.Length() > 0.0001f)
+	{
+		m_angle = moveXZ.Dot(CVector3::AxisZ);
+		m_angle /= (moveXZ.Length() + 0.0001f);
+		m_angle = acosf(m_angle);
+		m_angle = m_angle * 180.0 / CMath::PI;
+
+		if (moveXZ.x < 0.0f)
+		{
+			m_angle *= -1.0f;
+		}
+	}
+	m_rotation.SetRotation(CVector3::AxisY, CMath::DegToRad(m_angle));
 }
+
 void Player::Render(CRenderContext& renderContext)
 {
 	m_skinModel.Draw(renderContext, g_gameCamera->GetViewMatrix(), g_gameCamera->GetProjectionMatrix());
+}
+
+void Player::Delete()
+{
+	DeleteGO(this);
 }

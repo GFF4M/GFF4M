@@ -25,11 +25,13 @@ void Scene::Update()
 	LoadCheck();
 
 	static int a = 0;
-	a++;
-	if (a > 100)
+	if (a < 101)
+	{
+		a++;
+	}
+	if (a == 100)
 	{
 		Change(STAGE_HOUSE);
-		a = 0;
 	}
 }
 
@@ -42,7 +44,6 @@ void Scene::LoadCheck()
 
 	switch (m_loadstat)
 	{
-
 	case LOADSTART:
 		m_load = NewGO<SC_Load>(0);
 		m_loadstat = LOADING;
@@ -73,6 +74,7 @@ void Scene::Change(Scenes scenes)
 	case START:
 		m_start->Delete();
 		m_start = nullptr;
+		m_play = NewGO<Player>(0);
 		break;
 
 	case STAGE_HOUSE:
@@ -87,6 +89,11 @@ void Scene::Change(Scenes scenes)
 	switch (scenes)
 	{
 	case START:
+		if (m_play != nullptr)
+		{
+			m_play->Delete();
+			m_play = nullptr;
+		}
 		m_start = NewGO<SC_Start>(0);
 		break;
 	case STAGE_HOUSE:
