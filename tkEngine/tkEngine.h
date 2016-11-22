@@ -121,6 +121,11 @@ namespace tkEngine{
 			return m_screenHeight;
 		}
 		/*!
+		*@brief		マウスの座標取得
+		*/
+
+
+		/*!
 		*@brief		フレームバッファの幅を取得。
 		*/
 		int GetFrameBufferWidth() const
