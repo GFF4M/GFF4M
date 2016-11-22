@@ -27,6 +27,9 @@
     <ClCompile Include="ModelHandle.cpp">
       <Filter>ModelHandle</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -54,6 +57,9 @@
     <ClInclude Include="ModelHandle.h">
       <Filter>ModelHandle</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Camera">
@@ -79,6 +85,9 @@
     </Filter>
     <Filter Include="ModelHandle">
       <UniqueIdentifier>{cae30e64-a128-4282-80a9-4387686b59d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemy">
+      <UniqueIdentifier>{5819d706-e01f-49e3-9582-8d348008b11e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
