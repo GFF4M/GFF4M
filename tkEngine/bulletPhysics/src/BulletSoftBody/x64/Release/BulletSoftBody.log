@@ -15,4 +15,4 @@ btSoftBodyHelpers.cpp(573): warning C4244: '=': '__int64' から 'int' への変
   btSoftRigidDynamicsWorld.cpp
   btSoftSoftCollisionAlgorithm.cpp
   コードを生成中...
-  BulletSoftBody.vcxproj -> C:\Users\kbc16b12\Documents\github\GFF4M\Game\x64\Release\BulletSoftBody.lib
+  BulletSoftBody.vcxproj -> C:\Users\kbc16b15\Desktop\github\GFF4M\Game\x64\Release\BulletSoftBody.lib

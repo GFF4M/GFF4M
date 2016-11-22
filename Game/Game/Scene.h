@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Start.h"
 #include "Load.h"
+#include "Enemy.h"
 
 class Scene : public IGameObject
 {
@@ -35,6 +36,7 @@ public:
 private:
 	SC_Load*	m_load;
 	Player*		m_play;
+	Enemy*		m_enem;
 	Map*		m_map;
 	SC_Start*	m_start;
 

@@ -75,6 +75,7 @@ void Scene::Change(Scenes scenes)
 		m_start->Delete();
 		m_start = nullptr;
 		m_play = NewGO<Player>(0);
+		m_enem = NewGO<Enemy>(0);
 		break;
 
 	case STAGE_HOUSE:
@@ -93,6 +94,11 @@ void Scene::Change(Scenes scenes)
 		{
 			m_play->Delete();
 			m_play = nullptr;
+		}
+		if (m_enem != nullptr)
+		{
+			m_enem->Delete();
+			m_enem = nullptr;
 		}
 		m_start = NewGO<SC_Start>(0);
 		break;
