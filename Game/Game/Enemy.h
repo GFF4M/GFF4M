@@ -1,4 +1,5 @@
 #pragma once
+#include "tkEngine/character/tkCharacterController.h"
 class Enemy :public IGameObject
 {
 public:
@@ -12,8 +13,9 @@ public:
 private:
 	CSkinModel				m_skinModel;					//スキンモデル。
 	CSkinModelData			m_skinModelData;				//スキンモデルデータ。
+	CCharacterController	m_characterController;			//キャラクタ―コントローラー。
 	CVector3				m_position;						//座標。
 	CQuaternion				m_rotation;						//回転。
-	CVector3				m_scale;						//拡大w
+	CVector3				m_scale;						//拡大。
 };
 
