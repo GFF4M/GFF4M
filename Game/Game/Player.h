@@ -31,3 +31,4 @@ private:
 	float					m_angle;						//Šp“xB
 };
 
+extern Player* g_play;

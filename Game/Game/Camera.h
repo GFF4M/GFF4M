@@ -1,33 +1,62 @@
 #pragma once
+
+#include "tkEngine/character/tkCharacterController.h"
+
 class Camera : public IGameObject
 {
 public:
+	enum Target
+	{
+		NOTARGET,
+		PLAYER,
+	};
 
 	Camera();
 	~Camera();
 	void Start();
 	void Update();
+	void CameraPos();
+
 	const CMatrix& GetViewMatrix() const
 	{
 		return m_camera.GetViewMatrix();
 	}
+
 	const CMatrix& GetProjectionMatrix() const
 	{
 		return m_camera.GetProjectionMatrix();
 	}
 
-	float GetAngle()
+	const float GetAngle()
 	{
 		return m_angle;
+	}
+
+	CVector3 GetPos()
+	{
+		return m_position;
+	}
+
+	CVector3 GetLookPos()
+	{
+		return m_look_position;
+	}
+
+	void SetTarget(Target target)
+	{
+		m_target = target;
 	}
 
 private:
 	CCamera					m_camera;	//カメラ。
 	CVector3				m_position; //座標。
-	const	CVector3		DEF_POS = { 0.0f,2.0f,5.0f };
+	CVector3				m_look_position;
+	const	CVector3		DEF_POS = { 0.0f,2.5f,10.0f };
 	float					m_angle;
-	const	float			ADD_ANGLE = 0.05f;
+	const	float			ADD_ANGLE = 360.0f / 4.5f;
 	const	float			DELTA_TIME = 1.0f / 60.0f;
+	
+	Target					m_target;
 };
 
 extern Camera* g_gameCamera;

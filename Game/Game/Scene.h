@@ -43,4 +43,3 @@ private:
 	Scenes		m_scene;
 	LoadStat	m_loadstat;
 };
-

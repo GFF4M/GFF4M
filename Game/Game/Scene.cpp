@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Scene.h"
+#include "Camera.h"
 
 Scene::Scene()
 {
@@ -75,6 +76,7 @@ void Scene::Change(Scenes scenes)
 		m_start->Delete();
 		m_start = nullptr;
 		m_play = NewGO<Player>(0);
+		g_play = m_play;
 		m_enem = NewGO<Enemy>(0);
 		break;
 
@@ -94,6 +96,7 @@ void Scene::Change(Scenes scenes)
 		{
 			m_play->Delete();
 			m_play = nullptr;
+			g_play = nullptr;
 		}
 		if (m_enem != nullptr)
 		{
@@ -101,9 +104,11 @@ void Scene::Change(Scenes scenes)
 			m_enem = nullptr;
 		}
 		m_start = NewGO<SC_Start>(0);
+		g_gameCamera->SetTarget(Camera::Target::NOTARGET);
 		break;
 	case STAGE_HOUSE:
 		m_map = NewGO<Map>(0);
+		g_gameCamera->SetTarget(Camera::Target::PLAYER);
 	default:
 		break;
 	}
