@@ -12,9 +12,9 @@ public:
 	void Update();
 	void Render(CRenderContext& renderContext);
 private:
-	CSkinModel			m_skinModel;		//スキンモデル。
-	CSkinModelData		m_skinModelData;	//スキンモデルデータ。
-	CMeshCollider		m_meshCollider;	//メッシュコライダー。
-	CRigidBody			m_rigidBody;		//剛体。
+	CSkinModel				m_skinModel;		//スキンモデル。
+	CSkinModelData			m_skinModelData;	//スキンモデルデータ。
+	CMeshCollider			m_meshCollider;		//メッシュコライダー。
+	CRigidBody				m_rigidBody;		//剛体。
 };
 
