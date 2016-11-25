@@ -50,10 +50,14 @@ public:
 private:
 	CCamera					m_camera;	//カメラ。
 	CVector3				m_position; //座標。
+	float					m_scale;
+	
 	CVector3				m_look_position;
 	const	CVector3		DEF_POS = { 0.0f,2.5f,10.0f };
+
 	float					m_angle;
 	const	float			ADD_ANGLE = 360.0f / 4.5f;
+	
 	const	float			DELTA_TIME = 1.0f / 60.0f;
 	
 	Target					m_target;

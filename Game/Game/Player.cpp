@@ -64,7 +64,6 @@ void Player::Move()
 		move.z = moveXZ.Length() * cos(CMath::DegToRad(m_angle));
 	}
 
-
 	//決定した移動速度をキャラクタコントローラーに設定。
 	m_characterController.SetMoveSpeed(move);
 	//キャラクターコントローラーを実行。
