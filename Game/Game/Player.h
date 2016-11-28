@@ -24,7 +24,7 @@ public:
 
 private:
 	CSkinModel				m_skinModel;					//スキンモデル。
-	CSkinModelData			m_skinModelData;				//スキンモデルデータ。
+	CSkinModelDataHandle	m_skinModelData;				//スキンモデルデータハンドル。
 	CCharacterController	m_characterController;			//キャラクタ―コントローラー。
 	CVector3				m_position;						//座標。
 	CQuaternion				m_rotation;						//回転。

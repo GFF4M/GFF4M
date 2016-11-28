@@ -9,6 +9,7 @@ Camera::Camera()
 { 
 	m_position = DEF_POS;
 	m_look_position = CVector3::Zero;
+	m_scale = 1.0f;
 	m_angle = 0.0f;
 
 	m_target = NOTARGET;
@@ -39,9 +40,8 @@ void Camera::CameraPos()
 	posXZ.y = 0.0f;
 	float len = posXZ.Length();
 
-	CVector3 add_pos = CVector3::Zero;
-	float add_angle = Pad(0).GetRStickXF() * ADD_ANGLE * DELTA_TIME;
-
+	CVector3 camera_pos = CVector3::Zero;
+	float add_angle = -Pad(0).GetRStickXF() * ADD_ANGLE * DELTA_TIME;
 
 	m_position.x = len * sin(-CMath::DegToRad(m_angle + add_angle));
 	m_position.z = len * cos(-CMath::DegToRad(m_angle + add_angle));
@@ -49,11 +49,11 @@ void Camera::CameraPos()
 
 	if (m_angle < -180.0f)
 	{
-		m_angle = 180.0f + (m_angle + 180.0f);
+		m_angle += 360.0f;
 	}
 	else if (180.0f < m_angle)
 	{
-		m_angle = -180.0f + (m_angle - 180.0f);
+		m_angle -= 360.0f;
 	}
 
 	switch (m_target)
@@ -62,14 +62,15 @@ void Camera::CameraPos()
 		m_look_position = CVector3::Zero;
 		break;
 	case PLAYER:
-		add_pos = g_play->GetPos();
+		camera_pos = g_play->GetPos();
 		m_look_position = g_play->GetPos();
 		break;
 	default:
 		break;
 	}
 
-	add_pos.Add(m_position);
-	m_camera.SetPosition(add_pos);
+	camera_pos.Add(m_position);
+	m_camera.SetPosition(camera_pos);
 	m_camera.SetTarget(m_look_position);
+
 }
