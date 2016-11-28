@@ -2,9 +2,10 @@
 #include "Map.h"
 
 struct SMapInfo {
-	const char* modelName;
+	const char*	modelName;
 	CVector3	position;
 	CQuaternion	rotation;
+	CVector3	scale;
 };
 
 //マップの配置情報。
@@ -29,7 +30,7 @@ void Map::Start()
 	//置かれているオブジェクトの数だけマップチップを生成する。
 	for (int i = 0; i < numObject; i++) {
 		//モデル名、座標、回転を与えてマップチップを初期化する。
-		NewGO<MapChip>(0) -> Init(mapLocInfo[i].modelName, mapLocInfo[i].position, mapLocInfo[i].rotation);
+		NewGO<MapChip>(0)->Init(mapLocInfo[i].modelName, mapLocInfo[i].position, mapLocInfo[i].rotation, mapLocInfo[i].scale);
 	}
 }
 

@@ -12,7 +12,7 @@ MapChip::~MapChip()
 	PhysicsWorld().RemoveRigidBody(&m_rigidBody);
 }
 
-void MapChip::Init(const char* modelName, CVector3 position, CQuaternion rotation)
+void MapChip::Init(const char* modelName, CVector3 position, CQuaternion rotation, CVector3 scale)
 {
 	//ファイルパスを作成する。
 	char filePath[256];
@@ -27,7 +27,7 @@ void MapChip::Init(const char* modelName, CVector3 position, CQuaternion rotatio
 	m_skinModel.SetShadowReceiverFlag(true);
 	//ワールド行列を更新する。
 	//このオブジェクトは動かないので、初期化で一回だけワールド行列を作成すればおｋ。
-	m_skinModel.Update(position, rotation, CVector3::One);
+	m_skinModel.Update(position, rotation, scale);
 
 	//メッシュコライダーの作成。
 	m_meshCollider.CreateFromSkinModel(&m_skinModel, m_skinModelData.GetRootBoneWorldMatrix());

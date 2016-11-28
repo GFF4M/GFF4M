@@ -8,7 +8,7 @@ class MapChip : public IGameObject
 public:
 	MapChip();
 	~MapChip();
-	void Init(const char* modelName, CVector3 position, CQuaternion rotation);
+	void Init(const char* modelName, CVector3 position, CQuaternion rotation, CVector3 scale);
 	void Update();
 	void Render(CRenderContext& renderContext);
 private:
