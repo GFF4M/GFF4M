@@ -22,6 +22,10 @@ public:
 		return m_position;
 	}
 
+	enum {
+		AnimationSet,
+	};
+
 private:
 	CSkinModel				m_skinModel;					//スキンモデル。
 	CSkinModelDataHandle	m_skinModelData;				//スキンモデルデータハンドル。
@@ -29,6 +33,7 @@ private:
 	CVector3				m_position;						//座標。
 	CQuaternion				m_rotation;						//回転。
 	float					m_angle;						//角度。
+	CAnimation				animation;						//アニメーション。
 };
 
 extern Player* g_play;
