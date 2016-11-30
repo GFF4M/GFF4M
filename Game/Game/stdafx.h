@@ -7,6 +7,7 @@
 
 
 #include <windows.h>
+#include <time.h>
 #include "tkEngine/tkEnginePreCompile.h"
 #include "tkEngine/graphics/tkSkinModelData.h"
 #include "tkEngine/graphics/tkSkinModel.h"

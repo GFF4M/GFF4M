@@ -11,11 +11,9 @@ Player::Player()
 	m_rotation = CQuaternion::Identity;
 }
 
-
 Player::~Player()
 {
 }
-
 
 void Player::Start()
 {
@@ -45,19 +43,26 @@ void Player::Move()
 	move.x = -Pad(0).GetLStickXF() * 5.0f;
 	move.z = -Pad(0).GetLStickYF() * 5.0f;
 
-	//回転させる
+	CVector3 old_move = move;
+
 	CVector3 moveXZ = move;						//方向ベクトル
 	moveXZ.y = 0.0f;
 
-	//AxisZとmoveXZのなす角を求める
-	if (moveXZ.Length() > 0.0f)
+	float    LenXZ = moveXZ.Length();
+
+	if (LenXZ > 0.0f)
 	{
+<<<<<<< HEAD
 		animation.PlayAnimation(AnimationSet);//アニメーションの再生
 		
 		m_angle = moveXZ.Dot(CVector3::AxisZ);
 		m_angle /= (moveXZ.Length() + 0.00001f);
 		m_angle = acosf(m_angle);
 		m_angle = m_angle * 180.0 / CMath::PI;
+=======
+		//AxisZとmoveXZのなす角を求める
+		m_angle = moveXZ.AngleBetween(CVector3::AxisZ);
+>>>>>>> 040235741c2d2590530cc6ad06afcfbb0086c59f
 
 		if (moveXZ.x < 0.0f)
 		{
@@ -67,8 +72,18 @@ void Player::Move()
 		//カメラによる補正
 		m_angle -= g_gameCamera->GetAngle();
 
-		move.x = moveXZ.Length() * sin(CMath::DegToRad(m_angle));
-		move.z = moveXZ.Length() * cos(CMath::DegToRad(m_angle));
+		//回転した方向に移動
+		move.x = LenXZ * sin(CMath::DegToRad(m_angle));
+		move.z = LenXZ * cos(CMath::DegToRad(m_angle));
+	}
+
+	if (m_angle < -180.0f)
+	{
+		m_angle += 360.0f;
+	}
+	else if (180.0f < m_angle)
+	{
+		m_angle -= 360.0f;
 	}
 
 	//決定した移動速度をキャラクタコントローラーに設定。

@@ -15,6 +15,7 @@ namespace tkEngine{
 			struct { float x, y; };
 			float v[2];
 		};
+	public:
 		/*!
 		* @brief	線形補間。
 		*@details
@@ -25,6 +26,15 @@ namespace tkEngine{
 			x = v0.x + (v1.x - v0.x) * t;
 			y = v0.y + (v1.y - v0.y) * t;
 		}
+
+		/*!
+		* @brief	外積。
+		*/
+		float Cross(const CVector2& v)
+		{
+			return x * v.y - v.x * y;
+		}
+
 	};
 	/*!
 	 * @brief	ベクトル。
@@ -67,6 +77,13 @@ namespace tkEngine{
 			y = v0.y + (v1.y - v0.y) * t;
 			z = v0.z + (v1.z - v0.z) * t;
 		}
+		template<class TVector>
+		void CopyTo(TVector& dst) const
+		{
+			dst.x = x;
+			dst.y = y;
+			dst.z = z;
+		}
 		/*!
 		* @brief	ベクトルの各要素を設定。
 		*/
@@ -75,6 +92,13 @@ namespace tkEngine{
 			this->x = x;
 			this->y = y;
 			this->z = z;
+		}
+		template<class TVector>
+		void Set(TVector& v)
+		{
+			this->x = v.x;
+			this->y = v.y;
+			this->z = v.z;
 		}
 		void Set(btVector3& v)
 		{
@@ -119,6 +143,24 @@ namespace tkEngine{
 		{
 			return x * v.x + y * v.y + z * v.z;
 		}
+		
+		/*!
+		* @brief	2ベクトルのなす角。
+		*/
+		float AngleBetween(const CVector3& v)
+		{
+			float angle;
+			
+			angle = Dot(v);
+
+			//0.00001fは、0ベクトル対策。
+			angle /= (Length() * v.Length() + 0.00001f);
+			
+			angle = acosf(angle);
+
+			return CMath::RadToDeg(angle);
+		}
+
 		/*!
 		 * @brief	外積。
 		 */
