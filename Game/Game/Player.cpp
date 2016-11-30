@@ -21,12 +21,16 @@ void Player::Start()
 	m_skinModel.Init(m_skinModelData.GetBody());
 	m_skinModel.SetLight(&g_defaultLight);	//デフォルトライトを設定。
 	m_characterController.Init(0.5f, 1.0f, m_position);//キャラクタコントローラの初期化。
-	animation.SetAnimationLoopFlag(AnimationSet,false);
+	/*animation.SetAnimationLoopFlag(AnimationSetwalk,false);*/
 }
 
 void Player::Update()
 {
+	if (Pad(0).IsTrigger(enButtonA))
+	{
 
+		animation.PlayAnimation(AnimationSetAttack);
+	}
 	Move();
 
 	animation.Update(2.0 / 60.0f);
@@ -52,6 +56,10 @@ void Player::Move()
 
 	if (LenXZ > 0.0f)
 	{
+
+		animation.PlayAnimation(AnimationSetwalk,0.3f);//アニメーションの再生
+		
+
 		//AxisZとmoveXZのなす角を求める
 		m_angle = moveXZ.AngleBetween(CVector3::AxisZ);
 
