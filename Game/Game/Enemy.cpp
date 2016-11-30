@@ -7,7 +7,7 @@ Enemy::Enemy()
 	m_position = {1.0f,0.0f,0.0f};
 	m_rotation = CQuaternion::Identity;
 	m_scale = { 0.6f,0.6f,0.6f };
-
+	m_movelimit = 5.0f;
 }
 
 
@@ -32,6 +32,24 @@ void Enemy::Update()
 void Enemy::Move()
 {
 	CVector3 move = m_characterController.GetMoveSpeed();
+	CRandom random;
+
+	random.Init((unsigned)time(NULL));
+
+	CVector3 moveXZ;
+	moveXZ.x = (random.GetRandDouble() - 0.5f) * 2.5f;
+	moveXZ.y = 0.0f;
+	moveXZ.z = (random.GetRandDouble() - 0.5f) * 2.5f;
+
+	if (m_movelimit < moveXZ.Length())
+	{
+		float len = moveXZ.Length();
+		moveXZ.Div(len);
+		moveXZ.Scale(m_movelimit);
+	}
+	move.x = moveXZ.x;
+	move.z = moveXZ.z;
+
 	//決定した移動速度をキャラクタコントローラーに設定。
 	m_characterController.SetMoveSpeed(move);
 	//キャラクターコントローラーを実行。
@@ -41,7 +59,6 @@ void Enemy::Move()
 
 void Enemy::Render(CRenderContext& renderContext)
 {
-
 	m_skinModel.Draw(renderContext,g_gameCamera->GetViewMatrix(), g_gameCamera->GetProjectionMatrix());
 
 }
