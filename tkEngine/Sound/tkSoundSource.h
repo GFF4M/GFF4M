@@ -21,6 +21,9 @@ namespace tkEngine{
 	 * 発生するためパフォマーンスが低下します。</br>
 	 * 一般的にオンメモリ再生は効果音などのようなサイズの小さなSEの再生に適しています。</br>
 	 * ストリーミング再生は大きなサイズのBGMの再生に適しています。</br>
+	 *
+	 * このクラスのインスタンスをゲームオブジェクトマネージャーに登録した場合、ループ再生ではない場合は再生が完了すると</br>
+	 * 自動的に登録解除されます。ループ再生の場合はユーザーが明示的に登録を解除する必要があります。
 	 *@code
 	 	CSoundSource soundSource;
 	 	//初期化
@@ -51,10 +54,19 @@ namespace tkEngine{
 		/*!
 		 * @brief	初期化。
 		 *@details
-		 * ワンショット再生向けの初期化。
+		 * オンメモリ再生向けの初期化。
 		 *@param[in]	filePath	ファイルパス。対応しているファイルフォーマット(*.wave)
+		 *@param[in]	is3DSound	3Dサウンド？
 		 */
-		void Init( char* filePath );
+		void Init(char* filePath, bool is3DSound = false );
+		/*!
+		 * @brief	初期化。
+		 *@details
+		 * オンメモリ再生向けの初期化。こちらを使う方がちょっとだけ速い。
+		 *@param[in]	nameKey		名前キー。
+		 *@param[in]	is3DSound	3Dサウンド？
+		 */
+		void Init(const NameKey& nameKey, bool is3DSound = false);
 		/*!
 		* @brief	初期化。
 		*@details
@@ -64,10 +76,11 @@ namespace tkEngine{
 		* 一度に読み込まれるデータの最大サイズはbufferingSizeです。</br>
 		* 読み込まれたデータはリングバッファにコピーされていきます。</br>
 		*@param[in]	filePath		ファイルパス。対応しているファイルフォーマット(*.wave)
+		*@param[in] is3DSound		3Dサウンド？
 		*@param[in] ringBufferSize	リングバッファのサイズ。(bufferSizeの倍数になっていると無駄なく活用できます。)
 		*@param[in]	bufferSize		ストリーミングの最大バッファリングサイズ。
 		*/
-		void InitStreaming(char* filePath, unsigned int ringBufferSize = 3 * 1024 * 1024, unsigned int bufferingSize = 1024 * 512);
+		void InitStreaming(char* filePath, bool is3DSound = false, unsigned int ringBufferSize = 3 * 1024 * 1024, unsigned int bufferingSize = 1024 * 512);
 		/*!
 		* @brief	開放。
 		*@details
@@ -85,6 +98,14 @@ namespace tkEngine{
 		void Stop()
 		{
 			m_sourceVoice->Stop();
+			m_isPlaying = false;
+		}
+		/*!
+		* @brief	再生中？。
+		*/
+		bool IsPlaying() const
+		{
+			return m_isPlaying;
 		}
 		/*!
 		* @brief	更新。
@@ -99,7 +120,58 @@ namespace tkEngine{
 		{
 			m_sourceVoice->SetVolume(vol);
 		}
+		/*!
+		* @brief	音源の座標を設定。
+		* @details
+		*  3Dサウンドの時に必要になります。
+		*  2Dサウンドでは無視されます。
+		*@param[in] pos		音源の座標。
+		*/
+		void SetPosition(const CVector3& pos)
+		{
+			m_position = pos;
+			if (m_isSetPositionFirst) {
+				m_lastFramePosition = m_position;
+				m_isSetPositionFirst = false;
+			}
+		}
+		/*!
+		* @brief	音源の座標を取得。
+		*/
+		CVector3 GetPosition() const
+		{
+			return m_position;
+		}
+		/*!
+		* @brief	音源の移動速度を取得。
+		*/
+		CVector3 GetVelocity() const
+		{
+			return m_velocity;
+		}
+		IXAudio2SourceVoice* GetXAudio2SourceVoice()
+		{
+			return m_sourceVoice;
+		}
+		//入力チャンネル数を取得。
+		int GetNumInputChannel()const
+		{
+			return m_waveFile->GetFormat()->nChannels;
+		}
+		FLOAT32* GetEmitterAzimuths() 
+		{
+			return m_emitterAzimuths;
+		}
+		FLOAT32* GetMatrixCoefficients() 
+		{
+			return m_matrixCoefficients;
+		}
+		X3DAUDIO_DSP_SETTINGS* GetDspSettings()
+		{
+			return &m_dspSettings;
+		}
 	private:
+		void InitCommon();
 		//ストリーミング再生中の更新処理。
 		void UpdateStreaming();
 		//オンメモリ再生中の更新処理。
@@ -109,21 +181,29 @@ namespace tkEngine{
 		* @brief	ストリーミングバッファリングの開始。
 		*/
 		void StartStreamingBuffring();
+		void Remove3DSound();
 	private:
 		enum EnStreamingStatus {
 			enStreamingBuffering,	//バッファリング中。
 			enStreamingQueueing,	//キューイング中。
 		};
-		CWaveFile				m_waveFile;					//!<波形データ。
-		std::unique_ptr<char[]>	m_buffer;					//!<波形データを読み込むバッファ。ストリーミング再生の時はリングバッファとして利用される。
-		IXAudio2SourceVoice*	m_sourceVoice = nullptr;	//!<ソースボイス。
-		bool					m_isLoop = false;			//!<ループフラグ。
-		bool					m_isPlaying = false;		//!<再生中フラグ。
+		std::shared_ptr<CWaveFile>	m_waveFile;					//!<波形データ。
+		IXAudio2SourceVoice*		m_sourceVoice = nullptr;	//!<ソースボイス。
+		bool						m_isLoop = false;			//!<ループフラグ。
+		bool						m_isPlaying = false;		//!<再生中フラグ。
 		bool					m_isStreaming = false;		//!<ストリーミング再生？
 		unsigned int			m_streamingBufferSize = 0;	//!<ストリーミング用のバッファリングサイズ。
 		unsigned int			m_currentBufferingSize = 0;	//!<現在のバッファリングのサイズ。
 		unsigned int			m_readStartPos = 0;			//!<読み込み開始位置。
 		unsigned int			m_ringBufferSize = 0;		//!<リングバッファのサイズ。
 		EnStreamingStatus		m_streamingState = enStreamingBuffering;	//!<ストリーミングステータス。
+		bool					m_is3DSound = false;		//!<3Dサウンド？
+		CVector3				m_position = CVector3::Zero;	//!<音源の座標。3Dサウンドの時に必要。
+		CVector3				m_lastFramePosition = CVector3::Zero;//!<音源の1フレーム前の座標。3Dサウンドの時に必要。
+		CVector3				m_velocity = CVector3::Zero;	//!<速度。3Dサウンドの時に必要・
+		FLOAT32 m_emitterAzimuths[INPUTCHANNELS];
+		FLOAT32 m_matrixCoefficients[INPUTCHANNELS * OUTPUTCHANNELS];
+		X3DAUDIO_DSP_SETTINGS m_dspSettings;
+		bool m_isSetPositionFirst = true;	//!<一番最初のsetPosition?
 	};
 }

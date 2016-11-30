@@ -17,9 +17,11 @@ namespace tkEngine{
 		Release();
 	}
 
-	void CWaveFile::Open(char* fileName)
+	void CWaveFile::Open(const char* fileName)
 	{
-		m_hmmio = mmioOpen(fileName, NULL, MMIO_ALLOCBUF | MMIO_READ);
+		m_filePath = fileName;
+		m_filePathHash = CUtil::MakeHash(fileName);
+		m_hmmio = mmioOpen(const_cast<char*>(fileName), NULL, MMIO_ALLOCBUF | MMIO_READ);
 		if (m_hmmio == NULL) {
 			TK_LOG("Failed mmioOpen");
 			return;
@@ -114,6 +116,7 @@ namespace tkEngine{
 	}
 	void CWaveFile::ResetFile()
 	{
+		while (!m_isReadEnd) {}	//読み込み中にリセットはさせない。
 		if (m_hmmio == NULL)
 			return;
 
@@ -177,10 +180,10 @@ namespace tkEngine{
 			mmioinfoIn.pchNext++;
 		}
 
-		if (0 != mmioSetInfo(m_hmmio, &mmioinfoIn, 0)) {
+		/*if (0 != mmioSetInfo(m_hmmio, &mmioinfoIn, 0)) {
 			TK_LOG("mmioSetInfo");
 			return;
-		}
+		}*/
 		m_isReadEnd = true;
 		return ;
 	}

@@ -245,6 +245,9 @@
     <ClCompile Include="graphics\sprite\tkSprite.cpp">
       <Filter>Source Files\graphics\sprite</Filter>
     </ClCompile>
+    <ClCompile Include="Sound\tkWaveFileBank.cpp">
+      <Filter>Source Files\Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tkEnginePreCompile.h">
@@ -459,6 +462,12 @@
     </ClInclude>
     <ClInclude Include="graphics\sprite\tkSprite.h">
       <Filter>Source Files\graphics\sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound\tkWaveFileBank.h">
+      <Filter>Source Files\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="util\tkNameKey.h">
+      <Filter>Source Files\util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

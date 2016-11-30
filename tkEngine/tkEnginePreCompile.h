@@ -12,8 +12,8 @@
 #define USE_ORTHO_PROJECTION
 
 /*!
- * @brief	íËã`Ç≈DirectX9Ç≈ìÆçÏ
- */
+* @brief	íËã`Ç≈DirectX9Ç≈ìÆçÏ
+*/
 #define TK_PLATFORM_DX9
 
 #if defined( TK_PLATFORM_DX9 )
@@ -25,7 +25,10 @@
 #include <d3d9.h>
 #include <XInput.h> // XInput API
 #include <xaudio2.h>
+#include <x3daudio.h>
+#include <xaudio2fx.h>
 #pragma comment(lib, "winmm.lib")
+#pragma comment(lib, "X3DAudio.lib")
 #ifdef _DEBUG
 #include <DxErr.h>
 #pragma comment(lib, "dxerr.lib")
@@ -46,6 +49,7 @@
 #include "tkEngine/math/tkVector.h"
 #include "tkEngine/graphics/tkGraphicsType.h"
 #include "tkEngine/Input/tkKeyInput.h"
+#include "tkEngine/Util/tkNameKey.h"
 #include "tkEngine/tkEngine.h"
 #include "tkEngine/gameObject/tkGameObjectManager.h"
 #include "tkEngine/gameObject/tkGameObject.h"

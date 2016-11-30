@@ -61,7 +61,6 @@ void Player::Move()
 		//‰ñ“]‚µ‚½•ûŒü‚ÉˆÚ“®
 		move.x = LenXZ * sin(CMath::DegToRad(m_angle));
 		move.z = LenXZ * cos(CMath::DegToRad(m_angle));
-
 	}
 
 	if (m_angle < -180.0f)
