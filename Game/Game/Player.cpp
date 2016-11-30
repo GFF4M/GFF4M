@@ -17,7 +17,7 @@ Player::~Player()
 
 void Player::Start()
 {
-	SkinModelDataResources().Load(m_skinModelData, "Assets/modelData/kanowalk.X",&animation);
+	SkinModelDataResources().Load(m_skinModelData, "Assets/modelData/Player.X", NULL);
 	m_skinModel.Init(m_skinModelData.GetBody());
 	m_skinModel.SetLight(&g_defaultLight);	//デフォルトライトを設定。
 	m_characterController.Init(0.5f, 1.0f, m_position);//キャラクタコントローラの初期化。
@@ -52,17 +52,8 @@ void Player::Move()
 
 	if (LenXZ > 0.0f)
 	{
-<<<<<<< HEAD
-		animation.PlayAnimation(AnimationSet);//アニメーションの再生
-		
-		m_angle = moveXZ.Dot(CVector3::AxisZ);
-		m_angle /= (moveXZ.Length() + 0.00001f);
-		m_angle = acosf(m_angle);
-		m_angle = m_angle * 180.0 / CMath::PI;
-=======
 		//AxisZとmoveXZのなす角を求める
 		m_angle = moveXZ.AngleBetween(CVector3::AxisZ);
->>>>>>> 040235741c2d2590530cc6ad06afcfbb0086c59f
 
 		if (moveXZ.x < 0.0f)
 		{
