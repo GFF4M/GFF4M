@@ -6,7 +6,7 @@
 #include "tkEngine/character/tkCharacterController.h"
 #include "tkEngine/character/tkCollisionAttr.h"
 
-#define	WALL 54.0f
+#define	WALL 60.0f
 
 namespace tkEngine {
 
@@ -275,6 +275,7 @@ namespace tkEngine {
 		trans.setOrigin(btVector3(m_position.x, m_position.y, m_position.z));
 		//@todo –¢‘Î‰B trans.setRotation(btQuaternion(rotation.x, rotation.y, rotation.z));
 	}
+
 	/*!
 	* @brief	€–S‚µ‚½‚±‚Æ‚ğ’Ê’mB
 	*/

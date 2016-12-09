@@ -55,8 +55,7 @@ void Scene::LoadCheck()
 		break;
 
 	case LOADFIN:
-		m_load->Delete();
-		m_load = nullptr;
+		DeleteDat(m_load);
 		m_loadstat = NOSTAT;
 		break;
 
@@ -73,16 +72,14 @@ void Scene::Change(Scenes scenes)
 		break;
 
 	case START:
-		m_start->Delete();
-		m_start = nullptr;
+		DeleteDat(m_start);
 		m_play = NewGO<Player>(0);
 		g_play = m_play;
 		m_enem = NewGO<Enemy>(0);
 		break;
 
 	case STAGE_HOUSE:
-		m_map->Delete();
-		m_map = nullptr;
+		DeleteDat(m_map);
 		break;
 
 	default:
@@ -94,14 +91,12 @@ void Scene::Change(Scenes scenes)
 	case START:
 		if (m_play != nullptr)
 		{
-			m_play->Delete();
-			m_play = nullptr;
+			DeleteDat(m_play);
 			g_play = nullptr;
 		}
 		if (m_enem != nullptr)
 		{
-			m_enem->Delete();
-			m_enem = nullptr;
+			DeleteDat(m_enem);
 		}
 		m_start = NewGO<SC_Start>(0);
 		g_gameCamera->SetTarget(Camera::Target::NOTARGET);
@@ -109,6 +104,7 @@ void Scene::Change(Scenes scenes)
 	case STAGE_HOUSE:
 		m_map = NewGO<Map>(0);
 		g_gameCamera->SetTarget(Camera::Target::PLAYER);
+		break;
 	default:
 		break;
 	}

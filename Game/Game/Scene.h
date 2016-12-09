@@ -33,6 +33,13 @@ public:
 
 	void Change(Scenes scenes);
 
+	template<class T>
+	void DeleteDat(T* ClassT)
+	{
+		ClassT->Delete();
+		ClassT = nullptr;
+	}
+
 private:
 	SC_Load*	m_load;
 	Player*		m_play;
