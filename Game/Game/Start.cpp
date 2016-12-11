@@ -5,6 +5,8 @@
 SC_Start::SC_Start()
 {
 	m_tex_num = NEWGAME;
+	m_UPressflag = false;
+	m_DPressflag = false;
 }
 
 
@@ -70,7 +72,45 @@ void SC_Start::SetScene()
 {
 	float move = KeyInput().GetPad(0).GetRStickYF();
 
-	if (!GetAsyncKeyState(VK_RETURN))
+	int tex_num = m_tex_num;
+
+	if (move < 0.0f)
+	{
+		if (!m_UPressflag)
+		{
+			tex_num--;
+			m_UPressflag = true;
+		}
+	}
+	else
+	{
+		m_UPressflag = false;
+	}
+	
+	if (move > 0.0f)
+	{
+		if (!m_DPressflag)
+		{
+			tex_num++;
+			m_DPressflag = true;
+		}
+	}
+	else
+	{
+		m_DPressflag = false;
+	}
+
+	if (tex_num < 0)
+	{
+		tex_num = TEXNUM - 1;
+	}
+	else if(TEXNUM <= tex_num)
+	{
+		tex_num = 0;
+	}
+	m_tex_num = (TexNum)tex_num;
+
+	if (!KeyInput().GetPad(0).IsTrigger(enButtonA))
 	{
 		return;
 	}

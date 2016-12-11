@@ -29,6 +29,9 @@ private:
 	CSprite		m_title;				//タイトル
 	CTexture	m_title_tex;			//タイトルのテクスチャ
 
+	bool		m_UPressflag;
+	bool		m_DPressflag;
+
 	enum TexNum
 	{
 		NEWGAME,
@@ -36,11 +39,8 @@ private:
 		TEXNUM,
 	};
 
-	union
-	{
-		TexNum		m_tex_num;
-		int			m_tex_num_i;
-	};
+	TexNum		m_tex_num;
+	
 	const CVector2	NEWGAME_POS		= { 0.0f, -100.0f };
 	const CVector2	NEWGAME_MAX_SIZE	= { 230.0f, 80.0f };
 
