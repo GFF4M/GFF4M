@@ -27,6 +27,16 @@ namespace tkEngine{
 			y = v0.y + (v1.y - v0.y) * t;
 		}
 
+
+		/*!
+		* @brief	ägëÂÅB
+		*/
+		void Scale(float s)
+		{
+			x *= s;
+			y *= s;
+		}
+
 		/*!
 		* @brief	äOêœÅB
 		*/
@@ -166,7 +176,7 @@ namespace tkEngine{
 		 */
 		void Cross(const CVector3& v)
 		{
-			float _x = ( x * v.z ) - ( v.y * z );
+			float _x = ( y * v.z ) - ( v.y * z );
 			float _y = ( z * v.x ) - ( v.z * x );
 			float _z = ( x * v.y ) - ( v.x * y );
 			x = _x;

@@ -50,3 +50,5 @@ private:
 	Scenes		m_scene;
 	LoadStat	m_loadstat;
 };
+
+extern Scene	*g_scene;

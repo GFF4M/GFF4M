@@ -2,7 +2,7 @@
 #include "Camera.h"
 #include "Scene.h"
  
-CLight g_defaultLight;	//デフォルトライト。
+CLight	g_defaultLight;	//デフォルトライト。
 
 /*!
  * @brief	tkEngineの初期化。
@@ -76,7 +76,7 @@ int WINAPI wWinMain(
 	InitTkEngine( hInst );
 	
 	g_gameCamera = NewGO<Camera>(0);	//カメラを生成。									//プレイヤー。
-	NewGO<Scene>(0);
+	g_scene = NewGO<Scene>(0);
 	Engine().RunGameLoop();				//ゲームループを実行。
 
 	return 0;

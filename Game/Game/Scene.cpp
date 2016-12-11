@@ -2,6 +2,8 @@
 #include "Scene.h"
 #include "Camera.h"
 
+Scene	*g_scene;
+
 Scene::Scene()
 {
 	m_load = nullptr;
@@ -24,16 +26,6 @@ void Scene::Start()
 void Scene::Update()
 {
 	LoadCheck();
-
-	static int a = 0;
-	if (a < 101)
-	{
-		a++;
-	}
-	if (a == 100)
-	{
-		Change(STAGE_HOUSE);
-	}
 }
 
 void Scene::LoadCheck()
@@ -94,17 +86,21 @@ void Scene::Change(Scenes scenes)
 			DeleteDat(m_play);
 			g_play = nullptr;
 		}
+
 		if (m_enem != nullptr)
 		{
 			DeleteDat(m_enem);
 		}
+
 		m_start = NewGO<SC_Start>(0);
 		g_gameCamera->SetTarget(Camera::Target::NOTARGET);
 		break;
+
 	case STAGE_HOUSE:
 		m_map = NewGO<Map>(0);
 		g_gameCamera->SetTarget(Camera::Target::PLAYER);
 		break;
+
 	default:
 		break;
 	}
