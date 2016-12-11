@@ -70,8 +70,6 @@ void SC_Start::SetScene()
 {
 	float move = KeyInput().GetPad(0).GetRStickYF();
 
-	if(move < )
-
 	if (!GetAsyncKeyState(VK_RETURN))
 	{
 		return;
