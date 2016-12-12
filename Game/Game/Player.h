@@ -23,8 +23,10 @@ public:
 	}
 
 	enum {
-		AnimationSetwalk,
+		AnimationSetStand,
 		AnimationSetAttack,
+		AnimationSetwalk,
+		
 	};
 
 private:

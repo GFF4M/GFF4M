@@ -17,11 +17,14 @@ Player::~Player()
 
 void Player::Start()
 {
-	SkinModelDataResources().Load(m_skinModelData, "Assets/modelData/Player.X", NULL);
+	SkinModelDataResources().Load(m_skinModelData,"Assets/modelData/kanowalk.X",&animation);
 	m_skinModel.Init(m_skinModelData.GetBody());
-	m_skinModel.SetLight(&g_defaultLight);	//デフォルトライトを設定。
+	m_skinModel.SetLight(&g_defaultLight);//デフォルトライトを設定。
 	m_characterController.Init(0.5f, 1.0f, m_position);//キャラクタコントローラの初期化。
-	/*animation.SetAnimationLoopFlag(AnimationSetwalk,false);*/
+	animation.SetAnimationLoopFlag(AnimationSetAttack,false);
+	animation.SetAnimationLoopFlag(AnimationSetStand, false);
+	animation.PlayAnimation(AnimationSetStand, 0.3f);
+
 }
 
 void Player::Update()
@@ -29,11 +32,14 @@ void Player::Update()
 	if (Pad(0).IsTrigger(enButtonA))
 	{
 
-		animation.PlayAnimation(AnimationSetAttack);
+		animation.PlayAnimation(AnimationSetAttack,0.3f);
 	}
+
+
 	Move();
 
 	animation.Update(2.0 / 60.0f);
+
 	//ワールド行列の更新。
 	m_skinModel.Update(m_position, m_rotation, CVector3::One);
 
