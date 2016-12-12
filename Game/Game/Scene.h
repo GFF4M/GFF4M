@@ -40,6 +40,8 @@ public:
 		ClassT = nullptr;
 	}
 
+	void Collision();
+
 private:
 	SC_Load*	m_load;
 	Player*		m_play;

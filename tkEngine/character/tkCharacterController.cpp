@@ -120,7 +120,6 @@ namespace tkEngine {
 		m_rigidBody.GetBody()->setUserIndex(enCollisionAttr_Character);
 		m_rigidBody.GetBody()->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
 		PhysicsWorld().AddRigidBody(&m_rigidBody);
-
 	}
 	void CCharacterController::Execute()
 	{

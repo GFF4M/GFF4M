@@ -10,6 +10,7 @@ Scene::Scene()
 	m_play = nullptr;
 	m_map = nullptr;
 	m_start = nullptr;
+	m_enem = nullptr;
 	m_scene = NOSCENES;
 	m_loadstat = NOSTAT;
 }
@@ -26,6 +27,7 @@ void Scene::Start()
 void Scene::Update()
 {
 	LoadCheck();
+	Collision();
 }
 
 void Scene::LoadCheck()
@@ -61,17 +63,21 @@ void Scene::Change(Scenes scenes)
 	switch (m_scene)
 	{
 	case NOSTAT:
-		break;
-
 	case START:
-		DeleteDat(m_start);
+		if (m_start != nullptr)
+		{
+			DeleteDat(m_start);
+		}
 		m_play = NewGO<Player>(0);
 		g_play = m_play;
 		m_enem = NewGO<Enemy>(0);
 		break;
 
 	case STAGE_HOUSE:
-		DeleteDat(m_map);
+		if (m_map != nullptr)
+		{
+			DeleteDat(m_map);
+		}
 		break;
 
 	default:
@@ -106,7 +112,25 @@ void Scene::Change(Scenes scenes)
 	}
 	m_scene = scenes;
 
-	m_loadstat = LOADSTART;
+	if (m_loadstat == NOSTAT)
+	{
+		m_loadstat = LOADSTART;
+	}
 
 	LoadCheck();
+}
+
+void Scene::Collision()
+{
+	if (m_play == nullptr)
+	{
+		return;
+	}
+
+	if (m_enem == nullptr)
+	{
+		return;
+	}
+
+
 }
