@@ -33,6 +33,15 @@ public:
 
 	void Change(Scenes scenes);
 
+	template<class T>
+	void DeleteDat(T* ClassT)
+	{
+		ClassT->Delete();
+		ClassT = nullptr;
+	}
+
+	void Collision();
+
 private:
 	SC_Load*	m_load;
 	Player*		m_play;
@@ -43,3 +52,5 @@ private:
 	Scenes		m_scene;
 	LoadStat	m_loadstat;
 };
+
+extern Scene	*g_scene;

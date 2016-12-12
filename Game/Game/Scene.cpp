@@ -2,12 +2,15 @@
 #include "Scene.h"
 #include "Camera.h"
 
+Scene	*g_scene;
+
 Scene::Scene()
 {
 	m_load = nullptr;
 	m_play = nullptr;
 	m_map = nullptr;
 	m_start = nullptr;
+	m_enem = nullptr;
 	m_scene = NOSCENES;
 	m_loadstat = NOSTAT;
 }
@@ -24,16 +27,7 @@ void Scene::Start()
 void Scene::Update()
 {
 	LoadCheck();
-
-	static int a = 0;
-	if (a < 101)
-	{
-		a++;
-	}
-	if (a == 100)
-	{
-		Change(STAGE_HOUSE);
-	}
+	Collision();
 }
 
 void Scene::LoadCheck()
@@ -55,8 +49,7 @@ void Scene::LoadCheck()
 		break;
 
 	case LOADFIN:
-		m_load->Delete();
-		m_load = nullptr;
+		DeleteDat(m_load);
 		m_loadstat = NOSTAT;
 		break;
 
@@ -70,19 +63,21 @@ void Scene::Change(Scenes scenes)
 	switch (m_scene)
 	{
 	case NOSTAT:
-		break;
-
 	case START:
-		m_start->Delete();
-		m_start = nullptr;
+		if (m_start != nullptr)
+		{
+			DeleteDat(m_start);
+		}
 		m_play = NewGO<Player>(0);
 		g_play = m_play;
 		m_enem = NewGO<Enemy>(0);
 		break;
 
 	case STAGE_HOUSE:
-		m_map->Delete();
-		m_map = nullptr;
+		if (m_map != nullptr)
+		{
+			DeleteDat(m_map);
+		}
 		break;
 
 	default:
@@ -94,27 +89,48 @@ void Scene::Change(Scenes scenes)
 	case START:
 		if (m_play != nullptr)
 		{
-			m_play->Delete();
-			m_play = nullptr;
+			DeleteDat(m_play);
 			g_play = nullptr;
 		}
+
 		if (m_enem != nullptr)
 		{
-			m_enem->Delete();
-			m_enem = nullptr;
+			DeleteDat(m_enem);
 		}
+
 		m_start = NewGO<SC_Start>(0);
 		g_gameCamera->SetTarget(Camera::Target::NOTARGET);
 		break;
+
 	case STAGE_HOUSE:
 		m_map = NewGO<Map>(0);
 		g_gameCamera->SetTarget(Camera::Target::PLAYER);
+		break;
+
 	default:
 		break;
 	}
 	m_scene = scenes;
 
-	m_loadstat = LOADSTART;
+	if (m_loadstat == NOSTAT)
+	{
+		m_loadstat = LOADSTART;
+	}
 
 	LoadCheck();
+}
+
+void Scene::Collision()
+{
+	if (m_play == nullptr)
+	{
+		return;
+	}
+
+	if (m_enem == nullptr)
+	{
+		return;
+	}
+
+
 }

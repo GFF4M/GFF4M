@@ -1,4 +1,6 @@
 #pragma once
+
+
 class SC_Start :
 	public IGameObject
 {
@@ -9,6 +11,10 @@ public:
 	void Start();
 	void Update();
 	void PostRender(CRenderContext& renderContext) override;
+
+	void SetTexSize();
+
+	void SetScene();
 
 	void Delete();
 private:
@@ -23,13 +29,26 @@ private:
 	CSprite		m_title;				//タイトル
 	CTexture	m_title_tex;			//タイトルのテクスチャ
 
+	bool		m_UPressflag;
+	bool		m_DPressflag;
 
-	const CVector2 NEWGAMEPOS		= { 0.0f, -100.0f };
-	const CVector2 NEWGAMEMAXSIZE	= { 230.0f, 80.0f };
+	enum TexNum
+	{
+		NEWGAME,
+		CONTINUE,
+		TEXNUM,
+	};
 
-	const CVector2 CONTINUEPOS		= { 0.0f,-280.0f };
-	const CVector2 CONTINUEMAXSIZE	= { 230.0f,80.0f };
+	TexNum		m_tex_num;
+	
+	const CVector2	NEWGAME_POS		= { 0.0f, -100.0f };
+	const CVector2	NEWGAME_MAX_SIZE	= { 230.0f, 80.0f };
 
-	const CVector2 TITLEPOS			= { 0.0f,150.0f };
-	const CVector2 TITLEMAXSIZE		= { 700.0f,200.0f };
+	const CVector2	CONTINUE_POS		= { 0.0f,-280.0f };
+	const CVector2	CONTINUE_MAX_SIZE	= { 230.0f,80.0f };
+
+	const CVector2	TITLE_POS			= { 0.0f,150.0f };
+	const CVector2	TITLE_MAX_SIZE		= { 700.0f,200.0f };
+
+	const float		SIZE_SCALE = 1.5f;
 };

@@ -4,10 +4,10 @@
 
 Enemy::Enemy()
 {
-	m_position = {1.0f,0.0f,0.0f};
+	m_position = { 1.0f,0.0f,0.0f };
 	m_rotation = CQuaternion::Identity;
 	m_scale = { 0.6f,0.6f,0.6f };
-	m_movelimit = 5.0f;
+	m_movelimit = 0.0f;
 }
 
 
@@ -62,7 +62,8 @@ void Enemy::Move()
 
 void Enemy::Render(CRenderContext& renderContext)
 {
-	m_skinModel.Draw(renderContext,g_gameCamera->GetViewMatrix(),g_gameCamera->GetProjectionMatrix());
+
+	m_skinModel.Draw(renderContext,g_gameCamera->GetViewMatrix(), g_gameCamera->GetProjectionMatrix());
 
 }
 

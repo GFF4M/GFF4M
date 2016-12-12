@@ -9,7 +9,6 @@ MapChip::MapChip()
 
 MapChip::~MapChip()
 {
-	PhysicsWorld().RemoveRigidBody(&m_rigidBody);
 }
 
 void MapChip::Init(const char* modelName, CVector3 position, CQuaternion rotation, CVector3 scale)

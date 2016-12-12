@@ -12,21 +12,24 @@ public:
 	void Delete();
 	void Move();
 
+
 	void SetPos(CVector3 pos)
 	{
 		m_position = pos;
 	}
+
 
 	CVector3 GetPos()
 	{
 		return m_position;
 	}
 
-	enum {
-		AnimationSetStand,
-		AnimationSetAttack,
-		AnimationSetwalk,
-		
+
+	enum AnimationStat{
+		AnimationStand,
+		AnimationWalk,
+		AnimationAttack,
+		AnimationNum,
 	};
 
 private:
@@ -36,7 +39,9 @@ private:
 	CVector3				m_position;						//座標。
 	CQuaternion				m_rotation;						//回転。
 	float					m_angle;						//角度。
-	CAnimation				animation;						//アニメーション。
+	
+	CAnimation				m_animation;						//アニメーション。
+	AnimationStat			m_animationStat;
 };
 
 extern Player* g_play;

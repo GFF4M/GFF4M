@@ -15,6 +15,12 @@ public:
 	{
 		m_movelimit = lim;
 	}
+
+	CVector3 GetPos()
+	{
+		return m_position;
+	}
+
 private:
 	CSkinModel				m_skinModel;					//スキンモデル。
 	CSkinModelDataHandle	m_skinModelData;				//スキンモデルデータ。

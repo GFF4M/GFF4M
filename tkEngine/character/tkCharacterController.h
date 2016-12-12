@@ -58,6 +58,13 @@ namespace tkEngine{
 			return m_moveSpeed;
 		}
 		/*!
+		* @brief	床上にいるか。
+		*/
+		bool IsOnGround() const
+		{
+			return m_isOnGround;
+		}
+		/*!
 		 * @brief	ジャンプさせる。
 		 */
 		void Jump( )

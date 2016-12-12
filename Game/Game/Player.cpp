@@ -9,6 +9,7 @@ Player::Player()
 	m_angle = 0.0f;
 	m_position = CVector3::Zero;
 	m_rotation = CQuaternion::Identity;
+	m_animationStat = AnimationStand;
 }
 
 Player::~Player()
@@ -17,28 +18,32 @@ Player::~Player()
 
 void Player::Start()
 {
-	SkinModelDataResources().Load(m_skinModelData,"Assets/modelData/kanowalk.X",&animation);
+
+	SkinModelDataResources().Load(m_skinModelData, "Assets/modelData/kanowalk.X", &m_animation);
+
 	m_skinModel.Init(m_skinModelData.GetBody());
 	m_skinModel.SetLight(&g_defaultLight);//デフォルトライトを設定。
 	m_characterController.Init(0.5f, 1.0f, m_position);//キャラクタコントローラの初期化。
-	animation.SetAnimationLoopFlag(AnimationSetAttack,false);
-	animation.SetAnimationLoopFlag(AnimationSetStand, false);
-	animation.PlayAnimation(AnimationSetStand, 0.3f);
+
+	m_animation.SetAnimationLoopFlag(AnimationAttack,false);
+	m_animation.SetAnimationLoopFlag(AnimationStand, false);
+	m_animation.PlayAnimation(m_animationStat);
 
 }
 
 void Player::Update()
 {
+
 	if (Pad(0).IsTrigger(enButtonA))
 	{
 
-		animation.PlayAnimation(AnimationSetAttack,0.3f);
+		m_animation.PlayAnimation(AnimationAttack,0.3f);
 	}
 
 
 	Move();
 
-	animation.Update(2.0 / 60.0f);
+	m_animation.Update(2.0 / 60.0f);
 
 	//ワールド行列の更新。
 	m_skinModel.Update(m_position, m_rotation, CVector3::One);
@@ -47,7 +52,6 @@ void Player::Update()
 
 void Player::Move()
 {
-	
 	//キャラクターの移動速度を決定。
 	CVector3 move = m_characterController.GetMoveSpeed();
 	move.x = -Pad(0).GetLStickXF() * 5.0f;
@@ -62,9 +66,11 @@ void Player::Move()
 
 	if (LenXZ > 0.0f)
 	{
-
-		animation.PlayAnimation(AnimationSetwalk,0.3f);//アニメーションの再生
-		
+		if (m_animationStat != AnimationWalk)
+		{
+			m_animationStat = AnimationWalk;
+			m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
+		}
 
 		//AxisZとmoveXZのなす角を求める
 		m_angle = moveXZ.AngleBetween(CVector3::AxisZ);
@@ -81,6 +87,14 @@ void Player::Move()
 		move.x = LenXZ * sin(CMath::DegToRad(m_angle));
 		move.z = LenXZ * cos(CMath::DegToRad(m_angle));
 	}
+	else
+	{
+		if (m_animationStat != AnimationStand)
+		{
+			m_animationStat = AnimationStand;
+			m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
+		}
+	}
 
 	if (m_angle < -180.0f)
 	{
@@ -89,6 +103,12 @@ void Player::Move()
 	else if (180.0f < m_angle)
 	{
 		m_angle -= 360.0f;
+	}
+
+	if (KeyInput().GetPad(0).IsPress(enButtonX) && m_characterController.IsOnGround())
+	{
+		m_characterController.Jump();
+		move.y = 8.0f;
 	}
 
 	//決定した移動速度をキャラクタコントローラーに設定。
