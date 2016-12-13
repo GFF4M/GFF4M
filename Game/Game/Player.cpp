@@ -19,18 +19,34 @@ Player::~Player()
 
 void Player::Start()
 {
+
 	SkinModelDataResources().Load(m_skinModelData, "Assets/modelData/kanowalk.X", &m_animation);
+
 	m_skinModel.Init(m_skinModelData.GetBody());
-	m_skinModel.SetLight(&g_defaultLight);	//デフォルトライトを設定。
-	
+	m_skinModel.SetLight(&g_defaultLight);//デフォルトライトを設定。
+	m_characterController.Init(0.5f, 1.0f, m_position);//キャラクタコントローラの初期化。
+
+	m_animation.SetAnimationLoopFlag(AnimationAttack,false);
+	m_animation.SetAnimationLoopFlag(AnimationStand, false);
+>>>>>>> f307101e94218602ed4e8f5174d254c6e8e65dbf
 	m_animation.PlayAnimation(m_animationStat);
+
 }
 
 void Player::Update()
 {
+
+	if (Pad(0).IsTrigger(enButtonA))
+	{
+
+		m_animation.PlayAnimation(AnimationAttack,0.3f);
+	}
+
+
 	Move();
 
 	m_animation.Update(2.0 / 60.0f);
+
 	//ワールド行列の更新。
 	m_skinModel.Update(m_position, m_rotation, CVector3::One);
 

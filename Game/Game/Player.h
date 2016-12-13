@@ -12,15 +12,18 @@ public:
 	void Delete();
 	void Move();
 
+
 	void SetPos(CVector3 pos)
 	{
 		m_position = pos;
 	}
 
+
 	CVector3 GetPos()
 	{
 		return m_position;
 	}
+
 
 	enum AnimationStat{
 		AnimationStand,

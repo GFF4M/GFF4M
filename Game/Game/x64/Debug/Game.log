@@ -1,17 +1,1 @@
-﻿  stdafx.cpp
-  Start.cpp
-  Scene.cpp
-  Player.cpp
-c:\users\kbc16b12\documents\github\gff4m\game\game\player.cpp(33): warning C4305: '引数': 'double' から 'float' へ切り詰めます。
-  ModelHandle.cpp
-  MapChip.cpp
-  Map.cpp
-  main.cpp
-  Load.cpp
-  Enemy.cpp
-c:\users\kbc16b12\documents\github\gff4m\game\game\enemy.cpp(40): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
-c:\users\kbc16b12\documents\github\gff4m\game\game\enemy.cpp(42): warning C4244: '=': 'double' から 'float' への変換です。データが失われる可能性があります。
-  Camera.cpp
-  コードを生成中...
-  Game.vcxproj -> C:\Users\kbc16b12\Documents\github\GFF4M\Game\x64\Debug\Game.exe
-  Game.vcxproj -> C:\Users\kbc16b12\Documents\github\GFF4M\Game\x64\Debug\Game.pdb (Full PDB)
+﻿

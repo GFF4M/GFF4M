@@ -18,7 +18,8 @@ Enemy::~Enemy()
 
 void Enemy::Start()
 {
-	SkinModelDataResources().Load(m_skinModelData,"Assets/modelData/Player.X", NULL);
+
+	SkinModelDataResources().Load(m_skinModelData,"Assets/modelData/Player.X",NULL);
 	m_skinModel.Init(m_skinModelData.GetBody());
 	m_skinModel.SetLight(&g_defaultLight);//デフォルトライトを設定。
 }
@@ -31,6 +32,7 @@ void Enemy::Update()
 
 void Enemy::Move()
 {
+
 	CVector3 move = m_characterController.GetMoveSpeed();
 	CRandom random;
 
@@ -59,7 +61,9 @@ void Enemy::Move()
 
 void Enemy::Render(CRenderContext& renderContext)
 {
+
 	m_skinModel.Draw(renderContext,g_gameCamera->GetViewMatrix(), g_gameCamera->GetProjectionMatrix());
+
 }
 
 void Enemy::Delete()
