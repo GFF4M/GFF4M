@@ -24,7 +24,6 @@ void Player::Start()
 
 	m_skinModel.Init(m_skinModelData.GetBody());
 	m_skinModel.SetLight(&g_defaultLight);//デフォルトライトを設定。
-	m_characterController.Init(0.5f, 1.0f, m_position);//キャラクタコントローラの初期化。
 
 	m_animation.SetAnimationLoopFlag(AnimationAttack,false);
 	m_animation.SetAnimationLoopFlag(AnimationStand, false);
