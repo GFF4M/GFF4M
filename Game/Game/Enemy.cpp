@@ -18,7 +18,6 @@ Enemy::~Enemy()
 
 void Enemy::Start()
 {
-
 	SkinModelDataResources().Load(m_skinModelData,"Assets/modelData/Player.X",NULL);
 	m_skinModel.Init(m_skinModelData.GetBody());
 	m_skinModel.SetLight(&g_defaultLight);//デフォルトライトを設定。

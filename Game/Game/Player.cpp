@@ -28,9 +28,6 @@ void Player::Start()
 
 	m_animation.SetAnimationLoopFlag(AnimationAttack,false);
 	m_animation.SetAnimationLoopFlag(AnimationStand, false);
->>>>>>> f307101e94218602ed4e8f5174d254c6e8e65dbf
-	m_animation.PlayAnimation(m_animationStat);
-
 }
 
 void Player::Update()
