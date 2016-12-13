@@ -5,17 +5,44 @@ class SC_Start :
 	public IGameObject
 {
 public:
+	/*!
+	* @brief	コンストラクタ。
+	*/
 	SC_Start();
+
+	/*!
+	* @brief	デストラクタ。
+	*/
 	~SC_Start();
 
+	/*!
+	* @brief	UpDate()の前に1回だけ呼ばれる。
+	*/
 	void Start();
+
+	/*!
+	* @brief	更新。
+	*/
 	void Update();
+
+	/*!
+	* @brief	描画。
+	*/
 	void PostRender(CRenderContext& renderContext) override;
 
+	/*!
+	* @brief	更新。
+	*/
 	void SetTexSize();
 
+	/*!
+	* @brief	文字の大きさ設定。
+	*/
 	void SetScene();
 
+	/*!
+	* @brief	削除。
+	*/
 	void Delete();
 private:
 	/*CSoundSource	soundSource;*/

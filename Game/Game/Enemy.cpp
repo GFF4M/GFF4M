@@ -8,6 +8,7 @@ Enemy::Enemy()
 	m_rotation = CQuaternion::Identity;
 	m_scale = { 0.6f,0.6f,0.6f };
 	m_movelimit = 0.0f;
+	m_characterController.Init(0.5f, 1.0f, m_position);
 }
 
 
@@ -20,7 +21,6 @@ void Enemy::Start()
 	SkinModelDataResources().Load(m_skinModelData,"Assets/modelData/Player.X", NULL);
 	m_skinModel.Init(m_skinModelData.GetBody());
 	m_skinModel.SetLight(&g_defaultLight);//デフォルトライトを設定。
-	m_characterController.Init(0.5f, 1.0f, m_position);
 }
 
 void Enemy::Update()

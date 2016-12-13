@@ -23,16 +23,43 @@ public:
 		LOADING,
 		LOADFIN,
 	};
-	
+
+	/*!
+	* @brief	コンストラクタ。
+	*/
 	Scene();
+
+	/*!
+	* @brief	デストラクタ。
+	*/
 	~Scene();
 
+	/*!
+	* @brief	UpDate()の前に1回だけ呼ばれる。
+	*/
 	void Start();
+
+
+	/*!
+	* @brief	更新。
+	*/
 	void Update();
+
+
+	/*!
+	* @brief	ロード画面の操作。
+	*/
 	void LoadCheck();
 
+	/*!
+	* @brief	画面遷移。
+	*/
 	void Change(Scenes scenes);
 
+
+	/*!
+	* @brief	データ削除。
+	*/
 	template<class T>
 	void DeleteDat(T* ClassT)
 	{
@@ -40,6 +67,9 @@ public:
 		ClassT = nullptr;
 	}
 
+	/*!
+	* @brief	プレイヤと敵とのあたり判定。
+	*/
 	void Collision();
 
 private:

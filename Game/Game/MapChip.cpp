@@ -11,7 +11,7 @@ MapChip::~MapChip()
 {
 }
 
-void MapChip::Init(const char* modelName, CVector3 position, CQuaternion rotation, CVector3 scale)
+void MapChip::Start(const char* modelName, CVector3 position, CQuaternion rotation, CVector3 scale)
 {
 	//ファイルパスを作成する。
 	char filePath[256];
@@ -43,11 +43,22 @@ void MapChip::Init(const char* modelName, CVector3 position, CQuaternion rotatio
 	//作成した剛体を物理ワールドに追加する。
 	PhysicsWorld().AddRigidBody(&m_rigidBody);
 }
+
 void MapChip::Update()
 {
 	//初期化の時に作成しているので何もしない。
 }
+
 void MapChip::Render(CRenderContext& renderContext)
 {
 	m_skinModel.Draw(renderContext, g_gameCamera->GetViewMatrix(), g_gameCamera->GetProjectionMatrix());
+}
+
+void MapChip::Delete()
+{
+	m_skinModel.SetShadowCasterFlag(false);
+	PhysicsWorld().RemoveRigidBody(&m_rigidBody);
+	m_rigidBody.Release();
+
+	DeleteGO(this);
 }

@@ -16,25 +16,26 @@ SC_Start::~SC_Start()
 
 void SC_Start::Start()
 {
-	m_continue_tex.Load("Assets/Sprite/Continue-1.png");
-	m_newgame_tex.Load("Assets/Sprite/New Game-2.png");
+	//ƒ^ƒCƒgƒ‹
 	m_title_tex.Load("Assets/Sprite/Title-1.png");
-
-	m_continue.Init(&m_continue_tex);
-	m_newgame.Init(&m_newgame_tex);
 	m_title.Init(&m_title_tex);
-
-	m_continue.SetSize(CONTINUE_MAX_SIZE);
-	m_newgame.SetSize(NEWGAME_MAX_SIZE);
 	m_title.SetSize(TITLE_MAX_SIZE);
-
-	m_continue.SetPivot({ 0.5f,0.5f });
-	m_newgame.SetPivot({ 0.5f, 0.5f });
 	m_title.SetPivot({ 0.5f,0.5f });
-
-	m_continue.SetPosition(CONTINUE_POS);
-	m_newgame.SetPosition(NEWGAME_POS);
 	m_title.SetPosition(TITLE_POS);
+
+	//New Game
+	m_newgame_tex.Load("Assets/Sprite/New Game-2.png");
+	m_newgame.Init(&m_newgame_tex);
+	m_newgame.SetSize(NEWGAME_MAX_SIZE);
+	m_newgame.SetPivot({ 0.5f, 0.5f });
+	m_newgame.SetPosition(NEWGAME_POS);
+
+	//Continue
+	m_continue_tex.Load("Assets/Sprite/Continue-1.png");
+	m_continue.Init(&m_continue_tex);
+	m_continue.SetSize(CONTINUE_MAX_SIZE);
+	m_continue.SetPivot({ 0.5f,0.5f });
+	m_continue.SetPosition(CONTINUE_POS);
 
 	/*soundSource.Init("Assets/modelData/bgm_maoudamashii_piano25.wav");
 	soundSource.Play(true);*/
@@ -70,11 +71,11 @@ void SC_Start::SetTexSize()
 
 void SC_Start::SetScene()
 {
-	float move = KeyInput().GetPad(0).GetRStickYF();
+	float move = KeyInput().GetPad(0).GetLStickYF();
 
 	int tex_num = m_tex_num;
 
-	if (move < 0.0f)
+	if (move < 0.0f || (GetAsyncKeyState(VK_UP) & 0x8000))
 	{
 		if (!m_UPressflag)
 		{
@@ -87,7 +88,7 @@ void SC_Start::SetScene()
 		m_UPressflag = false;
 	}
 	
-	if (move > 0.0f)
+	if (move > 0.0f || (GetAsyncKeyState(VK_DOWN) & 0x8000))
 	{
 		if (!m_DPressflag)
 		{

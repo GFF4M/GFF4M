@@ -6,6 +6,7 @@ Scene	*g_scene;
 
 Scene::Scene()
 {
+	//メンバ変数初期化
 	m_load = nullptr;
 	m_play = nullptr;
 	m_map = nullptr;
@@ -21,17 +22,20 @@ Scene::~Scene()
 
 void Scene::Start()
 {
+	//スタート画面に遷移
 	Change(START);
 }
 
 void Scene::Update()
 {
+	//ロード画面を表示するか？
 	LoadCheck();
 	Collision();
 }
 
 void Scene::LoadCheck()
 {
+	//ロード画面を出さないなら早期リターン
 	if (m_loadstat == NOSTAT)
 	{
 		return;
@@ -39,15 +43,18 @@ void Scene::LoadCheck()
 
 	switch (m_loadstat)
 	{
+	//ロード開始
 	case LOADSTART:
 		m_load = NewGO<SC_Load>(0);
 		m_loadstat = LOADING;
 		break;
 
+	//ロード中
 	case LOADING:
 		m_loadstat = LOADFIN;
 		break;
 
+	//ロード終了
 	case LOADFIN:
 		DeleteDat(m_load);
 		m_loadstat = NOSTAT;
@@ -63,6 +70,7 @@ void Scene::Change(Scenes scenes)
 	switch (m_scene)
 	{
 	case NOSTAT:
+		break;
 	case START:
 		if (m_start != nullptr)
 		{
@@ -131,6 +139,5 @@ void Scene::Collision()
 	{
 		return;
 	}
-
 
 }
