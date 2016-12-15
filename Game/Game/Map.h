@@ -5,14 +5,33 @@
 class Map : public IGameObject
 {
 public:
+
+	/*!
+	* @brief	コンストラクタ。
+	*/
 	Map();
+
+	/*!
+	* @brief	デストラクタ。
+	*/
 	~Map();
+
+	/*!
+	* @brief	UpDate()の前に1回だけ呼ばれる。
+	*/
 	void Start();
-	void SetField();
+
+	/*!
+	* @brief	更新。
+	*/
 	void Update();
 
+	/*!
+	* @brief	削除。
+	*/
 	void Delete();
 
 private:
+	MapChip*		m_mapchip[100];
 };
 

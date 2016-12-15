@@ -10,6 +10,7 @@ Player::Player()
 	m_position = CVector3::Zero;
 	m_rotation = CQuaternion::Identity;
 	m_animationStat = AnimationStand;
+	m_characterController.Init(0.5f, 1.0f, m_position);//キャラクタコントローラの初期化。
 }
 
 Player::~Player()
@@ -22,12 +23,9 @@ void Player::Start()
 
 	m_skinModel.Init(m_skinModelData.GetBody());
 	m_skinModel.SetLight(&g_defaultLight);//デフォルトライトを設定。
-	m_characterController.Init(0.5f, 1.0f, m_position);//キャラクタコントローラの初期化。
 
 	m_animation.SetAnimationLoopFlag(AnimationAttack,false);
 	m_animation.SetAnimationLoopFlag(AnimationStand, false);
-	m_animation.PlayAnimation(m_animationStat);
-
 }
 
 void Player::Update()
@@ -126,5 +124,6 @@ void Player::Render(CRenderContext& renderContext)
 
 void Player::Delete()
 {
+	m_characterController.RemoveRigidBoby();
 	DeleteGO(this);
 }

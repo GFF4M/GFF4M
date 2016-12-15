@@ -19,7 +19,6 @@ namespace tkEngine{
 		}
 		~CCharacterController()
 		{
-
 		}
 		/*!
 		 * @brief	‰Šú‰»B
