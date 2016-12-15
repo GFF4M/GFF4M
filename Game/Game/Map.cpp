@@ -11,7 +11,9 @@ struct SMapInfo {
 //マップの配置情報。
 SMapInfo mapLocInfo[] = 
 {
-#include "MapData/Sample.h"
+
+#include "MapData/locationinfo.h"
+
 };
 
 Map::Map()
@@ -27,12 +29,13 @@ void Map::Start()
 	//マップにいくつのオブジェクトが配置されているか調べる。
 	int numObject = sizeof(mapLocInfo) / sizeof(mapLocInfo[0]);
 	//置かれているオブジェクトの数だけマップチップを生成する。
-	for (int i = 0; i < numObject; i++) 
+	for (int i = 0; i < numObject; i++)
 	{
 		//モデル名、座標、回転を与えてマップチップを初期化する。
 		m_mapchip[i] = NewGO<MapChip>(0);
 		m_mapchip[i]->Start(mapLocInfo[i].modelName, mapLocInfo[i].position, mapLocInfo[i].rotation, mapLocInfo[i].scale);
 	}
+
 }
 
 void Map::Update()

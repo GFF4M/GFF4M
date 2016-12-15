@@ -1,5 +1,1 @@
-<<<<<<< HEAD
 ﻿C:/Users/kbc16b15/Desktop/github/GFF4M/Game/Game/MapData
-=======
-﻿C:/Users/kbc16b14/Documents/github/GFF4M/Game/Game/MapData
->>>>>>> 6185d43344b4df8a983c00006b468649b57f40cc

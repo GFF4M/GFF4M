@@ -7,7 +7,7 @@ Player *g_play;
 Player::Player()
 {
 	m_angle = 0.0f;
-	m_position = CVector3::Zero;
+	m_position = /*CVector3::Zero*/{ 0.0f,30.0f,0.0f };
 	m_rotation = CQuaternion::Identity;
 	m_animationStat = AnimationStand;
 	m_characterController.Init(0.5f, 1.0f, m_position);//キャラクタコントローラの初期化。
@@ -16,6 +16,7 @@ Player::Player()
 Player::~Player()
 {
 }
+
 void Player::Start()
 {
 
@@ -50,8 +51,8 @@ void Player::Move()
 {
 	//キャラクターの移動速度を決定。
 	CVector3 move = m_characterController.GetMoveSpeed();
-	move.x = -Pad(0).GetLStickXF() * 45.0f;
-	move.z = -Pad(0).GetLStickYF() * 45.0f;
+	move.x = -Pad(0).GetLStickXF() * 10.0f;
+	move.z = -Pad(0).GetLStickYF() * 10.0f;
 
 	CVector3 old_move = move;
 
