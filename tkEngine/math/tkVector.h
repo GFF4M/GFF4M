@@ -15,6 +15,7 @@ namespace tkEngine{
 			struct { float x, y; };
 			float v[2];
 		};
+		static const CVector2 Zero;
 	public:
 		/*!
 		* @brief	üŒ`•âŠÔB

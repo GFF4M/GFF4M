@@ -7,7 +7,7 @@ Player *g_play;
 Player::Player()
 {
 	m_angle = 0.0f;
-	m_position = /*CVector3::Zero*/{ 0.0f,30.0f,0.0f };
+	m_position = /*CVector3::Zero*/{ 0.0f,10.0f,0.0f };
 	m_rotation = CQuaternion::Identity;
 	m_animationStat = AnimationStand;
 	m_characterController.Init(0.5f, 1.0f, m_position);//キャラクタコントローラの初期化。
@@ -34,7 +34,6 @@ void Player::Update()
 
 	if (Pad(0).IsTrigger(enButtonA))
 	{
-
 		m_animation.PlayAnimation(AnimationAttack,0.3f);
 	}
 
@@ -93,6 +92,7 @@ void Player::Move()
 		}
 	}
 
+	//角度の正規化
 	if (m_angle < -180.0f)
 	{
 		m_angle += 360.0f;
@@ -102,6 +102,7 @@ void Player::Move()
 		m_angle -= 360.0f;
 	}
 
+	//一段ジャンプ
 	if (KeyInput().GetPad(0).IsPress(enButtonX) && m_characterController.IsOnGround())
 	{
 		m_characterController.Jump();
