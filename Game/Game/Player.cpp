@@ -34,7 +34,6 @@ void Player::Update()
 
 	if (Pad(0).IsTrigger(enButtonA))
 	{
-
 		m_animation.PlayAnimation(AnimationAttack,0.3f);
 	}
 
@@ -94,6 +93,7 @@ void Player::Move()
 		}
 	}
 
+	//角度の正規化
 	if (m_angle < -180.0f)
 	{
 		m_angle += 360.0f;
@@ -103,6 +103,7 @@ void Player::Move()
 		m_angle -= 360.0f;
 	}
 
+	//一段ジャンプ
 	if (KeyInput().GetPad(0).IsPress(enButtonX) && m_characterController.IsOnGround())
 	{
 		m_characterController.Jump();

@@ -31,7 +31,6 @@ void Enemy::Update()
 
 void Enemy::Move()
 {
-
 	CVector3 move = m_characterController.GetMoveSpeed();
 	CRandom random;
 
