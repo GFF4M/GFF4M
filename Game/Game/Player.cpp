@@ -15,11 +15,10 @@ Player::Player()
 Player::~Player()
 {
 }
-
 void Player::Start()
 {
 
-	SkinModelDataResources().Load(m_skinModelData, "Assets/modelData/kanowalk.X", &m_animation);
+	SkinModelDataResources().Load(m_skinModelData, "Assets/modelData/kanoDash2.X", &m_animation);
 
 	m_skinModel.Init(m_skinModelData.GetBody());
 	m_skinModel.SetLight(&g_defaultLight);//デフォルトライトを設定。
@@ -40,13 +39,12 @@ void Player::Update()
 		m_animation.PlayAnimation(AnimationAttack,0.3f);
 	}
 
-
 	Move();
 
 	m_animation.Update(2.0 / 60.0f);
 
 	//ワールド行列の更新。
-	m_skinModel.Update(m_position, m_rotation, CVector3::One);
+	m_skinModel.Update(m_position,m_rotation, CVector3::One);
 
 }
 
@@ -54,8 +52,8 @@ void Player::Move()
 {
 	//キャラクターの移動速度を決定。
 	CVector3 move = m_characterController.GetMoveSpeed();
-	move.x = -Pad(0).GetLStickXF() * 5.0f;
-	move.z = -Pad(0).GetLStickYF() * 5.0f;
+	move.x = -Pad(0).GetLStickXF() * 45.0f;
+	move.z = -Pad(0).GetLStickYF() * 45.0f;
 
 	CVector3 old_move = move;
 

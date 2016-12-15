@@ -27,8 +27,8 @@ public:
 
 	enum AnimationStat{
 		AnimationStand,
-		AnimationWalk,
 		AnimationAttack,
+		AnimationWalk,
 		AnimationNum,
 	};
 
