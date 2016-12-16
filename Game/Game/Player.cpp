@@ -7,7 +7,7 @@ Player *g_play;
 Player::Player()
 {
 	m_angle = 0.0f;
-	m_position = /*CVector3::Zero*/{ 0.0f,10.0f,0.0f };
+	m_position = /*CVector3::Zero*/{ 0.0f,15.0f,0.0f };
 	m_rotation = CQuaternion::Identity;
 	m_animationStat = AnimationStand;
 	m_characterController.Init(0.5f, 1.0f, m_position);//キャラクタコントローラの初期化。

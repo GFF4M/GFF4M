@@ -12,7 +12,7 @@ struct SMapInfo {
 SMapInfo mapLocInfo[] = 
 {
 
-#include "MapData/locationinfo.h"
+	#include "MapData/ooiwa.h"
 
 };
 
