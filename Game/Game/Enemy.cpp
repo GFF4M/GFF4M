@@ -4,11 +4,15 @@
 
 Enemy::Enemy()
 {
-	m_position = { 1.0f,0.0f,0.0f };
+	m_position = { 5.0f,0.0f,0.0f };
 	m_rotation = CQuaternion::Identity;
 	m_scale = { 0.6f,0.6f,0.6f };
 	m_movelimit = 0.0f;
-	m_characterController.Init(0.5f, 1.0f, m_position);
+	m_radius = 0.5f;
+	m_dead = false;
+
+	m_characterController.Init(m_radius, 1.0f, m_position);
+
 }
 
 
@@ -25,6 +29,12 @@ void Enemy::Start()
 
 void Enemy::Update()
 {
+	if (m_dead)
+	{
+		m_characterController.RemoveRigidBoby();
+		DeleteGO(this);
+	}
+
 	Move();
 	m_skinModel.Update(m_position, m_rotation,m_scale);//ワールド行列の更新。
 }
@@ -59,12 +69,11 @@ void Enemy::Move()
 
 void Enemy::Render(CRenderContext& renderContext)
 {
-
 	m_skinModel.Draw(renderContext,g_gameCamera->GetViewMatrix(), g_gameCamera->GetProjectionMatrix());
 
 }
 
 void Enemy::Delete()
 {
-	DeleteGO(this);
+	m_dead = true;
 }

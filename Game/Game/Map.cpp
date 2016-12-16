@@ -11,11 +11,12 @@ struct SMapInfo {
 //マップの配置情報。
 SMapInfo mapLocInfo[] = 
 {
-#include "MapData/Sample.h"
+#include "MapData/locationInfo2.h"
 };
 
 Map::Map()
 {
+	m_dead = false;
 }
 
 Map::~Map()
@@ -37,16 +38,20 @@ void Map::Start()
 
 void Map::Update()
 {
+	if (m_dead)
+	{
+		//マップにいくつのオブジェクトが配置されているか調べる。
+		int numObject = sizeof(mapLocInfo) / sizeof(mapLocInfo[0]);
+		//置かれているオブジェクトの数だけマップチップを生成する。
+		for (int i = 0; i < numObject; i++)
+		{
+			m_mapchip[i]->Delete();
+		}
+		DeleteGO(this);
+	}
 }
 
 void Map::Delete()
 {
-	//マップにいくつのオブジェクトが配置されているか調べる。
-	int numObject = sizeof(mapLocInfo) / sizeof(mapLocInfo[0]);
-	//置かれているオブジェクトの数だけマップチップを生成する。
-	for (int i = 0; i < numObject; i++)
-	{
-		m_mapchip[i]->Delete();
-	}
-	DeleteGO(this);
+	m_dead = true;
 }

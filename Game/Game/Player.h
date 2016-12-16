@@ -23,7 +23,10 @@ public:
 	{
 		return m_position;
 	}
-
+		float GetRadius()
+	{
+		return m_radius;
+	}
 
 	enum AnimationStat{
 		AnimationStand,
@@ -37,9 +40,14 @@ private:
 	CSkinModelDataHandle	m_skinModelData;				//スキンモデルデータハンドル。
 	CCharacterController	m_characterController;			//キャラクタ―コントローラー。
 	CVector3				m_position;						//座標。
+	CVector3				m_scale;
 	CQuaternion				m_rotation;						//回転。
 	float					m_angle;						//角度。
-	
+
+	float					m_radius;
+
+	bool					m_dead;
+
 	CAnimation				m_animation;						//アニメーション。
 	AnimationStat			m_animationStat;
 };

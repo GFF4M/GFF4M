@@ -15,7 +15,6 @@ SC_Load::~SC_Load()
 
 void SC_Load::Start()
 {
-
 	m_load_tex.Load("Assets/Sprite/Loading-1.png");
 
 	m_load.Init(&m_load_tex);

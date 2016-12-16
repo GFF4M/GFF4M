@@ -8,9 +8,13 @@ Player::Player()
 {
 	m_angle = 0.0f;
 	m_position = CVector3::Zero;
+	m_scale = {0.7f,0.7f,0.7f };
 	m_rotation = CQuaternion::Identity;
 	m_animationStat = AnimationStand;
-	m_characterController.Init(0.5f, 1.0f, m_position);//キャラクタコントローラの初期化。
+	m_radius = 0.5f;
+	m_dead = false;
+
+	m_characterController.Init(m_radius, 1.0f, m_position);//キャラクタコントローラの初期化。
 }
 
 Player::~Player()
@@ -30,6 +34,11 @@ void Player::Start()
 
 void Player::Update()
 {
+	if (m_dead)
+	{
+		m_characterController.RemoveRigidBoby();
+		DeleteGO(this);
+	}
 
 	if (Pad(0).IsTrigger(enButtonA))
 	{
@@ -41,16 +50,16 @@ void Player::Update()
 	m_animation.Update(2.0 / 60.0f);
 
 	//ワールド行列の更新。
-	m_skinModel.Update(m_position,m_rotation, CVector3::One);
-
+	m_skinModel.Update(m_position,m_rotation, m_scale);
 }
+
 
 void Player::Move()
 {
 	//キャラクターの移動速度を決定。
 	CVector3 move = m_characterController.GetMoveSpeed();
-	move.x = -Pad(0).GetLStickXF() * 45.0f;
-	move.z = -Pad(0).GetLStickYF() * 45.0f;
+	move.x = -Pad(0).GetLStickXF() * 10.0f;
+	move.z = -Pad(0).GetLStickYF() * 10.0f;
 
 	CVector3 old_move = move;
 
@@ -76,7 +85,7 @@ void Player::Move()
 		}
 	
 		//カメラによる補正
-		m_angle -= g_gameCamera->GetAngle();
+		m_angle -= g_gameCamera->GetAngle().x;
 
 		//回転した方向に移動
 		move.x = LenXZ * sin(CMath::DegToRad(m_angle));
@@ -125,6 +134,5 @@ void Player::Render(CRenderContext& renderContext)
 
 void Player::Delete()
 {
-	m_characterController.RemoveRigidBoby();
-	DeleteGO(this);
+	m_dead = true;
 }

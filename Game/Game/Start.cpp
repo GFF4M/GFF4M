@@ -24,14 +24,14 @@ void SC_Start::Start()
 	m_title.SetPosition(TITLE_POS);
 
 	//New Game
-	m_newgame_tex.Load("Assets/Sprite/New Game-2.png");
+	m_newgame_tex.Load("Assets/Sprite/‚Í‚¶‚ß‚©‚ç-2.png");
 	m_newgame.Init(&m_newgame_tex);
 	m_newgame.SetSize(NEWGAME_MAX_SIZE);
 	m_newgame.SetPivot({ 0.5f, 0.5f });
 	m_newgame.SetPosition(NEWGAME_POS);
 
 	//Continue
-	m_continue_tex.Load("Assets/Sprite/Continue-1.png");
+	m_continue_tex.Load("Assets/Sprite/‚Â‚Ã‚«‚©‚ç-2.png");
 	m_continue.Init(&m_continue_tex);
 	m_continue.SetSize(CONTINUE_MAX_SIZE);
 	m_continue.SetPivot({ 0.5f,0.5f });

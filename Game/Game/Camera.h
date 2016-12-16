@@ -27,7 +27,7 @@ public:
 		return m_camera.GetProjectionMatrix();
 	}
 
-	const float GetAngle()
+	const CVector2 GetAngle()
 	{
 		return m_angle;
 	}
@@ -55,7 +55,7 @@ private:
 	CVector3				m_look_position;
 	const	CVector3		DEF_POS = { 0.0f,2.5f,10.0f };
 
-	float					m_angle;
+	CVector2				m_angle;
 	const	float			ADD_ANGLE = 360.0f / 4.5f;
 	
 	const	float			DELTA_TIME = 1.0f / 60.0f;
