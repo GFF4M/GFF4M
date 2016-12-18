@@ -47,6 +47,9 @@ public:
 private:
 	/*CSoundSource	soundSource;*/
 
+	CSprite		m_back;					//背景
+	CTexture	m_back_tex;				//背景のテクスチャ
+
 	CSprite		m_continue;				//つづきから
 	CTexture	m_continue_tex;			//つづきからのテクスチャ
 
@@ -67,8 +70,11 @@ private:
 	};
 
 	TexNum		m_tex_num;
-	
-	const CVector2	NEWGAME_POS		= { 0.0f, -100.0f };
+
+	const CVector2	BACK_POS			= { 0.0f, 0.0f };
+	const CVector2	BACK_MAX_SIZE		= { 200.0f, 200.0f };
+
+	const CVector2	NEWGAME_POS			= { 0.0f, -100.0f };
 	const CVector2	NEWGAME_MAX_SIZE	= { 230.0f, 80.0f };
 
 	const CVector2	CONTINUE_POS		= { 0.0f,-280.0f };

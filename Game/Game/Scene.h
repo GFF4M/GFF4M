@@ -5,6 +5,9 @@
 #include "Start.h"
 #include "Load.h"
 #include "Enemy.h"
+#include "Bar.h"
+
+#define ENEMY_NUM 100
 
 class Scene : public IGameObject
 {
@@ -63,9 +66,10 @@ public:
 
 private:
 	SC_Load*	m_load;
-	Enemy*		m_enem;
+	Enemy*		m_enem[ENEMY_NUM];
 	Map*		m_map;
 	SC_Start*	m_start;
+	SC_Bar*		m_bar;
 
 	Scenes		m_scene;
 	LoadStat	m_loadstat;

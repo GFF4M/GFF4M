@@ -23,9 +23,30 @@ public:
 	{
 		return m_position;
 	}
-		float GetRadius()
+
+	float GetRadius()
 	{
 		return m_radius;
+	}
+
+	int GetHP()
+	{
+		return m_hp;
+	}
+
+	int GetMaxHP()
+	{
+		return m_maxhp;
+	}
+
+	int GetMP()
+	{
+		return m_mp;
+	}
+
+	int GetMaxMP()
+	{
+		return m_maxmp;
 	}
 
 	enum AnimationStat{
@@ -50,6 +71,11 @@ private:
 
 	CAnimation				m_animation;						//アニメーション。
 	AnimationStat			m_animationStat;
+
+	int						m_hp;
+	int						m_maxhp;
+	int						m_mp;
+	int						m_maxmp;
 };
 
 extern Player* g_play;

@@ -15,6 +15,11 @@ Player::Player()
 	m_dead = false;
 
 	m_characterController.Init(m_radius, 1.0f, m_position);//キャラクタコントローラの初期化。
+
+	m_hp	= 100;
+	m_maxhp = 100;
+	m_mp	= 100;
+	m_maxmp = 100;
 }
 
 Player::~Player()
@@ -22,7 +27,6 @@ Player::~Player()
 }
 void Player::Start()
 {
-
 	SkinModelDataResources().Load(m_skinModelData, "Assets/modelData/kanoDash2.X", &m_animation);
 
 	m_skinModel.Init(m_skinModelData.GetBody());

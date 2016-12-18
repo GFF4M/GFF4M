@@ -16,7 +16,7 @@ public:
 	/*!
 	* @brief	UpDate()の前に1回だけ呼ばれる。
 	*/
-	void Start();
+	void Start(char* filename, char* enemyname, int maxhp);
 
 	/*!
 	* @brief	更新。
@@ -69,5 +69,16 @@ private:
 	float					m_radius;
 
 	bool					m_dead;
+
+	struct EnemyDat
+	{
+		char*				s_filename;
+		char*				s_name;
+		int					s_hp;
+		int					s_maxhp;
+	};
+
+	EnemyDat				m_enemydat;
+	CRandom					m_random;
 };
 

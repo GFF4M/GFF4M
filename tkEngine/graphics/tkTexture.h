@@ -48,6 +48,10 @@ namespace tkEngine{
 		 * @brief	テクスチャをロード。
 		 */
 		bool Load( const char* fileName );
+		/*!
+		* @brief	テクスチャをロード。
+		*/
+		bool LoadEx(const char* fileName);
 	private:
 		//テクスチャサイズを計算。
 		void ComputeTexSize()

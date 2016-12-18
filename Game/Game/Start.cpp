@@ -16,6 +16,13 @@ SC_Start::~SC_Start()
 
 void SC_Start::Start()
 {
+	//”wŒi
+	m_back_tex.Load("Assets/Sprite/White.png");
+	m_back.Init(&m_back_tex);
+	m_back.SetSize(BACK_MAX_SIZE);
+	m_back.SetPivot({ 0.5f,0.5f });
+	m_back.SetPosition(BACK_POS);
+
 	//ƒ^ƒCƒgƒ‹
 	m_title_tex.Load("Assets/Sprite/Title-1.png");
 	m_title.Init(&m_title_tex);
@@ -24,14 +31,14 @@ void SC_Start::Start()
 	m_title.SetPosition(TITLE_POS);
 
 	//New Game
-	m_newgame_tex.Load("Assets/Sprite/‚Í‚¶‚ß‚©‚ç-2.png");
+	m_newgame_tex.Load("Assets/Sprite/New Game-2.png");
 	m_newgame.Init(&m_newgame_tex);
 	m_newgame.SetSize(NEWGAME_MAX_SIZE);
 	m_newgame.SetPivot({ 0.5f, 0.5f });
 	m_newgame.SetPosition(NEWGAME_POS);
 
 	//Continue
-	m_continue_tex.Load("Assets/Sprite/‚Â‚Ã‚«‚©‚ç-2.png");
+	m_continue_tex.Load("Assets/Sprite/Continue-2.png");
 	m_continue.Init(&m_continue_tex);
 	m_continue.SetSize(CONTINUE_MAX_SIZE);
 	m_continue.SetPivot({ 0.5f,0.5f });
@@ -131,6 +138,7 @@ void SC_Start::SetScene()
 
 void SC_Start::PostRender(CRenderContext& renderContext)
 {
+	m_back.Draw(renderContext);
 	m_continue.Draw(renderContext);
 	m_newgame.Draw(renderContext);
 	m_title.Draw(renderContext);
