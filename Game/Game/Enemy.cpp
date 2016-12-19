@@ -4,7 +4,7 @@
 
 Enemy::Enemy()
 {
-	m_position = { 0.0f,100.0f,10.0f };
+	m_position = { 0.0f,50.0f,15.0f };
 	m_rotation = CQuaternion::Identity;
 	m_scale = { 0.6f,0.6f,0.6f };
 	m_radius = 0.5f;

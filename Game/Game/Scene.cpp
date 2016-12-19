@@ -83,6 +83,7 @@ void Scene::Change(Scenes scenes)
 		g_play = NewGO<Player>(0);
 		m_bar = NewGO<SC_Bar>(0);
 		m_enem_manage = NewGO<EnemyManager>(0);
+		m_enem_manage->Start((EnemyManager::Scenes)STAGE_1_1);
 		break;
 
 	case STAGE_HOUSE:
