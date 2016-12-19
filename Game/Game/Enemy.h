@@ -1,6 +1,6 @@
 #pragma once
 #include "tkEngine/character/tkCharacterController.h"
-class Enemy :public IGameObject
+class Enemy : public IGameObject
 {
 public:
 	/*!
@@ -16,7 +16,7 @@ public:
 	/*!
 	* @brief	UpDate()の前に1回だけ呼ばれる。
 	*/
-	void Start(char* filename, char* enemyname, int maxhp);
+	void Start(char* filename, char* enemyname, int maxhp, float radius);
 
 	/*!
 	* @brief	更新。
@@ -38,15 +38,6 @@ public:
 	*/
 	void Move();
 
-	/*!
-	* @brief	移動限界値設定
-	*			(初期座標を中心とした半径(引数1)だけ動ける)。
-	*/
-	void SetMoveLimit(float lim)
-	{
-		m_movelimit = lim;
-	}
-
 	CVector3 GetPos()
 	{
 		return m_position;
@@ -64,21 +55,16 @@ private:
 	CVector3				m_position;						//座標。
 	CQuaternion				m_rotation;						//回転。
 	CVector3				m_scale;						//拡大。
-	float					m_movelimit;					//移動できる最長範囲
 
 	float					m_radius;
 
 	bool					m_dead;
 
-	struct EnemyDat
-	{
-		char*				s_filename;
-		char*				s_name;
-		int					s_hp;
-		int					s_maxhp;
-	};
+	char*					m_filename;
+	char*					m_name;
+	int						m_hp;
+	int						m_maxhp;
+	float					m_movelim;
 
-	EnemyDat				m_enemydat;
 	CRandom					m_random;
 };
-

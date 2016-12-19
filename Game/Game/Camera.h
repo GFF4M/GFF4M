@@ -53,7 +53,7 @@ private:
 	float					m_scale;
 	
 	CVector3				m_look_position;
-	const	CVector3		DEF_POS = { 0.0f,2.5f,10.0f };
+	const	float			DIST = 10.0f;
 
 	CVector2				m_angle;
 	const	float			ADD_ANGLE = 360.0f / 4.5f;
