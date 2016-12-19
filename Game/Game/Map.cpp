@@ -11,7 +11,7 @@ struct SMapInfo {
 //マップの配置情報。
 SMapInfo mapLocInfo[] = 
 {
-#include "MapData/locationInfo3.h"
+#include "MapData/ooiwa.h"
 };
 
 Map::Map()
