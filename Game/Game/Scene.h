@@ -4,10 +4,12 @@
 #include "Player.h"
 #include "Start.h"
 #include "Load.h"
-#include "Enemy.h"
+#include "EnemyManager.h"
 #include "Bar.h"
 
+
 #define ENEMY_NUM 1
+
 
 class Scene : public IGameObject
 {
@@ -15,8 +17,30 @@ public:
 	enum Scenes
 	{
 		NOSCENES,
+		//スタート画面
 		START,
+		//家
 		STAGE_HOUSE,
+		//風
+		STAGE_1_1,
+		STAGE_1_2,
+		STAGE_1_BOSS,
+		//炎
+		STAGE_2_1,
+		STAGE_2_2,
+		STAGE_2_BOSS,
+		//氷
+		STAGE_3_1,
+		STAGE_3_2,
+		STAGE_3_BOSS,
+		//雷
+		STAGE_4_1,
+		STAGE_4_2,
+		STAGE_4_BOSS,
+		//光
+		STAGE_5_1,
+		STAGE_5_2,
+		STAGE_5_BOSS,
 	};
 
 	enum LoadStat
@@ -65,14 +89,14 @@ public:
 	void Collision();
 
 private:
-	SC_Load*	m_load;
-	Enemy*		m_enem[ENEMY_NUM];
-	Map*		m_map;
-	SC_Start*	m_start;
-	SC_Bar*		m_bar;
+	SC_Load*			m_load;
+	EnemyManager*		m_enem_manage;
+	Map*				m_map;
+	SC_Start*			m_start;
+	SC_Bar*				m_bar;
 
-	Scenes		m_scene;
-	LoadStat	m_loadstat;
+	Scenes				m_scene;
+	LoadStat			m_loadstat;
 };
 
 extern Scene	*g_scene;

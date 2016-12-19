@@ -8,7 +8,7 @@ Camera* g_gameCamera;
 Camera::Camera()
 { 
 	//èâä˙âª
-	m_position = DEF_POS;
+	m_position = { 0.0f,2.5f,0.0f };
 	m_look_position = CVector3::Zero;
 	m_scale = 1.0f;
 	m_angle = { 0.0f,45.0f };
@@ -36,21 +36,20 @@ void Camera::Update()
 
 void Camera::CameraPos()
 {
-	CVector3 posXZ = m_position;
-	posXZ.y = 0.0f;
-
-	float lenXZ = posXZ.Length();
 	CVector3	add_angle;
 	add_angle.x = -Pad(0).GetRStickXF() * ADD_ANGLE * DELTA_TIME;
+	add_angle.y = -Pad(0).GetRStickYF() * ADD_ANGLE * DELTA_TIME;
 	
 	//âÒì]å„ÇÃç¿ïWÇãÅÇﬂÇÈ
 	CVector3	angle_pos = m_position;
-	angle_pos.x = lenXZ * sin(-CMath::DegToRad(m_angle.x + add_angle.x));
-	angle_pos.z = lenXZ * cos(-CMath::DegToRad(m_angle.x + add_angle.x));
+	angle_pos.x = DIST * sin(-CMath::DegToRad(m_angle.x + add_angle.x));
+	angle_pos.y = DIST * sin(CMath::DegToRad(m_angle.y + add_angle.y));
+	angle_pos.z = DIST * cos(-CMath::DegToRad(m_angle.x + add_angle.x));
 
 	m_position = angle_pos;
 
 	m_angle.x += add_angle.x;
+	m_angle.y += add_angle.y;
 
 	//äpìxÇÃê≥ãKâª
 	if (m_angle.x < -180.0f)
@@ -60,6 +59,14 @@ void Camera::CameraPos()
 	else if (180.0f < m_angle.x)
 	{
 		m_angle.x -= 360.0f;
+	}
+	if (m_angle.y < -30.0f)
+	{
+		m_angle.y = -30.0f;
+	}
+	else if (60.0f < m_angle.y)
+	{
+		m_angle.y = 60.0f;
 	}
 
 	//íçéãì_ÇÃïœçX

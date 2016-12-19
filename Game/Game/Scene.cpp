@@ -11,10 +11,8 @@ Scene::Scene()
 	g_play = nullptr;
 	m_map = nullptr;
 	m_start = nullptr;
-	for (int i = 0; i < ENEMY_NUM; i++)
-	{
-		m_enem[i] = nullptr;
-	}
+	m_enem_manage = nullptr;
+
 	m_bar = nullptr;
 	m_scene = NOSCENES;
 	m_loadstat = NOSTAT;
@@ -84,12 +82,7 @@ void Scene::Change(Scenes scenes)
 		}
 		g_play = NewGO<Player>(0);
 		m_bar = NewGO<SC_Bar>(0);
-		for (int i = 0; i < ENEMY_NUM; i++)
-		{
-			m_enem[i] = NewGO<Enemy>(0);
-			m_enem[i]->Start("Player", "Enemy", 100);
-			m_enem[i]->SetMoveLimit(5.0f);
-		}
+		m_enem_manage = NewGO<EnemyManager>(0);
 		break;
 
 	case STAGE_HOUSE:
@@ -115,13 +108,10 @@ void Scene::Change(Scenes scenes)
 			m_bar = nullptr;
 		}
 
-		for (int i = 0; i < ENEMY_NUM; i++)
+		if (m_enem_manage != nullptr)
 		{
-			if (m_enem[i] != nullptr)
-			{
-				m_enem[i]->Delete();
-				m_enem[i] = nullptr;
-			}
+			m_enem_manage->Delete();
+			m_enem_manage = nullptr;
 		}
 
 		m_start = NewGO<SC_Start>(1);
@@ -153,16 +143,16 @@ void Scene::Collision()
 		return;
 	}
 
-	if (m_enem == nullptr)
+	if (m_enem_manage == nullptr)
 	{
 		return;
 	}
-
+	/*
 	for (int i = 0; i < ENEMY_NUM; i++)
 	{
 		CVector3 distance = g_play->GetPos();
 
-		distance.Subtract(m_enem[i]->GetPos());
+		distance.Subtract(m_enem_manage->GetPos());
 
 		if (distance.Length() <= g_play->GetRadius() + m_enem[i]->GetRadius() + 0.05f)
 		{
@@ -180,5 +170,5 @@ void Scene::Collision()
 			m_enem[i] = NewGO<Enemy>(0);
 			m_enem[i]->Start("Player", "Enemy", 100);
 		}
-	}
+	}*/
 }

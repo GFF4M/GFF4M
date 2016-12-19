@@ -12,6 +12,7 @@ struct SMapInfo {
 SMapInfo mapLocInfo[] = 
 {
 
+
 #include "MapData/sougen2.h"
 
 };
