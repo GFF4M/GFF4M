@@ -7,7 +7,7 @@
 #include "Enemy.h"
 #include "Bar.h"
 
-#define ENEMY_NUM 100
+#define ENEMY_NUM 1
 
 class Scene : public IGameObject
 {

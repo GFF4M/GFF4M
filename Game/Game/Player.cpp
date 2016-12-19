@@ -7,7 +7,7 @@ Player *g_play;
 Player::Player()
 {
 	m_angle = 0.0f;
-	m_position = { 0.0f,15.0f,0.0f };
+	m_position = { 0.0f,30.0f,0.0f };
 	m_scale = {0.7f,0.7f,0.7f };
 	m_rotation = CQuaternion::Identity;
 	m_animationStat = AnimationStand;
