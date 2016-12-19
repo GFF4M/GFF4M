@@ -33,5 +33,6 @@ public:
 
 private:
 	MapChip*		m_mapchip[100];
+	bool			m_dead;
 };
 

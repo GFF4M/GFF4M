@@ -40,5 +40,7 @@ private:
 	CSkinModelData			m_skinModelData;	//スキンモデルデータ。
 	CMeshCollider			m_meshCollider;		//メッシュコライダー。
 	CRigidBody				m_rigidBody;		//剛体。
+
+	bool					m_dead;
 };
 

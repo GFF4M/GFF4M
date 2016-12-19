@@ -7,10 +7,19 @@ Player *g_play;
 Player::Player()
 {
 	m_angle = 0.0f;
-	m_position = /*CVector3::Zero*/{ 0.0f,30.0f,0.0f };
+	m_position = { 0.0f,15.0f,0.0f };
+	m_scale = {0.7f,0.7f,0.7f };
 	m_rotation = CQuaternion::Identity;
 	m_animationStat = AnimationStand;
-	m_characterController.Init(0.5f, 1.0f, m_position);//キャラクタコントローラの初期化。
+	m_radius = 0.5f;
+	m_dead = false;
+
+	m_characterController.Init(m_radius, 1.0f, m_position);//キャラクタコントローラの初期化。
+
+	m_hp	= 100;
+	m_maxhp = 100;
+	m_mp	= 100;
+	m_maxmp = 100;
 }
 
 Player::~Player()
@@ -19,7 +28,6 @@ Player::~Player()
 
 void Player::Start()
 {
-
 	SkinModelDataResources().Load(m_skinModelData, "Assets/modelData/kanoDash2.X", &m_animation);
 
 	m_skinModel.Init(m_skinModelData.GetBody());
@@ -31,6 +39,11 @@ void Player::Start()
 
 void Player::Update()
 {
+	if (m_dead)
+	{
+		m_characterController.RemoveRigidBoby();
+		DeleteGO(this);
+	}
 
 	if (Pad(0).IsTrigger(enButtonA))
 	{
@@ -42,9 +55,9 @@ void Player::Update()
 	m_animation.Update(2.0 / 60.0f);
 
 	//ワールド行列の更新。
-	m_skinModel.Update(m_position,m_rotation, CVector3::One);
-
+	m_skinModel.Update(m_position,m_rotation, m_scale);
 }
+
 
 void Player::Move()
 {
@@ -77,7 +90,7 @@ void Player::Move()
 		}
 	
 		//カメラによる補正
-		m_angle -= g_gameCamera->GetAngle();
+		m_angle -= g_gameCamera->GetAngle().x;
 
 		//回転した方向に移動
 		move.x = LenXZ * sin(CMath::DegToRad(m_angle));
@@ -126,6 +139,5 @@ void Player::Render(CRenderContext& renderContext)
 
 void Player::Delete()
 {
-	m_characterController.RemoveRigidBoby();
-	DeleteGO(this);
+	m_dead = true;
 }

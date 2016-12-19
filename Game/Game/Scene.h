@@ -5,6 +5,9 @@
 #include "Start.h"
 #include "Load.h"
 #include "Enemy.h"
+#include "Bar.h"
+
+#define ENEMY_NUM 100
 
 class Scene : public IGameObject
 {
@@ -56,17 +59,6 @@ public:
 	*/
 	void Change(Scenes scenes);
 
-
-	/*!
-	* @brief	データ削除。
-	*/
-	template<class T>
-	void DeleteDat(T* ClassT)
-	{
-		ClassT->Delete();
-		ClassT = nullptr;
-	}
-
 	/*!
 	* @brief	プレイヤと敵とのあたり判定。
 	*/
@@ -74,10 +66,10 @@ public:
 
 private:
 	SC_Load*	m_load;
-	Player*		m_play;
-	Enemy*		m_enem;
+	Enemy*		m_enem[ENEMY_NUM];
 	Map*		m_map;
 	SC_Start*	m_start;
+	SC_Bar*		m_bar;
 
 	Scenes		m_scene;
 	LoadStat	m_loadstat;

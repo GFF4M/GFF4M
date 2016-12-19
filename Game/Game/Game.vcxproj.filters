@@ -24,11 +24,11 @@
     <ClCompile Include="Load.cpp">
       <Filter>Screen\Load</Filter>
     </ClCompile>
-    <ClCompile Include="ModelHandle.cpp">
-      <Filter>ModelHandle</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Bar.cpp">
+      <Filter>Screen\Hud\Bar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -54,11 +54,11 @@
     <ClInclude Include="Load.h">
       <Filter>Screen\Load</Filter>
     </ClInclude>
-    <ClInclude Include="ModelHandle.h">
-      <Filter>ModelHandle</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Bar.h">
+      <Filter>Screen\Hud\Bar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -83,11 +83,14 @@
     <Filter Include="Screen\Load">
       <UniqueIdentifier>{77e8ae30-2a40-47b9-87cd-e77c2696db4e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ModelHandle">
-      <UniqueIdentifier>{cae30e64-a128-4282-80a9-4387686b59d7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Enemy">
       <UniqueIdentifier>{5819d706-e01f-49e3-9582-8d348008b11e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screen\Hud">
+      <UniqueIdentifier>{0a398202-c926-4e04-9ad4-a6dce0c75313}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screen\Hud\Bar">
+      <UniqueIdentifier>{9872acbd-52c6-43cb-8501-64fe780abcc9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

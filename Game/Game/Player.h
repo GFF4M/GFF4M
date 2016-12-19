@@ -24,6 +24,30 @@ public:
 		return m_position;
 	}
 
+	float GetRadius()
+	{
+		return m_radius;
+	}
+
+	int GetHP()
+	{
+		return m_hp;
+	}
+
+	int GetMaxHP()
+	{
+		return m_maxhp;
+	}
+
+	int GetMP()
+	{
+		return m_mp;
+	}
+
+	int GetMaxMP()
+	{
+		return m_maxmp;
+	}
 
 	enum AnimationStat{
 		AnimationStand,
@@ -37,11 +61,21 @@ private:
 	CSkinModelDataHandle	m_skinModelData;				//スキンモデルデータハンドル。
 	CCharacterController	m_characterController;			//キャラクタ―コントローラー。
 	CVector3				m_position;						//座標。
+	CVector3				m_scale;
 	CQuaternion				m_rotation;						//回転。
 	float					m_angle;						//角度。
-	
+
+	float					m_radius;
+
+	bool					m_dead;
+
 	CAnimation				m_animation;						//アニメーション。
 	AnimationStat			m_animationStat;
+
+	int						m_hp;
+	int						m_maxhp;
+	int						m_mp;
+	int						m_maxmp;
 };
 
 extern Player* g_play;

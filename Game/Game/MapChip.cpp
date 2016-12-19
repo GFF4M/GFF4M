@@ -4,6 +4,7 @@
 
 MapChip::MapChip()
 {
+	m_dead = false;
 }
 
 
@@ -46,7 +47,14 @@ void MapChip::Start(const char* modelName, CVector3 position, CQuaternion rotati
 
 void MapChip::Update()
 {
-	//èâä˙âªÇÃéûÇ…çÏê¨ÇµÇƒÇ¢ÇÈÇÃÇ≈âΩÇ‡ÇµÇ»Ç¢ÅB
+	if (m_dead)
+	{
+		m_skinModel.SetShadowCasterFlag(false);
+		PhysicsWorld().RemoveRigidBody(&m_rigidBody);
+		m_rigidBody.Release();
+
+		DeleteGO(this);
+	}
 }
 
 void MapChip::Render(CRenderContext& renderContext)
@@ -57,9 +65,5 @@ void MapChip::Render(CRenderContext& renderContext)
 
 void MapChip::Delete()
 {
-	m_skinModel.SetShadowCasterFlag(false);
-	PhysicsWorld().RemoveRigidBody(&m_rigidBody);
-	m_rigidBody.Release();
-
-	DeleteGO(this);
+	m_dead = true;
 }

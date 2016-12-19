@@ -16,7 +16,7 @@ public:
 	/*!
 	* @brief	UpDate()の前に1回だけ呼ばれる。
 	*/
-	void Start();
+	void Start(char* filename, char* enemyname, int maxhp);
 
 	/*!
 	* @brief	更新。
@@ -52,6 +52,11 @@ public:
 		return m_position;
 	}
 
+	float GetRadius()
+	{
+		return m_radius;
+	}
+
 private:
 	CSkinModel				m_skinModel;					//スキンモデル。
 	CSkinModelDataHandle	m_skinModelData;				//スキンモデルデータ。
@@ -59,6 +64,21 @@ private:
 	CVector3				m_position;						//座標。
 	CQuaternion				m_rotation;						//回転。
 	CVector3				m_scale;						//拡大。
-	float					m_movelimit;					//移動できる最長範囲	
+	float					m_movelimit;					//移動できる最長範囲
+
+	float					m_radius;
+
+	bool					m_dead;
+
+	struct EnemyDat
+	{
+		char*				s_filename;
+		char*				s_name;
+		int					s_hp;
+		int					s_maxhp;
+	};
+
+	EnemyDat				m_enemydat;
+	CRandom					m_random;
 };
 
