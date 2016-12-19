@@ -2,7 +2,8 @@
 
 #include "Enemy.h"
 
-#define ENEMY_NUM 10
+#define ENEMY_NUM 1
+#define ENEMY_DAT 2
 
 class EnemyManager : public IGameObject
 {
@@ -79,10 +80,12 @@ public:
 private:
 	Enemy*					m_enemy[ENEMY_NUM];
 
-	const Enemies			m_enemiesdat[2] =
+	const Enemies			m_enemiesdat[ENEMY_DAT] =
 	{ 
-		{	STAGE_1_1,	"dog","“G",100,2.0f  },
-		{	STAGE_1_1,	"Player","“G",100,2.0f },
+		{	STAGE_1_1,	"dog","“G",100,5.0f  },
+		{	STAGE_1_1,	"Player","“G",100,0.5f },
 	};
+
+	CRandom					m_random;
 };
 
