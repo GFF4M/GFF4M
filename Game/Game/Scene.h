@@ -8,6 +8,7 @@
 #include "Bar.h"
 
 #define CHANGEDAT_NUM 47
+
 class Scene : public IGameObject
 {
 public:

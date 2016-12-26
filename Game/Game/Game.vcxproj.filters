@@ -24,13 +24,14 @@
     <ClCompile Include="Load.cpp">
       <Filter>Screen\Load</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Bar.cpp">
       <Filter>Screen\Hud\Bar</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="Enemy.cpp">
+=======
     <ClCompile Include="EnemyManager.cpp">
+>>>>>>> c94979afb5bde3c6ae9f89f85df6685c1063d166
       <Filter>Enemy</Filter>
     </ClCompile>
   </ItemGroup>
@@ -57,13 +58,14 @@
     <ClInclude Include="Load.h">
       <Filter>Screen\Load</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Bar.h">
       <Filter>Screen\Hud\Bar</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="Enemy.h">
+=======
     <ClInclude Include="EnemyManager.h">
+>>>>>>> c94979afb5bde3c6ae9f89f85df6685c1063d166
       <Filter>Enemy</Filter>
     </ClInclude>
     <ClInclude Include="EnumDat.h">

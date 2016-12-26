@@ -12,52 +12,31 @@
 	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ), //回転
 	CVector3(1.00f, 1.00f, 1.00f),             //スケール
 },
-//saku
+//ooiwa
 {
-	"saku",
-	CVector3(9.16f, 13.70f, -9.21f),             //平行移動
-	CQuaternion(0.00f, 0.00f, 0.00f, 1.00f ), //回転
-	CVector3(0.06f, 0.05f, 0.06f),             //スケール
+	"ooiwa",
+	CVector3(-20.04f, 20.60f, 29.77f),             //平行移動
+	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ), //回転
+	CVector3(0.12f, 0.12f, 0.12f),             //スケール
 },
-//saku
+//ooiwa
 {
-	"saku",
-	CVector3(26.00f, 13.70f, -9.21f),             //平行移動
-	CQuaternion(0.00f, 0.00f, 0.00f, 1.00f ), //回転
-	CVector3(0.06f, 0.05f, 0.06f),             //スケール
+	"ooiwa",
+	CVector3(20.20f, 7.10f, 4.85f),             //平行移動
+	CQuaternion(-0.60f, -0.38f, -0.38f, 0.60f ), //回転
+	CVector3(0.19f, 0.19f, 0.19f),             //スケール
 },
-//saku
+//kaminari
 {
-	"saku",
-	CVector3(-9.09f, 13.78f, -9.21f),             //平行移動
-	CQuaternion(0.00f, 0.00f, 0.00f, 1.00f ), //回転
-	CVector3(0.06f, 0.05f, 0.06f),             //スケール
+	"kaminari",
+	CVector3(-11.00f, 18.10f, -10.92f),             //平行移動
+	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ), //回転
+	CVector3(1.00f, 1.00f, 1.00f),             //スケール
 },
-//saku
+//Flag
 {
-	"saku",
-	CVector3(-9.09f, 20.79f, -9.21f),             //平行移動
-	CQuaternion(0.00f, 0.00f, 0.00f, 1.00f ), //回転
-	CVector3(0.06f, 0.05f, 0.06f),             //スケール
-},
-//saku
-{
-	"saku",
-	CVector3(-9.07f, 18.61f, -9.21f),             //平行移動
-	CQuaternion(0.00f, 0.00f, 0.00f, 1.00f ), //回転
-	CVector3(0.06f, 0.05f, 0.06f),             //スケール
-},
-//saku
-{
-	"saku",
-	CVector3(-9.09f, 16.07f, -9.21f),             //平行移動
-	CQuaternion(0.00f, 0.00f, 0.00f, 1.00f ), //回転
-	CVector3(0.06f, 0.05f, 0.06f),             //スケール
-},
-//kaminari2
-{
-	"kaminari2",
-	CVector3(-26.30f, 9.36f, -31.20f),             //平行移動
-	CQuaternion(-0.69f, 0.13f, 0.13f, 0.69f ), //回転
-	CVector3(1.54f, 1.42f, 1.14f),             //スケール
+	"Flag",
+	CVector3(-0.10f, 15.30f, 34.66f),             //平行移動
+	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ), //回転
+	CVector3(0.14f, 0.35f, 0.41f),             //スケール
 },

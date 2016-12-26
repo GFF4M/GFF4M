@@ -11,7 +11,7 @@ struct SMapInfo {
 //マップの配置情報。
 SMapInfo mapLocInfo[] = 
 {
-#include "MapData/icestage.h"
+#include "MapData/sougen2.h"
 };
 
 Map::Map()
