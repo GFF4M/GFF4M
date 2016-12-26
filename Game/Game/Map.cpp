@@ -15,6 +15,7 @@ SMapInfo mapLocInfo[] =
 
 #include "MapData/sougen3.h"
 
+
 };
 
 Map::Map()

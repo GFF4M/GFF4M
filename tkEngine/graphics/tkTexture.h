@@ -51,7 +51,7 @@ namespace tkEngine{
 		/*!
 		* @brief	テクスチャをロード。
 		*/
-		bool LoadEx(const char* fileName);
+		bool LoadEx(const char* fileName , unsigned int color);
 	private:
 		//テクスチャサイズを計算。
 		void ComputeTexSize()

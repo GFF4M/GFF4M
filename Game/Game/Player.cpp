@@ -2,12 +2,15 @@
 #include "Player.h"
 #include "Camera.h"
 
+
 Player *g_play;
 CRandom random;
+
 Player::Player()
 {
 	m_angle = 0.0f;
-	m_position = { 0.0f,1.0f,0.0f };
+	m_position = { 0.0f,30.0f,0.0f };
+	m_look_pos = { 0.0f,2.0f,0.0f };
 	m_scale = {0.7f,0.7f,0.7f };
 	m_rotation = CQuaternion::Identity;
 	m_animationStat = AnimationStand;
@@ -78,7 +81,13 @@ void Player::Update()
 		//	{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
 		//},
 		//	m_position);
-	
+
+	if (Pad(0).IsTrigger(enButtonA))
+	{
+		m_animation.PlayAnimation(AnimationAttack,0.3f);
+		m_animationStat = AnimationAttack;
+	}
+
 
 	Move();
 
@@ -150,6 +159,9 @@ void Player::Move()
 	{
 		m_characterController.Jump();
 		move.y = 8.0f;
+
+		m_animation.PlayAnimation(AnimationAttack, 0.3f);
+		m_animationStat = AnimationAttack;
 	}
 
 	//決定した移動速度をキャラクタコントローラーに設定。

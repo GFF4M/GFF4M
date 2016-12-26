@@ -24,6 +24,8 @@ using namespace tkEngine;
 #include "tkEngine/graphics/sprite/tkSprite.h"
 #include "tkEngine/particle/tkParticleEmitter.h"
 
+#include "EnumDat.h"
+
 extern CLight g_defaultLight;	//デフォルトライト。
 
 #endif // _STDAFX_H_
