@@ -2,12 +2,11 @@
 #include "Player.h"
 #include "Camera.h"
 
-Player *g_play;
-
 Player::Player()
 {
 	m_angle = 0.0f;
-	m_position = { 0.0f,15.0f,0.0f };
+	m_position = CVector3::Zero;
+	m_look_pos = { 0.0f,2.0f,0.0f };
 	m_scale = {0.7f,0.7f,0.7f };
 	m_rotation = CQuaternion::Identity;
 	m_animationStat = AnimationStand;

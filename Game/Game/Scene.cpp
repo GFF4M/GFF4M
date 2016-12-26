@@ -8,14 +8,16 @@ Scene::Scene()
 {
 	//メンバ変数初期化
 	m_load = nullptr;
-	g_play = nullptr;
+	m_play = nullptr;
 	m_map = nullptr;
 	m_start = nullptr;
 	m_enem_manage = nullptr;
 
 	m_bar = nullptr;
 	m_scene = NOSCENES;
-	m_loadstat = NOSTAT;
+	m_loadstat = LS_NOSTAT;
+
+	m_cameraTarget = CT_PLAYER;
 }
 
 Scene::~Scene()
@@ -30,6 +32,35 @@ void Scene::Start()
 
 void Scene::Update()
 {
+	if (Pad(0).IsTrigger(enButtonLB1))
+	{
+		switch (m_cameraTarget)
+		{
+		case CT_PLAYER:
+			m_cameraTarget = CT_ENEMY;
+			break;
+		case CT_ENEMY:
+			m_cameraTarget = CT_PLAYER;
+			break;
+		default:
+			break;
+		}
+	}
+
+	if (Pad(0).IsTrigger(enButtonA))
+	{
+		if (m_scene == STAGE_HOUSE)
+		{
+			Change(STAGE_1_1);
+		}
+		else if (m_scene == STAGE_1_1)
+		{
+			Change(STAGE_1_2);
+		}
+	}
+
+	g_gameCamera->SetTarget(m_cameraTarget);
+
 	//ロード画面を表示するか？
 	Collision();
 	LoadCheck();
@@ -38,7 +69,7 @@ void Scene::Update()
 void Scene::LoadCheck()
 {
 	//ロード画面を出さないなら早期リターン
-	if (m_loadstat == NOSTAT)
+	if (m_loadstat == LS_NOSTAT)
 	{
 		return;
 	}
@@ -46,21 +77,21 @@ void Scene::LoadCheck()
 	switch (m_loadstat)
 	{
 	//ロード開始
-	case LOADSTART:
+	case LS_LOADSTART:
 		m_load = NewGO<SC_Load>(0);
-		m_loadstat = LOADING;
+		m_loadstat = LS_LOADING;
 		break;
 
 	//ロード中
-	case LOADING:
-		m_loadstat = LOADFIN;
+	case LS_LOADING:
+		m_loadstat = LS_LOADFIN;
 		break;
 
 	//ロード終了
-	case LOADFIN:
+	case LS_LOADFIN:
 		m_load->Delete();
 		m_load = nullptr;
-		m_loadstat = NOSTAT;
+		m_loadstat = LS_NOSTAT;
 		break;
 
 	default:
@@ -70,84 +101,126 @@ void Scene::LoadCheck()
 
 void Scene::Change(Scenes scenes)
 {
-	switch (m_scene)
+	bool found = false;
+	ChangeDat dat;
+
+	//切り替え可能か調べる
+	for each(ChangeDat ch_dat in m_changedat)
 	{
-	case NOSTAT:
-		break;
-	case START:
-		if (m_start != nullptr)
+		if (m_scene == ch_dat.s_now_scene && scenes == ch_dat.s_move_scene)
 		{
-			m_start->Delete();
-			m_start = nullptr;
+			dat = ch_dat;
+			found = true;
+			break;
 		}
-		g_play = NewGO<Player>(0);
-		m_bar = NewGO<SC_Bar>(0);
-		m_enem_manage = NewGO<EnemyManager>(0);
-		m_enem_manage->Start((EnemyManager::Scenes)STAGE_1_1);
-		break;
+	}
 
-	case STAGE_HOUSE:
-		if (m_map != nullptr)
-		{
-			m_map->Delete();
-			m_map = nullptr;
-		}
-		break;
+	//見つからなかった
+	if (!found)
+	{
+		return;
+	}
 
+	//スタートのデータ更新
+	switch (dat.s_change_start)
+	{
+	case CS_ADD:
+		m_start = NewGO<SC_Start>(1);
+		break;
+	case CS_DELETE:
+		m_start->Delete();
+		m_start = nullptr;
+		break;
 	default:
 		break;
 	}
 
+	//プレイヤのデータ更新
+	switch (dat.s_change_player)
+	{
+	case CS_ADD:
+		m_play = NewGO<Player>(0);
+		break;
+	case CS_DELETE:
+		m_play->Delete();
+		m_play = nullptr;
+		break;
+	default:
+		break;
+	}
+
+	bool isBattle;
+
+	//戦闘用フィールドへの遷移か調べる
 	switch (scenes)
 	{
-	case START:
-		if (g_play != nullptr)
-		{
-			g_play->Delete();
-			g_play = nullptr;
-			m_bar->Delete();
-			m_bar = nullptr;
-		}
-
-		if (m_enem_manage != nullptr)
-		{
-			m_enem_manage->Delete();
-			m_enem_manage = nullptr;
-		}
-
-		m_start = NewGO<SC_Start>(1);
-		g_gameCamera->SetTarget(Camera::Target::NOTARGET);
+	case STAGE_1_BATTLE:
+	case STAGE_2_BATTLE:
+	case STAGE_3_BATTLE:
+	case STAGE_4_BATTLE:
+	case STAGE_5_BATTLE:
+	case STAGE_1_BOSS_BATTLE:
+	case STAGE_2_BOSS_BATTLE:
+	case STAGE_3_BOSS_BATTLE:
+	case STAGE_4_BOSS_BATTLE:
+	case STAGE_5_BOSS_BATTLE:
+		isBattle = true;
 		break;
-
-	case STAGE_HOUSE:
-		m_map = NewGO<Map>(0);
-		g_gameCamera->SetTarget(Camera::Target::PLAYER);
+	default:
+		isBattle = false;
 		break;
+	}
 
+	//エネミーのデータ更新
+	switch (dat.s_change_enemy)
+	{
+	case CS_ADD:
+		m_enem_manage = NewGO<EnemyManager>(0);
+		m_enem_manage->Change(scenes, isBattle);
+		break;
+	case CS_CHANGE:
+		break;
 	default:
 		break;
 	}
-	m_scene = scenes;
 
-	if (m_loadstat == NOSTAT)
+	//マップのデータ更新
+	switch (dat.s_change_map)
 	{
-		m_loadstat = LOADSTART;
+	case CS_ADD:
+		m_map = NewGO<Map>(0);
+		break;
+	case CS_CHANGE:
+		break;
+	case CS_DELETE:
+		m_map->Delete();
+		m_map = nullptr;
+		break;
+	default:
+		break;
 	}
 
-	LoadCheck();
+	m_scene = scenes;
+
+	//ロード画面開始
+	if (m_loadstat == LS_NOSTAT)
+	{
+		m_loadstat = LS_LOADSTART;
+	}
+
+	if (m_play != nullptr)
+	{
+		m_play->SetPos(dat.s_next_pos);
+	}
 }
 
 void Scene::Collision()
 {
-	if (g_play == nullptr)
+	if (m_play == nullptr)
 	{
 		return;
 	}
 
-	if (m_enem_manage == nullptr)
-	{
-		return;
-	}
 	/*
 	for (int i = 0; i < ENEMY_NUM; i++)
 	{

@@ -66,6 +66,9 @@
     <ClInclude Include="EnemyManager.h">
       <Filter>Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="EnumDat.h">
+      <Filter>EnumDat</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Camera">
@@ -97,6 +100,9 @@
     </Filter>
     <Filter Include="Screen\Hud\Bar">
       <UniqueIdentifier>{9872acbd-52c6-43cb-8501-64fe780abcc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EnumDat">
+      <UniqueIdentifier>{b13c0284-97fb-416a-a477-1048a42096b9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

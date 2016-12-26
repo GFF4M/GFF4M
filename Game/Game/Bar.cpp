@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Bar.h"
 #include "Player.h"
+#include "Scene.h"
 
 
 SC_Bar::SC_Bar()
@@ -34,14 +35,14 @@ void SC_Bar::Start()
 	m_Gauge.SetPivot({ 0.0f, 0.5f });
 	m_Gauge.SetPosition(GAUGE_POS);
 
-	m_LastFrame = g_play->GetHP();
+	m_LastFrame = g_scene->GetPlayer()->GetHP();
 }
 
 void SC_Bar::Update()
 {
 	//プレイヤーの残HPに応じてＨＰバーのサイズを変える。
 
-	float Rate = (float)g_play->GetHP() / (float)g_play->GetMaxHP();
+	float Rate = (float)g_scene->GetPlayer()->GetHP() / (float)g_scene->GetPlayer()->GetMaxHP();
 	CVector2 size = BAR_MAX_SIZE;
 	size.x *= Rate;
 	m_Bar.SetSize(size);
@@ -64,18 +65,18 @@ void SC_Bar::Update()
 		m_BarBack.SetSize(sizeHPBack);
 	}break;
 	case STATE_NORMAL:
-		if (m_LastFrame > g_play->GetHP()) {
+		if (m_LastFrame > g_scene->GetPlayer()->GetHP()) {
 			//ダメージを受けた。
 			m_state = STATE_DAMAGEWAIT;
 			m_timer = 0.0f;
 		}
-		else if (m_LastFrame < g_play->GetHP()) {
+		else if (m_LastFrame < g_scene->GetPlayer()->GetHP()) {
 			//回復している。
 			m_BarBack.SetSize(size);
 		}
 		break;
 	}
-	m_LastFrame = g_play->GetHP();
+	m_LastFrame = g_scene->GetPlayer()->GetHP();
 }
 
 void SC_Bar::PostRender(CRenderContext& renderContext)

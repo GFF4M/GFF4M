@@ -43,13 +43,6 @@ namespace tkEngine{
 			m_position = pos;
 		}
 		/*!
-		* @brief	”¼Œa‚ğİ’èB
-		*/
-		void SetRadius(float radius)
-		{
-			m_radius = radius;
-		}
-		/*!
 		 * @brief	ˆÚ“®‘¬“x‚ğİ’èB
 		 */
 		void SetMoveSpeed(const CVector3& speed )

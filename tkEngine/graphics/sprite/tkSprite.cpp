@@ -80,6 +80,10 @@ namespace tkEngine{
 		mTrans.MakeTranslation(trans);
 		mWorld.Mul(mWorld, mTrans);
 
+		renderContext.SetRenderState(RS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+		renderContext.SetRenderState(RS_ALPHABLENDENABLE, true);
+
 		m_effect->Begin(renderContext);
 		m_effect->BeginPass(renderContext, 0);
 		m_effect->SetTechnique(renderContext, "SpriteTexture");
@@ -92,5 +96,7 @@ namespace tkEngine{
 		renderContext.DrawIndexedPrimitive(&m_primitive);
 		m_effect->EndPass(renderContext);
 		m_effect->End(renderContext);
+
+		renderContext.SetRenderState(RS_DESTBLEND, D3DBLEND_ZERO);
 	}
 }

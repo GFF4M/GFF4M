@@ -22,4 +22,28 @@ namespace tkEngine {
 		ComputeTexSize();
 		return true;
 	}
+	bool CTexture::LoadEx(const char* fileName, unsigned int color)
+	{
+		LPDIRECT3DDEVICE9 device = Engine().GetD3DDevice();
+		if (FAILED(D3DXCreateTextureFromFileEx(
+			device,
+			fileName,
+			0,
+			0,
+			0,
+			0,
+			D3DFMT_UNKNOWN,
+			D3DPOOL_DEFAULT,
+			D3DX_DEFAULT,
+			D3DX_FILTER_NONE,
+			color,
+			NULL,
+			NULL,
+			&m_tex))) {
+			TK_LOG("FailedTextureLoad");
+			return false;
+		}
+		ComputeTexSize();
+		return true;
+	}
 }

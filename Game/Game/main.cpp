@@ -72,6 +72,7 @@ int WINAPI wWinMain(
 	int nCmdShow
 	)
 {
+
 	//tkEngine‚Ì‰Šú‰»B
 	InitTkEngine( hInst );
 	

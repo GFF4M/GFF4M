@@ -17,28 +17,28 @@ SC_Start::~SC_Start()
 void SC_Start::Start()
 {
 	//”wŒi
-	m_back_tex.Load("Assets/Sprite/White.png");
+	m_back_tex.Load("Assets/Sprite/Yellow.png");
 	m_back.Init(&m_back_tex);
 	m_back.SetSize(BACK_MAX_SIZE);
 	m_back.SetPivot({ 0.5f,0.5f });
 	m_back.SetPosition(BACK_POS);
 
 	//ƒ^ƒCƒgƒ‹
-	m_title_tex.Load("Assets/Sprite/Title-1.png");
+	m_title_tex.LoadEx("Assets/Sprite/Title-A.png",0);
 	m_title.Init(&m_title_tex);
 	m_title.SetSize(TITLE_MAX_SIZE);
 	m_title.SetPivot({ 0.5f,0.5f });
 	m_title.SetPosition(TITLE_POS);
 
 	//New Game
-	m_newgame_tex.Load("Assets/Sprite/New Game-2.png");
+	m_newgame_tex.LoadEx("Assets/Sprite/New Game-A.png",0);
 	m_newgame.Init(&m_newgame_tex);
 	m_newgame.SetSize(NEWGAME_MAX_SIZE);
 	m_newgame.SetPivot({ 0.5f, 0.5f });
 	m_newgame.SetPosition(NEWGAME_POS);
 
 	//Continue
-	m_continue_tex.Load("Assets/Sprite/Continue-2.png");
+	m_continue_tex.LoadEx("Assets/Sprite/Continue-A.png", 0);
 	m_continue.Init(&m_continue_tex);
 	m_continue.SetSize(CONTINUE_MAX_SIZE);
 	m_continue.SetPivot({ 0.5f,0.5f });
@@ -126,10 +126,10 @@ void SC_Start::SetScene()
 	switch (m_tex_num)
 	{
 	case NEWGAME:
-		g_scene->Change(Scene::Scenes::STAGE_HOUSE);
+		g_scene->Change(STAGE_HOUSE);
 		break;
 	case CONTINUE:
-		g_scene->Change(Scene::Scenes::STAGE_HOUSE);
+		g_scene->Change(STAGE_HOUSE);
 		break;
 	default:
 		break;

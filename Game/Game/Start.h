@@ -72,7 +72,7 @@ private:
 	TexNum		m_tex_num;
 
 	const CVector2	BACK_POS			= { 0.0f, 0.0f };
-	const CVector2	BACK_MAX_SIZE		= { 200.0f, 200.0f };
+	const CVector2	BACK_MAX_SIZE		= { 1500.0f, 1000.0f };
 
 	const CVector2	NEWGAME_POS			= { 0.0f, -100.0f };
 	const CVector2	NEWGAME_MAX_SIZE	= { 230.0f, 80.0f };

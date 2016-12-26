@@ -13,7 +13,9 @@ Camera::Camera()
 	m_scale = 1.0f;
 	m_angle = { 0.0f,45.0f };
 
-	m_target = NOTARGET;
+	m_target = CT_NOTARGET;
+
+	m_rotation = true;
 }
 
 Camera::~Camera()
@@ -29,6 +31,20 @@ void Camera::Start()
 
 void Camera::Update()
 {
+	if (Pad(0).IsTrigger(enButtonRB3))
+	{
+		m_rotation = !m_rotation;
+	}
+
+	if (m_rotation)
+	{
+		Rotation();
+	}
+	else
+	{
+		Zoom();
+	}
+
 	CameraPos();
 
 	m_camera.Update();
@@ -36,17 +52,51 @@ void Camera::Update()
 
 void Camera::CameraPos()
 {
+	//カメラ座標を求める
+	CVector3	angle_pos = CVector3::Zero;
+	angle_pos.x = sin(-CMath::DegToRad(m_angle.x));
+	angle_pos.y = sin(CMath::DegToRad(m_angle.y));
+	angle_pos.z = cos(-CMath::DegToRad(m_angle.x));
+	angle_pos.Scale(m_scale);
+	m_position = angle_pos;
+
+	//注視点の変更
+	CVector3 camera_pos = CVector3::Zero;
+	if (g_scene->GetPlayer() == nullptr)
+	{
+		SetTarget(CT_NOTARGET);
+	}
+
+	switch (m_target)
+	{
+	case CT_NOTARGET:
+		m_look_position = CVector3::Zero;
+		break;
+	case CT_PLAYER:
+		camera_pos = g_scene->GetPlayer()->GetLookPos();
+		camera_pos.Add(m_position);
+		m_look_position = g_scene->GetPlayer()->GetLookPos();
+		break;
+	case CT_ENEMY:
+		camera_pos = g_scene->GetPlayer()->GetLookPos();
+		camera_pos.Add(m_position);
+		m_look_position = g_scene->GetPlayer()->GetLookPos();
+		break;
+	default:
+		break;
+	}
+
+	camera_pos.Add(m_position);
+	m_camera.SetPosition(camera_pos);
+	m_camera.SetTarget(m_look_position);
+
+}
+
+void Camera::Rotation()
+{
 	CVector3	add_angle;
 	add_angle.x = -Pad(0).GetRStickXF() * ADD_ANGLE * DELTA_TIME;
 	add_angle.y = -Pad(0).GetRStickYF() * ADD_ANGLE * DELTA_TIME;
-	
-	//回転後の座標を求める
-	CVector3	angle_pos = m_position;
-	angle_pos.x = DIST * sin(-CMath::DegToRad(m_angle.x + add_angle.x));
-	angle_pos.y = DIST * sin(CMath::DegToRad(m_angle.y + add_angle.y));
-	angle_pos.z = DIST * cos(-CMath::DegToRad(m_angle.x + add_angle.x));
-
-	m_position = angle_pos;
 
 	m_angle.x += add_angle.x;
 	m_angle.y += add_angle.y;
@@ -68,30 +118,19 @@ void Camera::CameraPos()
 	{
 		m_angle.y = 60.0f;
 	}
+}
 
-	//注視点の変更
-	CVector3 camera_pos = CVector3::Zero;
-	if (g_play == nullptr)
+void Camera::Zoom()
+{
+	m_scale += -Pad(0).GetRStickYF() * ADD_SCALE * DELTA_TIME;
 
+	//スケールの正規化
+	if (m_scale < 0.5f)
 	{
-		SetTarget(NOTARGET);
+		m_scale = 0.5f;
 	}
-
-	switch (m_target)
+	else if (m_scale > 10.0f)
 	{
-	case NOTARGET:
-		m_look_position = CVector3::Zero;
-		break;
-	case PLAYER:
-		camera_pos = g_play->GetPos();
-		m_look_position = g_play->GetPos();
-		break;
-	default:
-		break;
+		m_scale = 10.0f;
 	}
-
-	camera_pos.Add(m_position);
-	m_camera.SetPosition(camera_pos);
-	m_camera.SetTarget(m_look_position);
-
 }

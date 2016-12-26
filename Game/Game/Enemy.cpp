@@ -4,7 +4,7 @@
 
 Enemy::Enemy()
 {
-	m_position = { 0.0f,50.0f,15.0f };
+	m_position = { 0.0f,25.0f,15.0f };
 	m_rotation = CQuaternion::Identity;
 	m_scale = { 0.6f,0.6f,0.6f };
 	m_radius = 0.5f;
@@ -26,15 +26,14 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::Start(char* filename, char* enemyname, int maxhp, float radius)
+void Enemy::Start(char* filename, char* enemyname, int maxhp, float movelim, CVector3 look_pos)
 {
 	m_filename = filename;
 	m_name = enemyname;
 	m_hp = maxhp;
 	m_maxhp = maxhp;
-	m_radius = radius;
-
-	m_characterController.SetRadius(m_radius);
+	m_movelim = movelim;
+	m_look_pos = look_pos;
 
 	char filePath[256];
 	sprintf(filePath, "Assets/modelData/%s.X", m_filename);
@@ -58,7 +57,7 @@ void Enemy::Update()
 
 void Enemy::Move()
 {
-	if (m_random.GetRandDouble() > 0.5f)
+	if (m_random.GetRandDouble() > 0.9f)
 	{
 		return;
 	}
@@ -66,9 +65,9 @@ void Enemy::Move()
 	CVector3 move = m_characterController.GetMoveSpeed();
 
 	CVector3 moveXZ;
-	moveXZ.x = (m_random.GetRandDouble() - 0.5f) * 2.5f;
+	moveXZ.x = (m_random.GetRandDouble() - 0.5f) * 5.0f;
 	moveXZ.y = 0.0f;
-	moveXZ.z = (m_random.GetRandDouble() - 0.5f) * 2.5f;
+	moveXZ.z = (m_random.GetRandDouble() - 0.5f) * 5.0f;
 
 	if (m_movelim < moveXZ.Length())
 	{

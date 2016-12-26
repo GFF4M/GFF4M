@@ -16,7 +16,7 @@ public:
 	/*!
 	* @brief	UpDate()の前に1回だけ呼ばれる。
 	*/
-	void Start(char* filename, char* enemyname, int maxhp, float radius);
+	void Start(char* filename, char* enemyname, int maxhp, float movelim, CVector3 look_pos);
 
 	/*!
 	* @brief	更新。
@@ -43,6 +43,11 @@ public:
 		return m_position;
 	}
 
+	CVector3 GetLookPos()
+	{
+		return m_look_pos;
+	}
+
 	float GetRadius()
 	{
 		return m_radius;
@@ -53,6 +58,7 @@ private:
 	CSkinModelDataHandle	m_skinModelData;				//スキンモデルデータ。
 	CCharacterController	m_characterController;			//キャラクタ―コントローラー。
 	CVector3				m_position;						//座標。
+	CVector3				m_look_pos;						//注視点。
 	CQuaternion				m_rotation;						//回転。
 	CVector3				m_scale;						//拡大。
 
