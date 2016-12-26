@@ -36,10 +36,7 @@ void EnemyManager::Update()
 
 }
 
-void EnemyManager::Render(CRenderContext& renderContext)
-{
 
-}
 
 void EnemyManager::Delete()
 {

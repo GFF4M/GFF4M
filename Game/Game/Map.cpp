@@ -13,7 +13,7 @@ SMapInfo mapLocInfo[] =
 {
 
 
-#include "MapData/sougen2.h"
+#include "MapData/sougen3.h"
 
 };
 

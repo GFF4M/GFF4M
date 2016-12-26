@@ -46,6 +46,10 @@ public:
 	{
 		m_target = target;
 	}
+	CCamera& GetCamera()
+	{
+		return m_camera;
+	}
 
 private:
 	CCamera					m_camera;	//ƒJƒƒ‰B

@@ -18683,7 +18683,7 @@ AnimTicksPerSecond fps {
  4800;
 }
 
-AnimationSet  {
+AnimationSet damage  {
  
 
  Animation Anim- {

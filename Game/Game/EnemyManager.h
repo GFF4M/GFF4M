@@ -72,10 +72,6 @@ public:
 	*/
 	void Delete();
 
-	/*!
-	* @brief	•`‰æB
-	*/
-	void Render(CRenderContext& renderContext);
 
 private:
 	Enemy*					m_enemy[ENEMY_NUM];
