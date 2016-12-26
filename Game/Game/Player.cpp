@@ -48,6 +48,7 @@ void Player::Update()
 	if (Pad(0).IsTrigger(enButtonA))
 	{
 		m_animation.PlayAnimation(AnimationAttack,0.3f);
+		m_animationStat = AnimationAttack;
 	}
 
 	Move();
@@ -120,6 +121,9 @@ void Player::Move()
 	{
 		m_characterController.Jump();
 		move.y = 8.0f;
+
+		m_animation.PlayAnimation(AnimationAttack, 0.3f);
+		m_animationStat = AnimationAttack;
 	}
 
 	//決定した移動速度をキャラクタコントローラーに設定。

@@ -10,7 +10,7 @@ Camera::Camera()
 	//èâä˙âª
 	m_position = { 0.0f,2.5f,0.0f };
 	m_look_position = CVector3::Zero;
-	m_scale = 1.0f;
+	m_scale = 3.0f;
 	m_angle = { 0.0f,45.0f };
 
 	m_target = CT_NOTARGET;
