@@ -51,7 +51,7 @@ public:
 
 private:
 	Enemy*					m_enemy[ENEMY_NUM];
-
+	int cnt;
 	const Enemies			m_enemiesdat[ENEMY_DAT] =
 	{ 
 		{	STAGE_1_1,	"dog",		"“G",	100,	15.5f,	{0.0f,1.0f,0.0f}},
