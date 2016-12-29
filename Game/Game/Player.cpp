@@ -49,19 +49,7 @@ void Player::Update()
 		m_characterController.RemoveRigidBoby();
 		DeleteGO(this);
 	}
-
 	
-
-	
-
-	if (Pad(0).IsTrigger(enButtonA))
-	{
-		/*m_animation.PlayAnimation(AnimationAttack,0.3f);
-		m_animationStat = AnimationAttack;*/
-		
-	}
-
-
 	Move();
 
 	m_animation.Update(2.0 / 60.0f);
@@ -91,6 +79,7 @@ void Player::Move()
 		{
 			m_animationStat = AnimationWalk;
 			m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
+			
 		}
 
 		//AxisZとmoveXZのなす角を求める
@@ -107,6 +96,9 @@ void Player::Move()
 		//回転した方向に移動
 		move.x = LenXZ * sin(CMath::DegToRad(m_angle));
 		move.z = LenXZ * cos(CMath::DegToRad(m_angle));
+
+
+		DeleteGO(m_particle);//パーティクルの消去
 	}
 	else
 	{
@@ -114,21 +106,22 @@ void Player::Move()
 		{
 			m_animationStat = AnimationAttack;
 			m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
-			CParticleEmitter *particle;
-			particle = NewGO<CParticleEmitter>(0);
-			particle->Init(random, g_gameCamera->GetCamera(),
+
+			//パーティクルの生成
+			m_particle = NewGO<CParticleEmitter>(0);
+			m_particle->Init(random, g_gameCamera->GetCamera(),
 			{
 				"Assets/paticle/Additive/ETF_Texture_Thunder_01.png",				//!<テクスチャのファイルパス。
 				{ 0.0f, 0.0f, 0.0f },								//!<初速度。
-				1.0f,											//!<寿命。単位は秒。
-				1.0f,											//!<発生時間。単位は秒。
+				0.4f,											//!<寿命。単位は秒。
+				4.0f,											//!<発生時間。単位は秒。
 				7.0f,											//!<パーティクルの幅。
 				14.0f,											//!<パーティクルの高さ。
 				{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
 				{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
 				{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
 				{
-					{ 0.0f, 0.0f, 0.33f, 0.33f },
+					{ 0.0f, 0.0f, 0.4f, 0.3f },
 					{ 0.0f, 0.0f, 0.0f, 0.0f },
 					{ 0.0f, 0.0f, 0.0f, 0.0f },
 					{ 0.0f, 0.0f, 0.0f, 0.0f }
@@ -144,9 +137,11 @@ void Player::Move()
 				{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
 			},
 				m_position);
+			
+
 		}
 	}
-
+	
 	//角度の正規化
 	if (m_angle < -180.0f)
 	{
@@ -165,6 +160,7 @@ void Player::Move()
 
 		m_animation.PlayAnimation(AnimationAttack, 0.3f);
 		m_animationStat = AnimationAttack;
+		
 	}
 
 	//決定した移動速度をキャラクタコントローラーに設定。
