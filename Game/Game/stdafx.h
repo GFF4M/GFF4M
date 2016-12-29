@@ -22,6 +22,7 @@
 using namespace tkEngine;
 #include "tkEngine/random/tkRandom.h"
 #include "tkEngine/graphics/sprite/tkSprite.h"
+#include "tkEngine/particle/tkParticleEmitter.h"
 
 #include "EnumDat.h"
 

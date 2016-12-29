@@ -2,12 +2,15 @@
 #include "Player.h"
 #include "Camera.h"
 
+
+Player *g_play;
+CRandom random;
+
 Player::Player()
 {
 	m_angle = 0.0f;
-	m_position = { 0.0f,30.0f,0.0f };
+	m_position = { 0.0f,0.0f,0.0f };
 	m_look_pos = { 0.0f,2.0f,0.0f };
-
 	m_scale = {0.7f,0.7f,0.7f };
 	m_rotation = CQuaternion::Identity;
 	m_animationStat = AnimationStand;
@@ -20,6 +23,8 @@ Player::Player()
 	m_maxhp = 100;
 	m_mp	= 100;
 	m_maxmp = 100;
+	random.Init((unsigned int) + time(NULL));
+	
 }
 
 Player::~Player()
@@ -28,7 +33,7 @@ Player::~Player()
 
 void Player::Start()
 {
-	SkinModelDataResources().Load(m_skinModelData, "Assets/modelData/kanoDash2.X", &m_animation);
+	SkinModelDataResources().Load(m_skinModelData, "Assets/modelData/kano.X", &m_animation);
 
 	m_skinModel.Init(m_skinModelData.GetBody());
 	m_skinModel.SetLight(&g_defaultLight);//デフォルトライトを設定。
@@ -44,13 +49,7 @@ void Player::Update()
 		m_characterController.RemoveRigidBoby();
 		DeleteGO(this);
 	}
-
-	if (Pad(0).IsTrigger(enButtonA))
-	{
-		m_animation.PlayAnimation(AnimationAttack,0.3f);
-		m_animationStat = AnimationAttack;
-	}
-
+	
 	Move();
 
 	m_animation.Update(2.0 / 60.0f);
@@ -80,6 +79,7 @@ void Player::Move()
 		{
 			m_animationStat = AnimationWalk;
 			m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
+			
 		}
 
 		//AxisZとmoveXZのなす角を求める
@@ -96,16 +96,52 @@ void Player::Move()
 		//回転した方向に移動
 		move.x = LenXZ * sin(CMath::DegToRad(m_angle));
 		move.z = LenXZ * cos(CMath::DegToRad(m_angle));
+
+
+		DeleteGO(m_particle);//パーティクルの消去
 	}
 	else
 	{
-		if (m_animationStat != AnimationStand)
+		if (m_animationStat != AnimationAttack)
 		{
-			m_animationStat = AnimationStand;
+			m_animationStat = AnimationAttack;
 			m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
+
+			//パーティクルの生成
+			m_particle = NewGO<CParticleEmitter>(0);
+			m_particle->Init(random, g_gameCamera->GetCamera(),
+			{
+				"Assets/paticle/Additive/ETF_Texture_Thunder_01.png",				//!<テクスチャのファイルパス。
+				{ 0.0f, 0.0f, 0.0f },								//!<初速度。
+				0.4f,											//!<寿命。単位は秒。
+				4.0f,											//!<発生時間。単位は秒。
+				7.0f,											//!<パーティクルの幅。
+				14.0f,											//!<パーティクルの高さ。
+				{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
+				{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
+				{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
+				{
+					{ 0.0f, 0.0f, 0.4f, 0.3f },
+					{ 0.0f, 0.0f, 0.0f, 0.0f },
+					{ 0.0f, 0.0f, 0.0f, 0.0f },
+					{ 0.0f, 0.0f, 0.0f, 0.0f }
+				},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
+				1,												//!<UVテーブルのサイズ。
+				{ 0.0f, 0.0f, 0.0f },							//!<重力。
+				true,											//!<死ぬときにフェードアウトする？
+				0.3f,											//!<フェードする時間。
+				2.0f,											//!<初期アルファ値。
+				true,											//!<ビルボード？
+				3.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
+				1,												//!<0半透明合成、1加算合成。
+				{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
+			},
+				m_position);
+			
+
 		}
 	}
-
+	
 	//角度の正規化
 	if (m_angle < -180.0f)
 	{
@@ -124,6 +160,7 @@ void Player::Move()
 
 		m_animation.PlayAnimation(AnimationAttack, 0.3f);
 		m_animationStat = AnimationAttack;
+		
 	}
 
 	//決定した移動速度をキャラクタコントローラーに設定。

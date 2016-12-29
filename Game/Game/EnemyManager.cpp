@@ -59,7 +59,7 @@ void EnemyManager::Change(Scenes scene)
 		break;
 	}
 
-	int cnt = 0;
+	 cnt = 0;
 	for each(Enemies dat in m_enemiesdat)
 	{
 		if (dat.s_scene == scene)
@@ -72,6 +72,12 @@ void EnemyManager::Change(Scenes scene)
 	{
 		return;
 	}
+}
+
+
+
+void EnemyManager::Delete()
+{
 
 	for (int i = 0;i < ENEMY_NUM;i++)
 	{

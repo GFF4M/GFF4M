@@ -87,4 +87,6 @@ private:
 	int						m_maxhp;
 	int						m_mp;
 	int						m_maxmp;
+
+	CParticleEmitter *m_particle;
 };
