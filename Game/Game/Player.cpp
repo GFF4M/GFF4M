@@ -32,7 +32,7 @@ Player::~Player()
 
 void Player::Start()
 {
-	SkinModelDataResources().Load(m_skinModelData, "Assets/modelData/tex.X", &m_animation);
+	SkinModelDataResources().Load(m_skinModelData, "Assets/modelData/kano.X", &m_animation);
 
 	m_skinModel.Init(m_skinModelData.GetBody());
 	m_skinModel.SetLight(&g_defaultLight);//デフォルトライトを設定。
