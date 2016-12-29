@@ -13,7 +13,7 @@ SMapInfo mapLocInfo[] =
 {
 
 
-#include "MapData/kaminari.h"
+#include "MapData/sougen3.h"
 
 
 };

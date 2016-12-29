@@ -24,6 +24,7 @@ Player::Player()
 	m_mp	= 100;
 	m_maxmp = 100;
 	random.Init((unsigned int) + time(NULL));
+	
 }
 
 Player::~Player()
@@ -51,41 +52,13 @@ void Player::Update()
 
 	
 
-		//CParticleEmitter *particle;
-		//particle = NewGO<CParticleEmitter>(0);
-		//particle->Init(random, g_gameCamera->GetCamera(),
-		//{
-		//	"Assets/modelData/realExplosion.png",				//!<テクスチャのファイルパス。
-		//	{ 0.0f, 0.0f, 0.0f },								//!<初速度。
-		//	1.5f,											//!<寿命。単位は秒。
-		//	1.0f,											//!<発生時間。単位は秒。
-		//	5.0f,											//!<パーティクルの幅。
-		//	5.0f,											//!<パーティクルの高さ。
-		//	{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
-		//	{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
-		//	{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
-		//	{
-		//		{ 0.0f, 0.0f, 0.33f, 0.33f },
-		//		{ 0.0f, 0.0f, 0.0f, 0.0f },
-		//		{ 0.0f, 0.0f, 0.0f, 0.0f },
-		//		{ 0.0f, 0.0f, 0.0f, 0.0f }
-		//	},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
-		//	1,												//!<UVテーブルのサイズ。
-		//	{ 0.0f, 0.0f, 0.0f },							//!<重力。
-		//	true,											//!<死ぬときにフェードアウトする？
-		//	0.3f,											//!<フェードする時間。
-		//	1.0f,											//!<初期アルファ値。
-		//	true,											//!<ビルボード？
-		//	0.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
-		//	0,												//!<0半透明合成、1加算合成。
-		//	{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
-		//},
-		//	m_position);
+	
 
 	if (Pad(0).IsTrigger(enButtonA))
 	{
-		m_animation.PlayAnimation(AnimationAttack,0.3f);
-		m_animationStat = AnimationAttack;
+		/*m_animation.PlayAnimation(AnimationAttack,0.3f);
+		m_animationStat = AnimationAttack;*/
+		
 	}
 
 
@@ -141,6 +114,36 @@ void Player::Move()
 		{
 			m_animationStat = AnimationAttack;
 			m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
+			CParticleEmitter *particle;
+			particle = NewGO<CParticleEmitter>(0);
+			particle->Init(random, g_gameCamera->GetCamera(),
+			{
+				"Assets/paticle/Additive/ETF_Texture_Thunder_01.png",				//!<テクスチャのファイルパス。
+				{ 0.0f, 0.0f, 0.0f },								//!<初速度。
+				1.0f,											//!<寿命。単位は秒。
+				1.0f,											//!<発生時間。単位は秒。
+				7.0f,											//!<パーティクルの幅。
+				14.0f,											//!<パーティクルの高さ。
+				{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
+				{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
+				{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
+				{
+					{ 0.0f, 0.0f, 0.33f, 0.33f },
+					{ 0.0f, 0.0f, 0.0f, 0.0f },
+					{ 0.0f, 0.0f, 0.0f, 0.0f },
+					{ 0.0f, 0.0f, 0.0f, 0.0f }
+				},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
+				1,												//!<UVテーブルのサイズ。
+				{ 0.0f, 0.0f, 0.0f },							//!<重力。
+				true,											//!<死ぬときにフェードアウトする？
+				0.3f,											//!<フェードする時間。
+				2.0f,											//!<初期アルファ値。
+				true,											//!<ビルボード？
+				3.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
+				1,												//!<0半透明合成、1加算合成。
+				{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
+			},
+				m_position);
 		}
 	}
 
