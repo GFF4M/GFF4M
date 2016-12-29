@@ -34,17 +34,15 @@ void Map::Start()
 		m_mapchip[i] = NewGO<MapChip>(0);
 		m_mapchip[i]->Start(mapLocInfo[i].s_modelName, mapLocInfo[i].s_position, mapLocInfo[i].s_rotation, mapLocInfo[i].s_scale);
 	}
-
+	m_mapchip[numObject] = nullptr;
 }
 
 void Map::Update()
 {
 	if (m_dead)
 	{
-		//マップにいくつのオブジェクトが配置されているか調べる。
-		int numObject = sizeof(mapLocInfo) / sizeof(mapLocInfo[0]);
 		//置かれているオブジェクトの数だけマップチップを生成する。
-		for (int i = 0; i < numObject; i++)
+		for (int i = 0; m_mapchip[i] != nullptr; i++)
 		{
 			m_mapchip[i]->Delete();
 		}

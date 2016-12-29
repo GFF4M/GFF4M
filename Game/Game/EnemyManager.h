@@ -2,7 +2,7 @@
 
 #include "Enemy.h"
 
-#define ENEMY_NUM 5
+#define ENEMY_NUM 1
 #define ENEMY_DAT 2
 
 class EnemyManager : public IGameObject
@@ -42,7 +42,7 @@ public:
 	/*!
 	* @brief	ìGÇÃïœçXÅB
 	*/
-	void Change(Scenes scene, bool isBattle);
+	void Change(Scenes scene);
 
 private:
 	Enemy*					m_enemy[ENEMY_NUM];
@@ -54,7 +54,5 @@ private:
 	};
 
 	CRandom					m_random;
-
-	bool					m_isBattle;
 };
 

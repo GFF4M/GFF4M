@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "Load.h"
 
-namespace {
-}
-
 SC_Load::SC_Load()
 {
 }

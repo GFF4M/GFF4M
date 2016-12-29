@@ -117,7 +117,7 @@ void Player::Move()
 	}
 
 	//ˆê’iƒWƒƒƒ“ƒv
-	if (KeyInput().GetPad(0).IsPress(enButtonX) && m_characterController.IsOnGround())
+	if (KeyInput().GetPad(0).IsPress(enButtonA) && m_characterController.IsOnGround())
 	{
 		m_characterController.Jump();
 		move.y = 8.0f;

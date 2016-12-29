@@ -1,6 +1,5 @@
 #pragma once
-class SC_Load :
-	public IGameObject
+class SC_Load : public IGameObject
 {
 public:
 	SC_Load();
@@ -10,6 +9,7 @@ public:
 	void PostRender(CRenderContext& renderContext);
 
 	void Delete();
+
 private:
 	/*CSoundSource	soundSource;*/
 	CSprite m_load;			//ÉçÅ[Éh
@@ -23,5 +23,4 @@ private:
 
 	const CVector2	BACK_POS = { 0.0f, 0.0f };
 	const CVector2	BACK_MAX_SIZE = { 1500.0f, 1000.0f };
-
 };

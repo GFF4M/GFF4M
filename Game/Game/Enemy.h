@@ -16,7 +16,7 @@ public:
 	/*!
 	* @brief	UpDate()の前に1回だけ呼ばれる。
 	*/
-	void Start(char* filename, char* enemyname, int maxhp, float movelim, CVector3 look_pos);
+	void Start(char* filename, char* enemyname, int maxhp, float movelim, CVector3 look_pos, bool isBattle);
 
 	/*!
 	* @brief	更新。
@@ -73,4 +73,5 @@ private:
 	float					m_movelim;
 
 	CRandom					m_random;
+	bool					m_isBattle;
 };

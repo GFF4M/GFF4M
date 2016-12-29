@@ -47,18 +47,6 @@ void Scene::Update()
 		}
 	}
 
-	if (Pad(0).IsTrigger(enButtonA))
-	{
-		if (m_scene == STAGE_HOUSE)
-		{
-			Change(STAGE_1_1);
-		}
-		else if (m_scene == STAGE_1_1)
-		{
-			Change(STAGE_1_2);
-		}
-	}
-
 	g_gameCamera->SetTarget(m_cameraTarget);
 
 	//ロード画面を表示するか？
@@ -149,36 +137,15 @@ void Scene::Change(Scenes scenes)
 		break;
 	}
 
-	bool isBattle;
-
-	//戦闘用フィールドへの遷移か調べる
-	switch (scenes)
-	{
-	case STAGE_1_BATTLE:
-	case STAGE_2_BATTLE:
-	case STAGE_3_BATTLE:
-	case STAGE_4_BATTLE:
-	case STAGE_5_BATTLE:
-	case STAGE_1_BOSS_BATTLE:
-	case STAGE_2_BOSS_BATTLE:
-	case STAGE_3_BOSS_BATTLE:
-	case STAGE_4_BOSS_BATTLE:
-	case STAGE_5_BOSS_BATTLE:
-		isBattle = true;
-		break;
-	default:
-		isBattle = false;
-		break;
-	}
-
 	//エネミーのデータ更新
 	switch (dat.s_change_enemy)
 	{
 	case CS_ADD:
 		m_enem_manage = NewGO<EnemyManager>(0);
-		m_enem_manage->Change(scenes, isBattle);
+		m_enem_manage->Change(scenes);
 		break;
 	case CS_CHANGE:
+		m_enem_manage->Change(scenes);
 		break;
 	default:
 		break;
@@ -206,6 +173,7 @@ void Scene::Change(Scenes scenes)
 	if (m_loadstat == LS_NOSTAT)
 	{
 		m_loadstat = LS_LOADSTART;
+		LoadCheck();
 	}
 
 	if (m_play != nullptr)

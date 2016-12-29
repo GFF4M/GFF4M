@@ -39,6 +39,7 @@ enum Scenes
 	STAGE_5_BOSS,
 	STAGE_5_BATTLE,
 	STAGE_5_BOSS_BATTLE,
+	STAGE_NUM,
 };
 
 enum CameraTarget
