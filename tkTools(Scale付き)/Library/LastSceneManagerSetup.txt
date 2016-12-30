@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/scene/icestage.unity
+- path: Assets/scene/kaminari.unity
   isLoaded: 1
   isActive: 1
