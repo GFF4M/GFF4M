@@ -126,6 +126,11 @@ void Scene::Change(Scenes scenes)
 
 void Scene::ChangeData()
 {
+	if (m_dat_num < 0)
+	{
+		return;
+	}
+
 	ChangeDat dat = m_changedat[m_dat_num];
 
 	//スタートのデータ更新
