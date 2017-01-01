@@ -54,10 +54,10 @@
 	CQuaternion(0.00f, 0.00f, 0.00f, 1.00f ), //回転
 	CVector3(0.06f, 0.05f, 0.06f),             //スケール
 },
-//kazan
+//kazan2
 {
-	"kazan",
-	CVector3(8.40f, 28.90f, -31.40f),             //平行移動
-	CQuaternion(-0.70f, 0.12f, 0.12f, 0.70f ), //回転
-	CVector3(1.22f, 1.54f, 1.22f),             //スケール
+	"kazan2",
+	CVector3(8.70f, 33.00f, -31.40f),             //平行移動
+	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ), //回転
+	CVector3(1.38f, 1.38f, 1.38f),             //スケール
 },

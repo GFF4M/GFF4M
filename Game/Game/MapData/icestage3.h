@@ -5,6 +5,13 @@
 	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ), //回転
 	CVector3(1.00f, 1.00f, 1.00f),             //スケール
 },
+//Flag
+{
+	"Flag",
+	CVector3(-17.50f, 50.00f, -114.80f),             //平行移動
+	CQuaternion(-0.13f, -0.70f, -0.70f, 0.13f ), //回転
+	CVector3(0.08f, 0.21f, 0.21f),             //スケール
+},
 //Building_a
 {
 	"Building_a",
@@ -12,24 +19,45 @@
 	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ), //回転
 	CVector3(1.00f, 1.00f, 1.00f),             //スケール
 },
-//Flag
+//turara3
 {
-	"Flag",
-	CVector3(-26.00f, 49.00f, 121.70f),             //平行移動
-	CQuaternion(-0.13f, -0.70f, -0.70f, 0.13f ), //回転
-	CVector3(0.08f, 0.21f, 0.21f),             //スケール
-},
-//icestage3
-{
-	"icestage3",
-	CVector3(-73.70f, 62.00f, 192.50f),             //平行移動
-	CQuaternion(-0.69f, -0.70f, -0.16f, -0.06f ), //回転
-	CVector3(0.73f, 0.74f, 1.78f),             //スケール
+	"turara3",
+	CVector3(-18.50f, 150.20f, -118.88f),             //平行移動
+	CQuaternion(0.69f, 0.00f, 0.01f, 0.73f ), //回転
+	CVector3(0.82f, 0.82f, 0.82f),             //スケール
 },
 //turara3
 {
 	"turara3",
-	CVector3(-51.90f, 35.30f, 65.40f),             //平行移動
-	CQuaternion(-0.68f, -0.19f, -0.19f, 0.68f ), //回転
-	CVector3(1.00f, 1.00f, 0.85f),             //スケール
+	CVector3(-27.50f, 32.22f, -97.90f),             //平行移動
+	CQuaternion(-0.70f, -0.13f, -0.13f, 0.70f ), //回転
+	CVector3(1.00f, 1.00f, 0.70f),             //スケール
+},
+//turara3
+{
+	"turara3",
+	CVector3(-32.90f, 129.71f, -11.80f),             //平行移動
+	CQuaternion(0.35f, 0.63f, -0.61f, 0.34f ), //回転
+	CVector3(0.73f, 0.73f, 0.73f),             //スケール
+},
+//turara3
+{
+	"turara3",
+	CVector3(26.40f, 22.00f, -52.70f),             //平行移動
+	CQuaternion(-0.54f, -0.46f, -0.46f, 0.54f ), //回転
+	CVector3(1.00f, 1.00f, 1.00f),             //スケール
+},
+//turara3
+{
+	"turara3",
+	CVector3(20.80f, 36.02f, -58.30f),             //平行移動
+	CQuaternion(-0.44f, 0.56f, 0.56f, 0.44f ), //回転
+	CVector3(0.59f, 0.59f, 0.59f),             //スケール
+},
+//icestage3
+{
+	"icestage3",
+	CVector3(-24.00f, 81.40f, -142.70f),             //平行移動
+	CQuaternion(0.02f, -0.10f, -0.71f, -0.69f ), //回転
+	CVector3(1.00f, 1.00f, 1.00f),             //スケール
 },
