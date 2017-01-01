@@ -32,6 +32,10 @@ void Scene::Start()
 
 void Scene::Update()
 {
+	if (GetAsyncKeyState('Q'))
+	{
+		Change(STAGE_1_1);
+	}
 	if (Pad(0).IsTrigger(enButtonLB1))
 	{
 		switch (m_cameraTarget)
@@ -66,12 +70,13 @@ void Scene::LoadCheck()
 	{
 	//ロード開始
 	case LS_LOADSTART:
-		m_load = NewGO<SC_Load>(0);
+		m_load = NewGO<SC_Load>(1);
 		m_loadstat = LS_LOADING;
 		break;
 
 	//ロード中
 	case LS_LOADING:
+		ChangeData();
 		m_loadstat = LS_LOADFIN;
 		break;
 
@@ -90,24 +95,38 @@ void Scene::LoadCheck()
 void Scene::Change(Scenes scenes)
 {
 	bool found = false;
-	ChangeDat dat;
 
+	m_dat_num = 0;
 	//切り替え可能か調べる
 	for each(ChangeDat ch_dat in m_changedat)
 	{
 		if (m_scene == ch_dat.s_now_scene && scenes == ch_dat.s_move_scene)
 		{
-			dat = ch_dat;
 			found = true;
 			break;
 		}
+		m_dat_num++;
 	}
-
+	
 	//見つからなかった
 	if (!found)
 	{
+		m_dat_num = -1;
 		return;
 	}
+
+	m_scene = scenes;
+
+	//ロード画面開始
+	if (m_loadstat == LS_NOSTAT)
+	{
+		m_loadstat = LS_LOADSTART;
+	}
+}
+
+void Scene::ChangeData()
+{
+	ChangeDat dat = m_changedat[m_dat_num];
 
 	//スタートのデータ更新
 	switch (dat.s_change_start)
@@ -129,6 +148,7 @@ void Scene::Change(Scenes scenes)
 	case CS_ADD:
 		m_play = NewGO<Player>(0);
 		break;
+
 	case CS_DELETE:
 		m_play->Delete();
 		m_play = nullptr;
@@ -142,10 +162,10 @@ void Scene::Change(Scenes scenes)
 	{
 	case CS_ADD:
 		m_enem_manage = NewGO<EnemyManager>(0);
-		m_enem_manage->Change(scenes);
+		m_enem_manage->Change(dat.s_move_scene);
 		break;
 	case CS_CHANGE:
-		m_enem_manage->Change(scenes);
+		m_enem_manage->Change(dat.s_move_scene);
 		break;
 	default:
 		break;
@@ -156,24 +176,13 @@ void Scene::Change(Scenes scenes)
 	{
 	case CS_ADD:
 		m_map = NewGO<Map>(0);
+		m_map->Change(dat.s_move_scene);
 		break;
 	case CS_CHANGE:
-		break;
-	case CS_DELETE:
-		m_map->Delete();
-		m_map = nullptr;
+		m_map->Change(dat.s_move_scene);
 		break;
 	default:
 		break;
-	}
-
-	m_scene = scenes;
-
-	//ロード画面開始
-	if (m_loadstat == LS_NOSTAT)
-	{
-		m_loadstat = LS_LOADSTART;
-		LoadCheck();
 	}
 
 	if (m_play != nullptr)

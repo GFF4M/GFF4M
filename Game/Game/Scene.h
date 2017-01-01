@@ -82,6 +82,12 @@ public:
 	*/
 	void Change(Scenes scenes);
 
+
+	/*!
+	* @brief	データ更新
+	*/
+	void ChangeData();
+
 	/*!
 	* @brief	プレイヤと敵とのあたり判定。
 	*/
@@ -105,14 +111,15 @@ private:
 
 	CameraTarget		m_cameraTarget;
 
+	int					m_dat_num;
 	const ChangeDat		m_changedat[CHANGEDAT_NUM] =
 	{
-		{ NOSCENES,				START,					CS_ADD,			CS_NOSTAT,		CS_ADD,			CS_NOSTAT	, CVector3(0.0f,0.0f,0.0f)},
+		{ NOSCENES,				START,					CS_ADD,			CS_ADD,			CS_ADD,			CS_ADD		, CVector3(0.0f,0.0f,0.0f)},
 
-		{ START,				STAGE_HOUSE,			CS_DELETE,		CS_ADD,			CS_NOSTAT,		CS_ADD		, CVector3(0.0f,55.0f,0.0f) },
+		{ START,				STAGE_HOUSE,			CS_DELETE,		CS_ADD,			CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
 
-		{ STAGE_HOUSE,			STAGE_1_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(10.0f,35.0f,0.0f) },
-		{ STAGE_HOUSE,			STAGE_2_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,15.0f,0.0f) },
+		{ STAGE_HOUSE,			STAGE_1_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ STAGE_HOUSE,			STAGE_2_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
 		{ STAGE_HOUSE,			STAGE_3_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,15.0f,0.0f) },
 		{ STAGE_HOUSE,			STAGE_4_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,15.0f,0.0f) },
 		{ STAGE_HOUSE,			STAGE_5_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,15.0f,0.0f) },

@@ -188,6 +188,7 @@
     <ClInclude Include="Load.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapChip.h" />
+    <ClInclude Include="MapDat.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Bar.h" />

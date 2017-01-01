@@ -73,7 +73,7 @@ namespace tkEngine{
 		 */
 		__inline long GetRandSInt()
 		{
-			(long)(GetRandInt()>>1);
+			return (long)(GetRandInt()>>1);
 		}
 		/*!
 		 * @brief	倍精度小数点型のランダム値を取得。

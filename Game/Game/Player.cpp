@@ -2,7 +2,6 @@
 #include "Player.h"
 #include "Camera.h"
 
-
 Player *g_play;
 CRandom random;
 
@@ -79,7 +78,7 @@ void Player::Move()
 		{
 			m_animationStat = AnimationWalk;
 			m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
-			
+
 		}
 
 		//AxisZとmoveXZのなす角を求める
@@ -89,7 +88,7 @@ void Player::Move()
 		{
 			m_angle *= -1.0f;
 		}
-	
+
 		//カメラによる補正
 		m_angle -= g_gameCamera->GetAngle().x;
 
@@ -97,8 +96,11 @@ void Player::Move()
 		move.x = LenXZ * sin(CMath::DegToRad(m_angle));
 		move.z = LenXZ * cos(CMath::DegToRad(m_angle));
 
-
-		DeleteGO(m_particle);//パーティクルの消去
+		if (m_particle != nullptr)
+		{
+			DeleteGO(m_particle);//パーティクルの消去
+			m_particle = nullptr;
+		}
 	}
 	else
 	{

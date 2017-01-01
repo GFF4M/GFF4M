@@ -49,7 +49,6 @@ void MapChip::Update()
 {
 	if (m_dead)
 	{
-		m_skinModel.SetShadowCasterFlag(false);
 		PhysicsWorld().RemoveRigidBody(&m_rigidBody);
 		m_rigidBody.Release();
 

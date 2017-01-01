@@ -28,14 +28,7 @@ void EnemyManager::Update()
 
 void EnemyManager::Change(Scenes scene)
 {
-	for (int i = 0;i < ENEMY_NUM;i++)
-	{
-		if (m_enemy[i] != nullptr)
-		{
-			m_enemy[i]->Delete();
-			m_enemy[i] = nullptr;
-		}
-	}
+	Delete();
 
 	bool isBattle;
 
@@ -59,7 +52,7 @@ void EnemyManager::Change(Scenes scene)
 		break;
 	}
 
-	 cnt = 0;
+	cnt = 0;
 	for each(Enemies dat in m_enemiesdat)
 	{
 		if (dat.s_scene == scene)
@@ -72,17 +65,37 @@ void EnemyManager::Change(Scenes scene)
 	{
 		return;
 	}
-}
-
-
-
-void EnemyManager::Delete()
-{
 
 	for (int i = 0;i < ENEMY_NUM;i++)
 	{
-		int rand = m_random.GetRandInt() % cnt;
 		m_enemy[i] = NewGO<Enemy>(0);
-		m_enemy[i]->Start(m_enemiesdat[rand].s_filename, m_enemiesdat[rand].s_name, m_enemiesdat[rand].s_hp, m_enemiesdat[rand].s_movelim, m_enemiesdat[rand].s_look_pos,isBattle);
+
+		int rand = m_random.GetRandInt() % cnt + 1;
+
+		int datcnt = 0;
+		for each(Enemies dat in m_enemiesdat)
+		{
+			if (dat.s_scene == scene)
+			{
+				datcnt++;
+				if (datcnt == cnt)
+				{
+					m_enemy[i]->Start(dat.s_filename, dat.s_name, dat.s_hp, dat.s_movelim, dat.s_look_pos, isBattle);
+					break;
+				}
+			}
+		}
+	}
+}
+
+void EnemyManager::Delete()
+{
+	for (int i = 0;i < ENEMY_NUM;i++)
+	{
+		if (m_enemy[i] != nullptr)
+		{
+			m_enemy[i]->Delete();
+			m_enemy[i] = nullptr;
+		}
 	}
 }

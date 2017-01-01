@@ -44,7 +44,7 @@ public:
 	/*!
 	* @brief	“G‚Ì•ÏXB
 	*/
-	void Change(Scenes scene, bool isBattle);
+	void Change(Scenes scene);
 
 
 private:
