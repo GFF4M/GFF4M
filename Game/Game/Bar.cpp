@@ -9,40 +9,73 @@ SC_Bar::SC_Bar()
 	m_state = STATE_NORMAL;
 	m_LastFrame = 0;
 	m_timer = 0.0f;
+
+	m_target = PLAYER_HP;
 }
 
 SC_Bar::~SC_Bar()
 {
 }
 
-void SC_Bar::Start()
+void SC_Bar::Start(Bar_Target target)
 {
-	m_BarTex.Load("Assets/sprite/White.png");
+	m_target = target;
+
+	char filePath[256];
+	sprintf(filePath, "Assets/sprite/%s", m_bar_dat[m_target].s_bar_name);
+	m_BarTex.Load(filePath);
 	m_Bar.Init(&m_BarTex);
-	m_Bar.SetSize(BAR_MAX_SIZE);
+	m_Bar.SetSize(m_bar_dat[m_target].s_bar_max_size);
 	m_Bar.SetPivot({ 0.0f, 0.5f });
-	m_Bar.SetPosition(BAR_POS);
+	m_Bar.SetPosition(m_bar_dat[m_target].s_bar_pos);
 
-	m_BarBackTex.Load("Assets/sprite/Yellow.png");
+	sprintf(filePath, "Assets/sprite/%s", m_bar_dat[m_target].s_back_name);
+	m_BarTex.Load(filePath);
 	m_BarBack.Init(&m_BarBackTex);
-	m_BarBack.SetSize(BAR_MAX_SIZE);
+	m_BarBack.SetSize(m_bar_dat[m_target].s_bar_max_size);
 	m_BarBack.SetPivot({ 0.0f, 0.5f });
-	m_BarBack.SetPosition(BAR_POS);
+	m_BarBack.SetPosition(m_bar_dat[m_target].s_bar_pos);
 
-	m_GaugeTex.Load("Assets/sprite/Black.png");
+	sprintf(filePath, "Assets/sprite/%s", m_bar_dat[m_target].s_gauge_name);
+	m_BarTex.Load(filePath);
 	m_Gauge.Init(&m_GaugeTex);
-	m_Gauge.SetSize(GAUGE_MAX_SIZE);
+	m_Gauge.SetSize(m_bar_dat[m_target].s_gauge_max_size);
 	m_Gauge.SetPivot({ 0.0f, 0.5f });
-	m_Gauge.SetPosition(GAUGE_POS);
+	m_Gauge.SetPosition(m_bar_dat[m_target].s_gauge_pos);
 
+	switch (m_target)
+	{
+	case PLAYER_HP:
+		m_LastFrame = (float)g_scene->GetPlayer()->GetHP() / (float)g_scene->GetPlayer()->GetMaxHP();
+		break;
+	case PLAYER_MP:
+		m_LastFrame = (float)g_scene->GetPlayer()->GetMP() / (float)g_scene->GetPlayer()->GetMaxMP();
+		break;
+	case PLAYER_LV:
+		break;
+	default:
+		break;
+	}
 	m_LastFrame = g_scene->GetPlayer()->GetHP();
 }
 
 void SC_Bar::Update()
 {
-	//プレイヤーの残HPに応じてＨＰバーのサイズを変える。
-
-	float Rate = (float)g_scene->GetPlayer()->GetHP() / (float)g_scene->GetPlayer()->GetMaxHP();
+	float Rate;
+	//データに応じてバーのサイズを変える。
+	switch (m_target)
+	{
+	case PLAYER_HP:
+		Rate = (float)g_scene->GetPlayer()->GetHP() / (float)g_scene->GetPlayer()->GetMaxHP();
+		break;
+	case PLAYER_MP:
+		Rate = (float)g_scene->GetPlayer()->GetMP() / (float)g_scene->GetPlayer()->GetMaxMP();
+		break;
+	case PLAYER_LV:	
+		break;
+	default:
+		break;
+	}
 	CVector2 size = BAR_MAX_SIZE;
 	size.x *= Rate;
 	m_Bar.SetSize(size);
@@ -76,7 +109,19 @@ void SC_Bar::Update()
 		}
 		break;
 	}
-	m_LastFrame = g_scene->GetPlayer()->GetHP();
+	switch (m_target)
+	{
+	case PLAYER_HP:
+		m_LastFrame = (float)g_scene->GetPlayer()->GetHP() / (float)g_scene->GetPlayer()->GetMaxHP();
+		break;
+	case PLAYER_MP:
+		m_LastFrame = (float)g_scene->GetPlayer()->GetMP() / (float)g_scene->GetPlayer()->GetMaxMP();
+		break;
+	case PLAYER_LV:
+		break;
+	default:
+		break;
+	}
 }
 
 void SC_Bar::PostRender(CRenderContext& renderContext)

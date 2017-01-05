@@ -2,20 +2,19 @@
 
 #include "Enemy.h"
 
-#define ENEMY_NUM 1
-#define ENEMY_DAT 2
+#define ENEMY_NUM 3
+#define ENEMY_DAT 4
 
 class EnemyManager : public IGameObject
 {
 public:
-
 	struct Enemies
 	{
-		Scenes			s_scene;		//登場シーン
+		Scenes			s_scene;		//発生場所
 		char*			s_filename;		//ファイル名
 		char*			s_name;			//名前
 		int				s_hp;			//HP
-		float			s_movelim;		//移動制限
+		CVector3		s_pos;			//基本初期座標
 		CVector3		s_look_pos;		//注視点
 	};
 
@@ -46,14 +45,32 @@ public:
 	*/
 	void Change(Scenes scene);
 
+	/*!
+	* @brief	<引数1>に<引数2>番目に近いエネミーの座標を返す。(0が一番近い)
+	*/
+	Enemy* GetNearestEnemy(CVector3 pos, int no);
+
+	int GetEnemyNum()
+	{
+		return m_enemy_num;
+	}
+
+	bool IsBattle()
+	{
+		return m_isBattle;
+	}
 
 private:
+	bool					m_isBattle;
+
 	Enemy*					m_enemy[ENEMY_NUM];
-	int cnt;
+	int						m_enemy_num;
 	const Enemies			m_enemiesdat[ENEMY_DAT] =
 	{ 
-		{	STAGE_1_1,	"dog",		"敵",	100,	15.5f,	{0.0f,1.0f,0.0f}},
-		{	STAGE_1_1,	"Player",	"敵",	100,	12.5f,	{0.0f,1.0f,0.0f}},
+		{	STAGE_1_1,			"dog",		"敵",	100,	{ 3.0f,55.0f,0.0f },	{0.0f,1.0f,0.0f}},
+		{	STAGE_1_1,			"Player",	"敵",	100,	{ 3.0f,55.0f,3.0f },	{0.0f,1.0f,0.0f}},
+		{	STAGE_1_BATTLE,		"dog",		"敵",	100,	{ 3.0f,70.0f,0.0f },	{ 0.0f,1.0f,0.0f } },
+		{	STAGE_1_BATTLE,		"Player",	"敵",	100,	{ 3.0f,70.0f,3.0f },	{ 0.0f,1.0f,0.0f } },
 	};
 
 	CRandom					m_random;

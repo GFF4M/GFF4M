@@ -13,7 +13,8 @@ Scene::Scene()
 	m_start = nullptr;
 	m_enem_manage = nullptr;
 
-	m_bar = nullptr;
+	m_hp_bar = nullptr;
+	m_mp_bar = nullptr;
 	m_scene = NOSCENES;
 	m_loadstat = LS_NOSTAT;
 
@@ -36,6 +37,7 @@ void Scene::Update()
 	{
 		Change(STAGE_1_1);
 	}
+
 	if (Pad(0).IsTrigger(enButtonLB1))
 	{
 		switch (m_cameraTarget)
@@ -53,8 +55,8 @@ void Scene::Update()
 
 	g_gameCamera->SetTarget(m_cameraTarget);
 
-	//ロード画面を表示するか？
 	Collision();
+	//ロード画面を表示するか？
 	LoadCheck();
 }
 
@@ -152,11 +154,20 @@ void Scene::ChangeData()
 	{
 	case CS_ADD:
 		m_play = NewGO<Player>(0);
+		m_hp_bar = NewGO<SC_Bar>(0);
+		m_hp_bar->Start(SC_Bar::Bar_Target::PLAYER_HP);
+		m_mp_bar = NewGO<SC_Bar>(0);
+		m_mp_bar->Start(SC_Bar::Bar_Target::PLAYER_MP);
 		break;
 
 	case CS_DELETE:
 		m_play->Delete();
 		m_play = nullptr;
+
+		m_hp_bar->Delete();
+		m_mp_bar->Delete();
+		m_hp_bar = nullptr;
+		m_mp_bar = nullptr;
 		break;
 	default:
 		break;
@@ -203,28 +214,90 @@ void Scene::Collision()
 		return;
 	}
 
-	/*
-	for (int i = 0; i < ENEMY_NUM; i++)
+	if (m_enem_manage == nullptr)
 	{
-		CVector3 distance = g_play->GetPos();
+		return;
+	}
 
-		distance.Subtract(m_enem_manage->GetPos());
+	if (m_enem_manage->GetEnemyNum() == 0)
+	{
+		return;
+	}
 
-		if (distance.Length() <= g_play->GetRadius() + m_enem[i]->GetRadius() + 0.05f)
+	if (m_loadstat != LS_NOSTAT)
+	{
+		return;
+	}
+
+	if (m_enem_manage->IsBattle())
+	{
+		return;
+	}
+
+	CVector3 dis = m_play->GetPos();
+	Enemy* enemy = m_enem_manage->GetNearestEnemy(m_play->GetPos(), 0);
+
+	dis.Subtract(enemy->GetPos());
+	dis.y = 0.0f;
+
+	Scenes scenes = NOSCENES;
+	if (dis.Length() <= m_play->GetRadius() + enemy->GetRadius() + 0.2f)
+	{
+		switch (m_scene)
 		{
-			g_play->Delete();
-			g_play = nullptr;
-			m_bar->Delete();
-			m_bar = nullptr;
-			m_enem[i]->Delete();
-			m_enem[i] = nullptr;
-			m_map->Delete();
-			m_map = nullptr;
-			Change(STAGE_HOUSE);
-			g_play = NewGO<Player>(0);
-			m_bar = NewGO<SC_Bar>(0);
-			m_enem[i] = NewGO<Enemy>(0);
-			m_enem[i]->Start("Player", "Enemy", 100);
+		case STAGE_1_1:
+			scenes = STAGE_1_BATTLE;
+			break;
+		case STAGE_1_2:
+			scenes = STAGE_1_BATTLE;
+			break;
+		case STAGE_1_BOSS:
+			scenes = STAGE_1_BOSS_BATTLE;
+			break;
+		case STAGE_2_1:
+			scenes = STAGE_2_BATTLE;
+			break;
+		case STAGE_2_2:
+			scenes = STAGE_2_BATTLE;
+			break;
+		case STAGE_2_BOSS:
+			scenes = STAGE_2_BOSS_BATTLE;
+			break;
+		case STAGE_3_1:
+			scenes = STAGE_3_BATTLE;
+			break;
+		case STAGE_3_2:
+			scenes = STAGE_3_BATTLE;
+			break;
+		case STAGE_3_BOSS:
+			scenes = STAGE_3_BOSS_BATTLE;
+			break;
+		case STAGE_4_1:
+			scenes = STAGE_4_BATTLE;
+			break;
+		case STAGE_4_2:
+			scenes = STAGE_4_BATTLE;
+			break;
+		case STAGE_4_BOSS:
+			scenes = STAGE_4_BOSS_BATTLE;
+			break;
+		case STAGE_5_1:
+			scenes = STAGE_5_BATTLE;
+			break;
+		case STAGE_5_2:
+			scenes = STAGE_5_BATTLE;
+			break;
+		case STAGE_5_BOSS:
+			scenes = STAGE_5_BOSS_BATTLE;
+			break;
+		default:
+			break;
 		}
-	}*/
+	}
+	if (scenes == NOSCENES)
+	{
+		return;
+	}
+	Change(scenes);
+	m_enem_manage->Change(scenes);
 }

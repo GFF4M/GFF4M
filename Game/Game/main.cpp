@@ -43,9 +43,9 @@ void InitTkEngine( HINSTANCE hInst )
 	initParam.graphicsConfig.reflectionMapConfig.reflectionMapWidth = 512;
 	initParam.graphicsConfig.reflectionMapConfig.reflectionMapHeight = 512;
 	//DOF
-	initParam.graphicsConfig.dofConfig.isEnable = true;
+	initParam.graphicsConfig.dofConfig.isEnable = false;
 	//AA
-	initParam.graphicsConfig.aaConfig.isEnable = true;
+	initParam.graphicsConfig.aaConfig.isEnable = false;
 	
 	//デフォルトライトの初期化。
 	g_defaultLight.SetDiffuseLightDirection(0, { 0.707f, 0.0f, -0.707f });
@@ -87,4 +87,22 @@ int WINAPI wWinMain(
 GitHub
 ID:GFF4M
 Pass:team_4m
+*/
+
+/*
+必要修正箇所
+
+背景が黒くなる（これはMaxでなんとかなるか？）
+何かの処理で重くなる（DOFが影響、ほかにも原因がある？）
+スタート前のロードが長い（NewGOしすぎ）
+タイトルの背景（これは後回し）
+技の仕様（最重要）
+マップの謎の落とし穴（原因は特定済）
+レベルの実装
+セーブデータの実装
+会話実装
+家からの移動実装
+ダメージ判定どうしようか
+敵の動き2種類書きたい
+
 */
