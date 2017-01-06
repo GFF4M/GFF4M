@@ -2,9 +2,15 @@
 class SC_Bar : public IGameObject
 {
 public:
+	enum Bar_Target{
+		PLAYER_HP,
+		PLAYER_MP,
+		PLAYER_LV,
+	};
+
 	SC_Bar();
 	~SC_Bar();
-	void Start() override;
+	void Start(Bar_Target target);
 	void Update() override;
 	void PostRender(CRenderContext& renderContext) override;
 
@@ -28,9 +34,46 @@ private:
 	int m_LastFrame;			//1フレーム前のゲージ；
 	float m_timer;		//タイマー。
 
-	const CVector2 GAUGE_MAX_SIZE = { 245.0f, 15.75f };
-	const CVector2 BAR_MAX_SIZE = { 230.5f, 7.2f };
-	const CVector2 BAR_POS = { -592.95f, 320.0f };
-	const CVector2 GAUGE_POS = { -600.0f, 320.0f };
+	Bar_Target m_target;
+
+	struct BarDat
+	{
+		CVector2 s_bar_max_size;
+		CVector2 s_bar_pos;
+
+		CVector2 s_gauge_max_size;
+		CVector2 s_gauge_pos;
+
+		const char* s_bar_name;
+		const char* s_back_name;
+		const char* s_gauge_name;
+	};
+
+	const BarDat m_bar_dat[2] =
+	{ 
+		{
+			{ 230.5f, 7.2f },
+			{ -592.95f, 330.0f },
+			{ 245.0f, 15.75f },
+			{ -600.0f, 330.0f },
+			"White.png",
+			"Yellow.png",
+			"Black.png",
+		},
+		{
+			{ 230.5f, 7.2f },
+			{ -592.95f, 350.0f },
+			{ 245.0f, 15.75f },
+			{ -600.0f, 350.0f },
+			"Black.png",
+			"Yellow.png",
+			"White.png",
+		}, 
+	};
 };
 
+
+const CVector2 GAUGE_MAX_SIZE = { 245.0f, 15.75f };
+const CVector2 BAR_MAX_SIZE = { 230.5f, 7.2f };
+const CVector2 BAR_POS = { -592.95f, 320.0f };
+const CVector2 GAUGE_POS = { -600.0f, 320.0f };

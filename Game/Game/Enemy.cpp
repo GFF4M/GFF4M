@@ -14,7 +14,6 @@ Enemy::Enemy()
 	m_name = NULL;
 	m_hp = 0;
 	m_maxhp = 0;
-	m_movelim = 0.0f;
 
 	m_characterController.Init(m_radius, 1.0f, m_position);
 
@@ -25,13 +24,13 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::Start(char* filename, char* enemyname, int maxhp, float movelim, CVector3 look_pos, bool isBattle)
+void Enemy::Start(char* filename, char* enemyname, int maxhp, CVector3 pos, CVector3 look_pos, bool isBattle)
 {
 	m_filename = filename;
 	m_name = enemyname;
 	m_hp = maxhp;
 	m_maxhp = maxhp;
-	m_movelim = movelim;
+	m_position = pos;
 	m_look_pos = look_pos;
 	m_isBattle = isBattle;
 
@@ -41,6 +40,8 @@ void Enemy::Start(char* filename, char* enemyname, int maxhp, float movelim, CVe
 	SkinModelDataResources().Load(m_skinModelData, filePath, NULL);
 	m_skinModel.Init(m_skinModelData.GetBody());
 	m_skinModel.SetLight(&g_defaultLight);//デフォルトライトを設定。
+
+	m_characterController.SetPosition(m_position);
 }
 
 void Enemy::Update()
@@ -57,11 +58,6 @@ void Enemy::Update()
 
 void Enemy::Move()
 {
-	if (m_random.GetRandDouble() > 0.9f)
-	{
-		return;
-	}
-
 	CVector3 move = m_characterController.GetMoveSpeed();
 
 	CVector3 moveXZ;

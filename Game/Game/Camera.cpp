@@ -66,6 +66,24 @@ void Camera::CameraPos()
 	{
 		SetTarget(CT_NOTARGET);
 	}
+	if (m_target == CT_ENEMY)
+	{
+		if (g_scene->GetEnemy() == nullptr)
+		{
+			SetTarget(CT_NOTARGET);
+		}
+		else if (g_scene->GetEnemy()->GetEnemyNum() == 0)
+		{
+			if (g_scene->GetPlayer() == nullptr)
+			{
+				SetTarget(CT_NOTARGET);
+			}
+			else
+			{
+				SetTarget(CT_PLAYER);
+			}
+		}
+	}
 
 	switch (m_target)
 	{
@@ -80,8 +98,7 @@ void Camera::CameraPos()
 	case CT_ENEMY:
 		camera_pos = g_scene->GetPlayer()->GetLookPos();
 		camera_pos.Add(m_position);
-		m_look_position = g_scene->GetPlayer()->GetLookPos();
-		break;
+		m_look_position = g_scene->GetPlayer()->GetLookPos();	break;
 	default:
 		break;
 	}

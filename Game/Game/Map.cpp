@@ -20,8 +20,7 @@ void Map::Change(Scenes scene)
 {
 	Delete();
 
-	int num = 0;
-
+	std::vector<SMapInfo> map_dat;
 	switch (scene)
 	{
 	case NOSCENES:
@@ -31,221 +30,94 @@ void Map::Change(Scenes scene)
 	case SAVE_DATA:
 		break;
 	case STAGE_HOUSE:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_1_1:
-		for each(SMapInfo dat in Stage_1_2)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_2;
 		break;
 	case STAGE_1_2:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_1_BOSS:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_1_BATTLE:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_1_BOSS_BATTLE:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_2_1:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_2_2:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_2_BOSS:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_2_BATTLE:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_2_BOSS_BATTLE:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_3_1:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_3_2:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_3_BOSS:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_3_BATTLE:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_3_BOSS_BATTLE:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_4_1:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_4_2:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_4_BOSS:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_4_BATTLE:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_4_BOSS_BATTLE:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_5_1:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_5_2:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_5_BOSS:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_5_BATTLE:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_5_BOSS_BATTLE:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
 	default:
-		for each(SMapInfo dat in Stage_1_1)
-		{
-			m_mapchip[num] = NewGO<MapChip>(0);
-			m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
-			num++;
-		}
+		map_dat = Stage_1_1;
 		break;
+	}
+
+	int num = 0;
+	for each(SMapInfo dat in map_dat)
+	{
+		m_mapchip[num] = NewGO<MapChip>(0);
+		m_mapchip[num]->Start(dat.s_modelName, dat.s_position, dat.s_rotation, dat.s_scale);
+		num++;
 	}
 	m_mapchip[num] = nullptr;
 }
