@@ -26,17 +26,17 @@
 	CQuaternion(-0.50f, 0.50f, 0.50f, 0.50f ), //回転
 	CVector3(1.00f, 1.00f, 1.00f),             //スケール
 },
-//ooiwa
+//ooiwa3
 {
-	"ooiwa",
-	CVector3(22.00f, 45.10f, 1.80f),             //平行移動
+	"ooiwa3",
+	CVector3(14.70f, 47.00f, -87.10f),             //平行移動
 	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ), //回転
-	CVector3(0.25f, 0.25f, 0.25f),             //スケール
+	CVector3(0.22f, 0.22f, 0.22f),             //スケール
 },
-//ooiwa
+//ooiwa3
 {
-	"ooiwa",
-	CVector3(-57.90f, 49.10f, -98.75f),             //平行移動
-	CQuaternion(-0.58f, -0.43f, -0.41f, 0.56f ), //回転
-	CVector3(0.14f, 0.14f, 0.14f),             //スケール
+	"ooiwa3",
+	CVector3(-64.10f, 54.88f, -3.90f),             //平行移動
+	CQuaternion(0.54f, -0.69f, -0.21f, -0.44f ), //回転
+	CVector3(0.18f, 0.18f, 0.18f),             //スケール
 },
