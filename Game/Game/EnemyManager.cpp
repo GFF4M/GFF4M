@@ -149,3 +149,11 @@ Enemy* EnemyManager::GetNearestEnemy(CVector3 pos, int no)
 
 	return nullptr;
 }
+
+//dog.X
+//doragon.X
+//golem.X
+//kaeruwalk.X
+//woodAttack.X
+//kinokomove.X
+//kinokoAttack.X

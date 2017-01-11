@@ -15,14 +15,21 @@
 //ooiwa2
 {
 	"ooiwa2",
-	CVector3(-47.90f, 50.40f, -5.50f),             //平行移動
+	CVector3(10.30f, 52.60f, 52.70f),             //平行移動
 	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ), //回転
-	CVector3(0.29f, 0.29f, 0.29f),             //スケール
+	CVector3(0.27f, 0.26f, 0.27f),             //スケール
 },
 //kazan5
 {
 	"kazan5",
-	CVector3(-20.10f, 58.79f, -57.00f),             //平行移動
-	CQuaternion(-0.71f, 0.02f, 0.00f, 0.71f ), //回転
+	CVector3(-4.15f, 63.19f, 17.89f),             //平行移動
+	CQuaternion(-0.73f, 0.01f, -0.01f, 0.68f ), //回転
 	CVector3(1.00f, 1.00f, 1.00f),             //スケール
+},
+//Flag
+{
+	"Flag",
+	CVector3(-33.70f, 51.90f, 78.08f),             //平行移動
+	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ), //回転
+	CVector3(0.09f, 0.23f, 0.23f),             //スケール
 },

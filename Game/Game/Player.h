@@ -61,6 +61,8 @@ public:
 
 	enum AnimationStat{
 		AnimationStand,
+		AnimationDamage,
+		Animationmagic,
 		AnimationAttack,
 		AnimationWalk,
 		AnimationNum,
