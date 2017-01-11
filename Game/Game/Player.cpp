@@ -32,13 +32,15 @@ Player::~Player()
 
 void Player::Start()
 {
-	SkinModelDataResources().Load(m_skinModelData, "Assets/modelData/kanoAttack.X", &m_animation);
+	SkinModelDataResources().Load(m_skinModelData, "Assets/modelData/kano.X", &m_animation);
 
 	m_skinModel.Init(m_skinModelData.GetBody());
 	m_skinModel.SetLight(&g_defaultLight);//デフォルトライトを設定。
 
 	m_animation.SetAnimationLoopFlag(AnimationAttack,false);
 	m_animation.SetAnimationLoopFlag(AnimationStand, false);
+	m_animation.SetAnimationLoopFlag(Animationmagic, false);
+	m_animation.SetAnimationLoopFlag(AnimationDamage,false);
 }
 
 void Player::Update()
@@ -107,9 +109,9 @@ void Player::Move()
 	}
 	else
 	{
-		if (m_animationStat != AnimationAttack)
+		if (m_animationStat != AnimationStand)
 		{
-			m_animationStat = AnimationAttack;
+			m_animationStat = AnimationStand;
 			m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
 
 			//パーティクルの生成

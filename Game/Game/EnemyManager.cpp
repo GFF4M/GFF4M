@@ -7,6 +7,7 @@ EnemyManager::EnemyManager()
 	for (int i = 0;i < ENEMY_NUM;i++)
 	{
 		m_enemy[i] = nullptr;
+
 	}
 
 	m_random.Init((unsigned int)time(NULL));
