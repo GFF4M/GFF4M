@@ -23,6 +23,7 @@ namespace tkEngine{
 	 */
 	void CRandom::Init( unsigned long seed )
 	{
+		seed += rand() % 0xffffffffUL;
 		mt[0]= seed & 0xffffffffUL;
 	    for (mti=1; mti<N; mti++) {
 	        mt[mti] = 

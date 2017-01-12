@@ -1,6 +1,13 @@
 #include "stdafx.h"
 #include "EnemyManager.h"
 #include "Player.h"
+#include "Enemy.h"
+
+const Enemy::EneDat			m_enemiesdat[ENEMY_DAT] =
+{
+	{ STAGE_T_1,			"dog",		"敵",	100,{ 3.0f,55.0f,0.0f },{ 0.0f,1.0f,0.0f }	,{ 1.0f,1.0f,1.0f } },
+	{ STAGE_T_BATTLE,		"Player",	"敵",	100,{ 3.0f,70.0f,3.0f },{ 0.0f,1.0f,0.0f }	,{ 1.0f,1.0f,1.0f } },
+};
 
 EnemyManager::EnemyManager()
 {
@@ -38,16 +45,12 @@ void EnemyManager::Change(Scenes scene)
 	//戦闘用フィールドへの遷移か調べる
 	switch (scene)
 	{
+	case STAGE_T_BATTLE:
 	case STAGE_1_BATTLE:
 	case STAGE_2_BATTLE:
 	case STAGE_3_BATTLE:
 	case STAGE_4_BATTLE:
 	case STAGE_5_BATTLE:
-	case STAGE_1_BOSS_BATTLE:
-	case STAGE_2_BOSS_BATTLE:
-	case STAGE_3_BOSS_BATTLE:
-	case STAGE_4_BOSS_BATTLE:
-	case STAGE_5_BOSS_BATTLE:
 		m_isBattle = true;
 		break;
 	default:
@@ -56,7 +59,7 @@ void EnemyManager::Change(Scenes scene)
 	}
 
 	int enemy_num = 0;
-	for each(Enemies dat in m_enemiesdat)
+	for each(Enemy::EneDat dat in m_enemiesdat)
 	{
 		if (dat.s_scene == scene)
 		{
@@ -73,22 +76,22 @@ void EnemyManager::Change(Scenes scene)
 	{
 		m_enemy[i] = NewGO<Enemy>(0);
 
-		int rand = m_random.GetRandInt() % enemy_num + 1;
+		int rand = m_random.GetRandInt() % enemy_num;
 
 		int datcnt = 0;
-		for each(Enemies dat in m_enemiesdat)
+		for each(Enemy::EneDat dat in m_enemiesdat)
 		{
 			if (dat.s_scene == scene)
 			{
-				datcnt++;
 				if (datcnt == rand)
 				{
 					CVector3 pos;
 					pos = dat.s_pos;
 
-					m_enemy[i]->Start(dat.s_filename, dat.s_name, dat.s_hp, pos, dat.s_look_pos, m_isBattle);
+					m_enemy[i]->Start(dat, m_isBattle);
 					break;
 				}
+				datcnt++;
 			}
 		}
 	}

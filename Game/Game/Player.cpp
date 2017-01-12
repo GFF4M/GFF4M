@@ -25,6 +25,10 @@ Player::Player()
 	random.Init((unsigned int) + time(NULL));
 	m_magicNo = 0;
 	m_ismagic = false;
+
+
+	m_moveflg = false;
+
 }
 
 Player::~Player()
@@ -58,8 +62,8 @@ void Player::Update()
 	if (m_magicNo > WIND) {
 		m_magicNo = FIER;
 	}
-	CVector3 m_oldpos;
-	m_oldpos = m_position;
+	/*CVector3 m_oldpos;
+	m_oldpos = m_position;*/
 
 	//if (m_ismagic == true&&m_oldpos != m_position) {//–‚–@’†ˆÚ“®‚È‚Ç‚Å‚«‚È‚¢‚æ‚¤‚É‚·‚é
 
@@ -85,7 +89,10 @@ void Player::Update()
 		}
 	
 	
-	Move();
+	if (m_moveflg)
+	{
+		Move();
+	}
 
 	m_animation.Update(2.0 / 60.0f);
 

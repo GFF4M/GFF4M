@@ -33,9 +33,6 @@
     <ClCompile Include="EnemyManager.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="result.cpp">
-      <Filter>Screen\result</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -75,9 +72,6 @@
     <ClInclude Include="MapDat.h">
       <Filter>Map</Filter>
     </ClInclude>
-    <ClInclude Include="result.h">
-      <Filter>Screen\result</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Camera">
@@ -113,8 +107,11 @@
     <Filter Include="EnumDat">
       <UniqueIdentifier>{b13c0284-97fb-416a-a477-1048a42096b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Savedata">
+      <UniqueIdentifier>{94fa6b9c-12ff-4ac3-af63-27f83a65b5f0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Screen\result">
-      <UniqueIdentifier>{9dddc2d5-def4-447f-8cb9-41c8b25c8a68}</UniqueIdentifier>
+      <UniqueIdentifier>{bb1c36a6-3a83-402b-8e43-1d40b17dd79d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

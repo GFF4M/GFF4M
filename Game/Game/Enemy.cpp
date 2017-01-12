@@ -9,29 +9,33 @@ Enemy::Enemy()
 	m_scale = { 0.6f,0.6f,0.6f };
 	m_radius = 0.5f;
 	m_dead = false;
+	m_move_timer = 0;
 
 	m_filename = NULL;
 	m_name = NULL;
 	m_hp = 0;
 	m_maxhp = 0;
+	m_angle = 0.0f;
 
 	m_characterController.Init(m_radius, 1.0f, m_position);
 
 	m_random.Init((unsigned int)time(NULL));
+
 }
 
 Enemy::~Enemy()
 {
 }
 
-void Enemy::Start(char* filename, char* enemyname, int maxhp, CVector3 pos, CVector3 look_pos, bool isBattle)
+void Enemy::Start(EneDat enedat, bool isBattle)
 {
-	m_filename = filename;
-	m_name = enemyname;
-	m_hp = maxhp;
-	m_maxhp = maxhp;
-	m_position = pos;
-	m_look_pos = look_pos;
+	m_filename = enedat.s_filename;
+	m_name = enedat.s_name;
+	m_hp = enedat.s_hp;
+	m_maxhp = enedat.s_hp;
+	m_position = enedat.s_pos;
+	m_look_pos = enedat.s_look_pos;
+	m_scale = enedat.s_scale;
 	m_isBattle = isBattle;
 
 	char filePath[256];
@@ -53,7 +57,7 @@ void Enemy::Update()
 	}
 
 	Move();
-	m_skinModel.Update(m_position, m_rotation,m_scale);//ワールド行列の更新。
+	m_skinModel.Update(m_position, m_rotation, m_scale);//ワールド行列の更新。
 }
 
 void Enemy::Move()
@@ -62,11 +66,17 @@ void Enemy::Move()
 
 	CVector3 moveXZ;
 
+	if (m_isBattle)
+	{
+	}
+
 	//決定した移動速度をキャラクタコントローラーに設定。
 	m_characterController.SetMoveSpeed(move);
 	//キャラクターコントローラーを実行。
 	m_characterController.Execute();
 	m_position = m_characterController.GetPosition();
+
+	m_rotation.SetRotation(CVector3::AxisY, CMath::DegToRad(m_angle));
 }
 
 void Enemy::Render(CRenderContext& renderContext)

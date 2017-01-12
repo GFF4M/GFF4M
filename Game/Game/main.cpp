@@ -33,7 +33,7 @@ void InitTkEngine( HINSTANCE hInst )
 
 	//Shadow
 	initParam.graphicsConfig.shadowRenderConfig.Init();
-	initParam.graphicsConfig.shadowRenderConfig.isEnable = true;
+	initParam.graphicsConfig.shadowRenderConfig.isEnable = false;
 	initParam.graphicsConfig.shadowRenderConfig.shadowMapWidth = 1024;
 	initParam.graphicsConfig.shadowRenderConfig.shadowMapHeight = 1024;
 	initParam.graphicsConfig.shadowRenderConfig.numShadowMap = 3;

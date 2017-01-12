@@ -170,7 +170,6 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapChip.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="result.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Bar.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -191,7 +190,6 @@
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="MapDat.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="result.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Bar.h" />
     <ClInclude Include="stdafx.h" />

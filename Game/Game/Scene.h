@@ -7,7 +7,9 @@
 #include "EnemyManager.h"
 #include "Bar.h"
 
-#define CHANGEDAT_NUM 47
+#define CHANGEDAT_NUM	22
+
+#define SAVE			"SaveDat.txt"
 
 class Scene : public IGameObject
 {
@@ -50,6 +52,16 @@ public:
 		CVector3		s_next_pos;
 	};
 
+	/*
+	1...シーン
+	2...ポジション
+	3...アングル
+	*/
+	struct SaveData
+	{
+		Scenes			s_scene;
+		CVector3		s_pos;
+	};
 
 	/*!
 	* @brief	コンストラクタ。
@@ -82,7 +94,6 @@ public:
 	*/
 	void Change(Scenes scenes);
 
-
 	/*!
 	* @brief	データ更新
 	*/
@@ -102,6 +113,18 @@ public:
 	{
 		return m_enem_manage;
 	}
+
+	bool SetSaveDat();
+
+	bool GetSaveDat();
+
+	/*!
+	* @brief	暗号化(復号もできます)
+	*
+	*	1...char*:暗号化する文字列
+	*/
+	void Encryption(char *);
+
 private:
 	SC_Load*			m_load;
 	Player*				m_play;
@@ -116,66 +139,40 @@ private:
 
 	CameraTarget		m_cameraTarget;
 
+	bool				m_loadsavedat;
+	CVector3			m_loadpos;
+
 	int					m_dat_num;
 	const ChangeDat		m_changedat[CHANGEDAT_NUM] =
 	{
 		{ NOSCENES,				START,					CS_ADD,			CS_ADD,			CS_ADD,			CS_ADD		, CVector3(0.0f,0.0f,0.0f)},
-
-		{ START,				STAGE_HOUSE,			CS_DELETE,		CS_ADD,			CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-
-		{ STAGE_HOUSE,			STAGE_1_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_HOUSE,			STAGE_2_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_HOUSE,			STAGE_3_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_HOUSE,			STAGE_4_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_HOUSE,			STAGE_5_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+	
+		{ START,				NEWGAME,				CS_NOSTAT,		CS_NOSTAT,		CS_NOSTAT,		CS_NOSTAT	, CVector3(0.0f,55.0f,0.0f) },
+		{ START,				CONTINUE,				CS_NOSTAT,		CS_NOSTAT,		CS_NOSTAT,		CS_NOSTAT	, CVector3(0.0f,55.0f,0.0f) },
 		
-		{ STAGE_1_1,			STAGE_1_2,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_2_1,			STAGE_2_2,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_3_1,			STAGE_3_2,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_4_1,			STAGE_4_2,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_5_1,			STAGE_5_2,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ NEWGAME,				STAGE_T_1,				CS_DELETE,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
 
+		{ CONTINUE,				STAGE_T_1,				CS_DELETE,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ CONTINUE,				STAGE_1_1,				CS_DELETE,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ CONTINUE,				STAGE_2_1,				CS_DELETE,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ CONTINUE,				STAGE_3_1,				CS_DELETE,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ CONTINUE,				STAGE_4_1,				CS_DELETE,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ CONTINUE,				STAGE_5_1,				CS_DELETE,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+
+		{ STAGE_T_1,			STAGE_T_BATTLE,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
 		{ STAGE_1_1,			STAGE_1_BATTLE,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
 		{ STAGE_2_1,			STAGE_2_BATTLE,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
 		{ STAGE_3_1,			STAGE_3_BATTLE,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
 		{ STAGE_4_1,			STAGE_4_BATTLE,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
 		{ STAGE_5_1,			STAGE_5_BATTLE,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		
+		{ STAGE_T_BATTLE,		STAGE_1_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ STAGE_1_BATTLE,		STAGE_2_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ STAGE_2_BATTLE,		STAGE_3_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ STAGE_3_BATTLE,		STAGE_4_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ STAGE_4_BATTLE,		STAGE_5_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ STAGE_5_BATTLE,		START,					CS_ADD,			CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
 
-		{ STAGE_1_BATTLE,		STAGE_1_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_2_BATTLE,		STAGE_2_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_3_BATTLE,		STAGE_3_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_4_BATTLE,		STAGE_4_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_5_BATTLE,		STAGE_5_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-
-		{ STAGE_1_2,			STAGE_1_BOSS,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_2_2,			STAGE_2_BOSS,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_3_2,			STAGE_3_BOSS,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_4_2,			STAGE_4_BOSS,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_5_2,			STAGE_5_BOSS,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-
-		{ STAGE_1_2,			STAGE_1_BATTLE,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_2_2,			STAGE_2_BATTLE,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_3_2,			STAGE_3_BATTLE,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_4_2,			STAGE_4_BATTLE,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_5_2,			STAGE_5_BATTLE,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-
-		{ STAGE_1_BATTLE,		STAGE_1_2,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_2_BATTLE,		STAGE_2_2,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_3_BATTLE,		STAGE_3_2,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_4_BATTLE,		STAGE_4_2,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_5_BATTLE,		STAGE_5_2,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-
-		{ STAGE_1_BOSS,			STAGE_1_BOSS_BATTLE,	CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_NOSTAT	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_2_BOSS,			STAGE_1_BOSS_BATTLE,	CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_NOSTAT	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_3_BOSS,			STAGE_1_BOSS_BATTLE,	CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_NOSTAT	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_4_BOSS,			STAGE_1_BOSS_BATTLE,	CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_NOSTAT	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_5_BOSS,			STAGE_1_BOSS_BATTLE,	CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_NOSTAT	, CVector3(0.0f,55.0f,0.0f) },
-
-		{ STAGE_1_BOSS_BATTLE,	STAGE_HOUSE,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_2_BOSS_BATTLE,	STAGE_HOUSE,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_3_BOSS_BATTLE,	STAGE_HOUSE,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_4_BOSS_BATTLE,	STAGE_HOUSE,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_5_BOSS_BATTLE,	STAGE_HOUSE,			CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
 	};
 };
 
