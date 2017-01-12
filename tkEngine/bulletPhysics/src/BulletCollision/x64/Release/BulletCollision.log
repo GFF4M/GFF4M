@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ﻿cl : コマンド ライン warning D9002: 不明なオプション '/arch:SSE' を無視します
   btAxisSweep3.cpp
   btBroadphaseProxy.cpp
@@ -105,6 +104,3 @@
   btVoronoiSimplexSolver.cpp
   コードを生成中...
   BulletCollision.vcxproj -> C:\Users\kbc16b15\Desktop\github\GFF4M\Game\x64\Release\BulletCollision.lib
-=======
-﻿
->>>>>>> 33ac5da93938d628bd7a49695fe881953971290b
