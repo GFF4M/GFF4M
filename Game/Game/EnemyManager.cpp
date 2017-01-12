@@ -14,6 +14,7 @@ EnemyManager::EnemyManager()
 	for (int i = 0;i < ENEMY_NUM;i++)
 	{
 		m_enemy[i] = nullptr;
+
 	}
 
 	m_random.Init((unsigned int)time(NULL));
@@ -152,3 +153,11 @@ Enemy* EnemyManager::GetNearestEnemy(CVector3 pos, int no)
 
 	return nullptr;
 }
+
+//dog.X
+//doragon.X
+//golem.X
+//kaeruwalk.X
+//woodAttack.X
+//kinokomove.X
+//kinokoAttack.X

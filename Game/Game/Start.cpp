@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Start.h"
 #include "Scene.h"
+#include "tkEngine/Sound/tkSoundSource.h"
 
 SC_Start::SC_Start()
 {
@@ -12,12 +13,13 @@ SC_Start::SC_Start()
 
 SC_Start::~SC_Start()
 {
+	/*DeleteGO(m_soundSource);*/
 }
 
 void SC_Start::Start()
 {
 	//îwåi
-	m_back_tex.Load("Assets/Sprite/Yellow.png");
+	m_back_tex.Load("Assets/Sprite/1.jpg");
 	m_back.Init(&m_back_tex);
 	m_back.SetSize(BACK_MAX_SIZE);
 	m_back.SetPivot({ 0.5f,0.5f });
@@ -44,13 +46,14 @@ void SC_Start::Start()
 	m_continue.SetPivot({ 0.5f,0.5f });
 	m_continue.SetPosition(CONTINUE_POS);
 
-	/*soundSource.Init("Assets/modelData/bgm_maoudamashii_piano25.wav");
-	soundSource.Play(true);*/
+	/*m_soundSource = NewGO<CSoundSource>(0);
+	m_soundSource->Init("Assets/Sound/bgm_maoudamashii_piano25.wav");
+	m_soundSource->Play(true);*/
 }
 
 void SC_Start::Update()
 {
-	/*soundSource.Update();*/
+	
 	SetTexSize();
 	SetScene();
 }
@@ -87,6 +90,9 @@ void SC_Start::SetScene()
 		if (!m_UPressflag)
 		{
 			tex_num--;
+			/*m_soundSource = NewGO<CSoundSource>(0);
+			m_soundSource->Init("Assets/Sound/se_maoudamashii_system24.wav");
+			m_soundSource->Play(false);*/
 			m_UPressflag = true;
 		}
 	}
@@ -100,6 +106,9 @@ void SC_Start::SetScene()
 		if (!m_DPressflag)
 		{
 			tex_num++;
+			/*m_soundSource = NewGO<CSoundSource>(0);
+			m_soundSource->Init("Assets/Sound/se_maoudamashii_system24.wav");
+			m_soundSource->Play(false);*/
 			m_DPressflag = true;
 		}
 	}

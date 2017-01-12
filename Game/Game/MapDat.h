@@ -9,7 +9,7 @@ struct SMapInfo {
 
 std::vector<SMapInfo> Stage_1_1
 {
-#include "MapData/kaminari.h"
+#include "MapData/sou.h"
 };
 
 std::vector<SMapInfo> Stage_1_2

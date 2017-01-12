@@ -40,3 +40,10 @@
 	CQuaternion(0.05f, 0.71f, 0.71f, -0.03f ), //回転
 	CVector3(0.03f, 0.03f, 0.10f),             //スケール
 },
+//sakusaku
+{
+	"sakusaku",
+	CVector3(3.45f, 53.60f, 27.20f),             //平行移動
+	CQuaternion(-0.51f, 0.50f, 0.49f, 0.50f ), //回転
+	CVector3(0.03f, 0.03f, 0.10f),             //スケール
+},

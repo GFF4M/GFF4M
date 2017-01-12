@@ -40,6 +40,8 @@ void Player::Start()
 
 	m_animation.SetAnimationLoopFlag(AnimationAttack,false);
 	m_animation.SetAnimationLoopFlag(AnimationStand, false);
+	m_animation.SetAnimationLoopFlag(Animationmagic, false);
+	m_animation.SetAnimationLoopFlag(AnimationDamage,false);
 }
 
 void Player::Update()
@@ -59,6 +61,9 @@ void Player::Update()
 
 	//ワールド行列の更新。
 	m_skinModel.Update(m_position,m_rotation, m_scale);
+
+
+	
 }
 
 
@@ -108,27 +113,27 @@ void Player::Move()
 	}
 	else
 	{
-		if (m_animationStat != AnimationAttack)
+		if (m_animationStat != AnimationStand)
 		{
-			m_animationStat = AnimationAttack;
+			m_animationStat = AnimationStand;
 			m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
 
 			//パーティクルの生成
 			m_particle = NewGO<CParticleEmitter>(0);
 			m_particle->Init(random, g_gameCamera->GetCamera(),
 			{
-				"Assets/paticle/Additive/ETF_Texture_Thunder_01.png",				//!<テクスチャのファイルパス。
+				"Assets/paticle/Textures/project2_4x4.png",				//!<テクスチャのファイwルパス。
 				{ 0.0f, 0.0f, 0.0f },								//!<初速度。
-				0.4f,											//!<寿命。単位は秒。
+				1.0f,											//!<寿命。単位は秒。
 				4.0f,											//!<発生時間。単位は秒。
-				7.0f,											//!<パーティクルの幅。
-				14.0f,											//!<パーティクルの高さ。
+				4.0f,											//!<パーティクルの幅。
+				4.0f,											//!<パーティクルの高さ。
 				{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
 				{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
 				{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
 				{
-					{ 0.0f, 0.0f, 0.4f, 0.3f },
-					{ 0.0f, 0.0f, 0.0f, 0.0f },
+					{ 0.0f, 0.5f, 0.5f, 0.75f },//0.25,0.5,0.75,1UとVの位置
+					{ 0.0f, 0.0f, 0.0f, 0.0f },//X,Y,X,Y
 					{ 0.0f, 0.0f, 0.0f, 0.0f },
 					{ 0.0f, 0.0f, 0.0f, 0.0f }
 				},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
@@ -162,7 +167,7 @@ void Player::Move()
 	if (KeyInput().GetPad(0).IsPress(enButtonLB3) && m_characterController.IsOnGround())
 	{
 		m_characterController.Jump();
-		move.y = 8.0f;
+		move.y = 4.0f;
 
 		m_animation.PlayAnimation(AnimationAttack, 0.3f);
 		m_animationStat = AnimationAttack;
