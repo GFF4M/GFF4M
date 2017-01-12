@@ -91,7 +91,7 @@ namespace tkEngine{
 		brightness = param.brightness;
 		alphaBlendMode = param.alphaBlendMode;
 		mulColor = param.mulColor;
-		rotateZ = 45.0f;/*CMath::PI * 2.0f * (float)random.GetRandDouble();*///パーティクルのランダム回転？
+		rotateZ = CMath::PI * 2.0f * (float)random.GetRandDouble();
 	}
 	void CParticle::Start()
 	{

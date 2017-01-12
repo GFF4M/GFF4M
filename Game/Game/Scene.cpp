@@ -87,7 +87,7 @@ void Scene::LoadCheck()
 	//ƒ[ƒhI—¹
 	case LS_LOADFIN:
 		m_load->Delete();
-		m_load = nullptr;
+		//m_load = nullptr;
 		m_loadstat = LS_NOSTAT;
 		break;
 

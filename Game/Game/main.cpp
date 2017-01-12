@@ -76,7 +76,7 @@ int WINAPI wWinMain(
 	//tkEngineの初期化。
 	InitTkEngine( hInst );
 	
-	g_gameCamera = NewGO<Camera>(0);	//カメラを生成。									//プレイヤー。
+	g_gameCamera = NewGO<Camera>(0);	//カメラを生成。
 	g_scene = NewGO<Scene>(0);
 	Engine().RunGameLoop();				//ゲームループを実行。
 
