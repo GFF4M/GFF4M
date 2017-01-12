@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿cl : コマンド ライン warning D9002: 不明なオプション '/arch:SSE' を無視します
   btAlignedAllocator.cpp
   btConvexHull.cpp
@@ -15,3 +16,6 @@ btVector3.cpp(569): warning C4267: '-=': 'size_t' から 'unsigned long' に変�
 btVector3.cpp(815): warning C4267: '=': 'size_t' から 'long' に変換しました。データが失われているかもしれません。
   コードを生成中...
   LinearMath.vcxproj -> C:\Users\kbc16b15\Desktop\github\GFF4M\Game\x64\Release\LinearMath.lib
+=======
+﻿
+>>>>>>> 33ac5da93938d628bd7a49695fe881953971290b
