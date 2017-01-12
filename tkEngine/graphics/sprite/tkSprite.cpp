@@ -82,6 +82,8 @@ namespace tkEngine{
 
 		renderContext.SetRenderState(RS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 
+		renderContext.SetRenderState(RS_ALPHABLENDENABLE, true);
+
 		m_effect->Begin(renderContext);
 		m_effect->BeginPass(renderContext, 0);
 		m_effect->SetTechnique(renderContext, "SpriteTexture");
