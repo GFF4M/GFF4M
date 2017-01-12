@@ -13,13 +13,13 @@ SC_Load::~SC_Load()
 void SC_Load::Start()
 {
 	//îwåi
-	m_back_tex.Load("Assets/Sprite/White.png");
+	m_back_tex.Load("Assets/Sprite/Black.png");
 	m_back.Init(&m_back_tex);
 	m_back.SetSize(BACK_MAX_SIZE);
 	m_back.SetPivot({ 0.5f,0.5f });
 	m_back.SetPosition(BACK_POS);
 
-	m_load_tex.LoadEx("Assets/Sprite/Loading-A.png",0);
+	m_load_tex.LoadEx("Assets/Sprite/Loading-1.png",0);
 	m_load.Init(&m_load_tex);
 	m_load.SetSize(LOADMAXSIZE);
 	m_load.SetPivot({ 0.5f,0.5f });

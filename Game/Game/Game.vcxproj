@@ -165,7 +165,9 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="gameover.cpp" />
     <ClCompile Include="Load.cpp" />
+    <ClCompile Include="Magic.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapChip.cpp" />
@@ -186,7 +188,9 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnumDat.h" />
+    <ClInclude Include="gameover.h" />
     <ClInclude Include="Load.h" />
+    <ClInclude Include="Magic.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapChip.h" />
     <ClInclude Include="MapDat.h" />

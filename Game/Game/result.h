@@ -1,9 +1,9 @@
 #pragma once
-class SC_result : public IGameObject
+class SC_Result : public IGameObject
 {
 public:
-	SC_result();
-	~SC_result();
+	SC_Result();
+	~SC_Result();
 	void Start();
 	void Update();
 	void PostRender(CRenderContext& renderContext);
@@ -11,8 +11,8 @@ public:
 
 private:
 
-	CSprite		m_result;					//ロード
-	CTexture	m_result_tex;				//ロードのテクスチャ
+	CSprite		m_Result;					//リザルト
+	CTexture	m_Result_tex;				//リザルトのテクスチャ
 
 	CSprite		m_back;					//背景
 	CTexture	m_back_tex;				//背景のテクスチャ

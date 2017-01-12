@@ -19,7 +19,7 @@ SC_Start::~SC_Start()
 void SC_Start::Start()
 {
 	//îwåi
-	m_back_tex.Load("Assets/Sprite/Yellow.png");
+	m_back_tex.Load("Assets/Sprite/1.jpg");
 	m_back.Init(&m_back_tex);
 	m_back.SetSize(BACK_MAX_SIZE);
 	m_back.SetPivot({ 0.5f,0.5f });
@@ -33,14 +33,14 @@ void SC_Start::Start()
 	m_title.SetPosition(TITLE_POS);
 
 	//New Game
-	m_newgame_tex.LoadEx("Assets/Sprite/New Game-A.png",0);
+	m_newgame_tex.LoadEx("Assets/Sprite/4.png",0);
 	m_newgame.Init(&m_newgame_tex);
 	m_newgame.SetSize(NEWGAME_MAX_SIZE);
 	m_newgame.SetPivot({ 0.5f, 0.5f });
 	m_newgame.SetPosition(NEWGAME_POS);
 
 	//Continue
-	m_continue_tex.LoadEx("Assets/Sprite/Continue-A.png", 0);
+	m_continue_tex.LoadEx("Assets/Sprite/2.png", 0);
 	m_continue.Init(&m_continue_tex);
 	m_continue.SetSize(CONTINUE_MAX_SIZE);
 	m_continue.SetPivot({ 0.5f,0.5f });
