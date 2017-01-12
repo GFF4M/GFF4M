@@ -98,5 +98,7 @@ namespace tkEngine{
 		m_effect->End(renderContext);
 
 		renderContext.SetRenderState(RS_DESTBLEND, D3DBLEND_ZERO);
+
+		renderContext.SetRenderState(RS_ALPHABLENDENABLE, false);
 	}
 }
