@@ -18,7 +18,10 @@ Scene::Scene()
 	m_scene = NOSCENES;
 	m_loadstat = LS_NOSTAT;
 
-	m_cameraTarget = CT_PLAYER;
+	m_cameraTarget = CT_NOTARGET;
+
+	m_loadsavedat = false;
+	m_loadpos = CVector3::Zero;
 }
 
 Scene::~Scene()
@@ -33,11 +36,6 @@ void Scene::Start()
 
 void Scene::Update()
 {
-	if (GetAsyncKeyState('Q'))
-	{
-		Change(STAGE_1_1);
-	}
-
 	if (Pad(0).IsTrigger(enButtonLB1))
 	{
 		switch (m_cameraTarget)
@@ -51,13 +49,17 @@ void Scene::Update()
 		default:
 			break;
 		}
+		g_gameCamera->SetTarget(m_cameraTarget);
 	}
-
-	g_gameCamera->SetTarget(m_cameraTarget);
+	if (m_cameraTarget == CT_NOTARGET)
+	{
+		g_gameCamera->SetTarget(CT_PLAYER);
+	}
 
 	Collision();
 	//ロード画面を表示するか？
 	LoadCheck();
+	SetSaveDat();
 }
 
 void Scene::LoadCheck()
@@ -118,6 +120,21 @@ void Scene::Change(Scenes scenes)
 	}
 
 	m_scene = scenes;
+
+	switch (m_scene)
+	{
+	case NEWGAME:
+		Change(STAGE_T_1);
+		break;
+	case CONTINUE:
+		if (!GetSaveDat())
+		{
+			Change(STAGE_T_1);
+		}
+		break;
+	default:
+		break;
+	}
 
 	//ロード画面開始
 	if (m_loadstat == LS_NOSTAT)
@@ -203,7 +220,28 @@ void Scene::ChangeData()
 
 	if (m_play != nullptr)
 	{
-		m_play->SetPos(dat.s_next_pos);
+		switch (m_scene)
+		{
+		case NOSCENES:
+		case START:
+		case NEWGAME:
+		case CONTINUE:
+			m_play->SetMoveFlag(false);
+			break;
+		default:
+			m_play->SetMoveFlag(true);
+			break;
+		}
+
+		if (m_loadsavedat)
+		{
+			m_play->SetPos(m_loadpos);
+			m_loadsavedat = false;
+		}
+		else
+		{
+			m_play->SetPos(dat.s_next_pos);
+		}
 	}
 }
 
@@ -245,50 +283,23 @@ void Scene::Collision()
 	{
 		switch (m_scene)
 		{
+		case STAGE_T_1:
+			scenes = STAGE_T_BATTLE;
+			break;
 		case STAGE_1_1:
 			scenes = STAGE_1_BATTLE;
-			break;
-		case STAGE_1_2:
-			scenes = STAGE_1_BATTLE;
-			break;
-		case STAGE_1_BOSS:
-			scenes = STAGE_1_BOSS_BATTLE;
 			break;
 		case STAGE_2_1:
 			scenes = STAGE_2_BATTLE;
 			break;
-		case STAGE_2_2:
-			scenes = STAGE_2_BATTLE;
-			break;
-		case STAGE_2_BOSS:
-			scenes = STAGE_2_BOSS_BATTLE;
-			break;
 		case STAGE_3_1:
 			scenes = STAGE_3_BATTLE;
-			break;
-		case STAGE_3_2:
-			scenes = STAGE_3_BATTLE;
-			break;
-		case STAGE_3_BOSS:
-			scenes = STAGE_3_BOSS_BATTLE;
 			break;
 		case STAGE_4_1:
 			scenes = STAGE_4_BATTLE;
 			break;
-		case STAGE_4_2:
-			scenes = STAGE_4_BATTLE;
-			break;
-		case STAGE_4_BOSS:
-			scenes = STAGE_4_BOSS_BATTLE;
-			break;
 		case STAGE_5_1:
 			scenes = STAGE_5_BATTLE;
-			break;
-		case STAGE_5_2:
-			scenes = STAGE_5_BATTLE;
-			break;
-		case STAGE_5_BOSS:
-			scenes = STAGE_5_BOSS_BATTLE;
 			break;
 		default:
 			break;
@@ -299,5 +310,111 @@ void Scene::Collision()
 		return;
 	}
 	Change(scenes);
-	m_enem_manage->Change(scenes);
+	m_enem_manage->IsBattle();
+}
+
+bool Scene::SetSaveDat()
+{
+	bool ret = false;
+
+	switch (m_scene)
+	{
+	case STAGE_T_1:
+	case STAGE_1_1:
+	case STAGE_2_1:
+	case STAGE_3_1:
+	case STAGE_4_1:
+	case STAGE_5_1:
+		break;
+	default:
+		ret = true;
+		break;
+	}
+
+	if (ret)
+	{
+		return false;
+	}
+
+
+
+	FILE *fp;
+
+	fp = fopen(SAVE, "w");
+
+	if (fp == NULL)
+	{
+		return false;
+	}
+
+	char dat[1000];
+
+	sprintf(dat, "%d,%.5f,%.5f,%.5f",
+		(int)m_scene,
+		m_play->GetPos().x,
+		m_play->GetPos().y,
+		m_play->GetPos().z
+	);
+
+	fputs(dat, fp);
+
+	fclose(fp);
+
+	return true;
+}
+
+bool Scene::GetSaveDat()
+{
+	bool ret = false;
+	switch (m_scene)
+	{
+	case CONTINUE:
+		break;
+
+	default:
+		ret = true;
+		break;
+	}
+
+	if (ret)
+	{
+		return false;
+	}
+	
+	FILE *fp;
+
+	fp = fopen(SAVE, "r");
+
+	if (fp == NULL)
+	{
+		return false;
+	}
+
+	char dat[1000];
+
+	fgets(dat, 1000, fp);
+
+	Scenes r_scene;
+	CVector3 r_pos;
+
+	sscanf(dat, "%d,%f,%f,%f", 
+		&r_scene,
+		&r_pos.x,
+		&r_pos.y,
+		&r_pos.z
+	);
+
+	Change(r_scene);
+
+	m_loadsavedat = true;
+	m_loadpos = r_pos;
+
+	fclose(fp);
+
+	return true;
+}
+
+void Scene::Encryption(char *dat)
+{
+	int a = 0x43;
 }

@@ -12,17 +12,20 @@ public:
 	void Delete();
 	void Move();
 
-
 	void SetPos(CVector3 pos)
 	{
 		m_position = pos;
 		m_characterController.SetPosition(pos);
 	}
 
-
 	CVector3 GetPos()
 	{
 		return m_position;
+	}
+
+	float GetAngle()
+	{
+		return m_angle;
 	}
 
 	CVector3 GetLookPos()
@@ -59,6 +62,11 @@ public:
 		return m_maxmp;
 	}
 
+	void SetMoveFlag(bool dat)
+	{
+		m_moveflg = dat;
+	}
+
 	enum AnimationStat{
 		AnimationStand,
 		AnimationAttack,
@@ -87,6 +95,8 @@ private:
 	int						m_maxhp;
 	int						m_mp;
 	int						m_maxmp;
+
+	bool					m_moveflg;
 
 	CParticleEmitter *m_particle;
 };

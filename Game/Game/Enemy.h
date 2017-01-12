@@ -3,6 +3,16 @@
 class Enemy : public IGameObject
 {
 public:
+	struct EneDat
+	{
+		Scenes			s_scene;		//発生場所
+		char*			s_filename;		//ファイル名
+		char*			s_name;			//名前
+		int				s_hp;			//HP
+		CVector3		s_pos;			//基本初期座標
+		CVector3		s_look_pos;		//注視点
+		CVector3		s_scale;		//スケール
+	};
 	/*!
 	* @brief	コンストラクタ。
 	*/
@@ -16,7 +26,7 @@ public:
 	/*!
 	* @brief	UpDate()の前に1回だけ呼ばれる。
 	*/
-	void Start(char* filename, char* enemyname, int maxhp, CVector3 pos, CVector3 look_pos, bool isBattle);
+	void Start(EneDat enedat, bool isBattle);
 
 	/*!
 	* @brief	更新。
@@ -65,6 +75,7 @@ private:
 	CVector3				m_look_pos;						//注視点。
 	CQuaternion				m_rotation;						//回転。
 	CVector3				m_scale;						//拡大。
+	float					m_angle;						//角度。
 
 	float					m_radius;
 
@@ -77,4 +88,6 @@ private:
 
 	CRandom					m_random;
 	bool					m_isBattle;
+
+	int						m_move_timer;
 };

@@ -23,7 +23,8 @@ Player::Player()
 	m_mp	= 100;
 	m_maxmp = 100;
 	random.Init((unsigned int) + time(NULL));
-	
+
+	m_moveflg = false;
 }
 
 Player::~Player()
@@ -49,7 +50,10 @@ void Player::Update()
 		DeleteGO(this);
 	}
 	
-	Move();
+	if (m_moveflg)
+	{
+		Move();
+	}
 
 	m_animation.Update(2.0 / 60.0f);
 

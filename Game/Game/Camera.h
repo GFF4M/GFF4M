@@ -43,6 +43,10 @@ public:
 	void SetTarget(CameraTarget target)
 	{
 		m_target = target;
+		if (target == CT_ENEMY)
+		{
+			m_enetargetflg = true;
+		}
 	}
 	CCamera& GetCamera()
 	{
@@ -66,7 +70,9 @@ private:
 	
 	CameraTarget			m_target;
 
-	bool					m_rotation;
+	bool					m_rot_flg;
+
+	bool					m_enetargetflg;
 };
 
 extern Camera* g_gameCamera;

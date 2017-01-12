@@ -15,7 +15,8 @@ Camera::Camera()
 
 	m_target = CT_NOTARGET;
 
-	m_rotation = true;
+	m_rot_flg = true;
+	m_enetargetflg = false;
 }
 
 Camera::~Camera()
@@ -33,10 +34,10 @@ void Camera::Update()
 {
 	if (Pad(0).IsTrigger(enButtonRB3))
 	{
-		m_rotation = !m_rotation;
+		m_rot_flg = !m_rot_flg;
 	}
 
-	if (m_rotation)
+	if (m_rot_flg)
 	{
 		Rotation();
 	}
@@ -84,7 +85,6 @@ void Camera::CameraPos()
 			}
 		}
 	}
-
 	switch (m_target)
 	{
 	case CT_NOTARGET:
@@ -96,9 +96,15 @@ void Camera::CameraPos()
 		m_look_position = g_scene->GetPlayer()->GetLookPos();
 		break;
 	case CT_ENEMY:
-		camera_pos = g_scene->GetPlayer()->GetLookPos();
-		camera_pos.Add(m_position);
-		m_look_position = g_scene->GetPlayer()->GetLookPos();	break;
+		if (m_enetargetflg)
+		{
+			camera_pos = g_scene->GetPlayer()->GetLookPos();
+			camera_pos.Add(m_position);
+			m_look_position = g_scene->GetPlayer()->GetLookPos();
+
+			m_enetargetflg = false;
+		}
+		break;
 	default:
 		break;
 	}

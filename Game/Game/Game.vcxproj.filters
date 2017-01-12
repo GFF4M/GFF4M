@@ -107,5 +107,13 @@
     <Filter Include="EnumDat">
       <UniqueIdentifier>{b13c0284-97fb-416a-a477-1048a42096b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Savedata">
+      <UniqueIdentifier>{94fa6b9c-12ff-4ac3-af63-27f83a65b5f0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="SaveDat.txt">
+      <Filter>Savedata</Filter>
+    </Text>
   </ItemGroup>
 </Project>

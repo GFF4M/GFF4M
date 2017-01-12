@@ -126,10 +126,10 @@ void SC_Start::SetScene()
 	switch (m_tex_num)
 	{
 	case NEWGAME:
-		g_scene->Change(STAGE_HOUSE);
+		g_scene->Change(Scenes::NEWGAME);
 		break;
 	case CONTINUE:
-		g_scene->Change(STAGE_HOUSE);
+		g_scene->Change(Scenes::CONTINUE);
 		break;
 	default:
 		break;
