@@ -19,7 +19,7 @@ SC_Start::~SC_Start()
 void SC_Start::Start()
 {
 	//îwåi
-	m_back_tex.Load("Assets/Sprite/1.jpg");
+	m_back_tex.Load("Assets/Sprite/Yellow.png");
 	m_back.Init(&m_back_tex);
 	m_back.SetSize(BACK_MAX_SIZE);
 	m_back.SetPivot({ 0.5f,0.5f });
