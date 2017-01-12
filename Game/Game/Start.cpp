@@ -53,7 +53,6 @@ void SC_Start::Start()
 
 void SC_Start::Update()
 {
-	
 	SetTexSize();
 	SetScene();
 }

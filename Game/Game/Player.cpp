@@ -23,7 +23,8 @@ Player::Player()
 	m_mp	= 100;
 	m_maxmp = 100;
 	random.Init((unsigned int) + time(NULL));
-	
+	m_magicNo = 0;
+	m_ismagic = false;
 }
 
 Player::~Player()
@@ -37,10 +38,10 @@ void Player::Start()
 	m_skinModel.Init(m_skinModelData.GetBody());
 	m_skinModel.SetLight(&g_defaultLight);//デフォルトライトを設定。
 
-	m_animation.SetAnimationLoopFlag(AnimationAttack,false);
+	m_animation.SetAnimationLoopFlag(AnimationAttack, false);
 	m_animation.SetAnimationLoopFlag(AnimationStand, false);
 	m_animation.SetAnimationLoopFlag(Animationmagic, false);
-	m_animation.SetAnimationLoopFlag(AnimationDamage,false);
+	m_animation.SetAnimationLoopFlag(AnimationDamage, false);
 }
 
 void Player::Update()
@@ -50,6 +51,39 @@ void Player::Update()
 		m_characterController.RemoveRigidBoby();
 		DeleteGO(this);
 	}
+	if (KeyInput().GetPad(0).IsTrigger(enButtonRB2))
+	{
+		m_magicNo++;
+	}
+	if (m_magicNo > WIND) {
+		m_magicNo = FIER;
+	}
+	CVector3 m_oldpos;
+	m_oldpos = m_position;
+
+	//if (m_ismagic == true&&m_oldpos != m_position) {//魔法中移動などできないようにする
+
+	//	m_position = m_oldpos;
+
+	//}
+
+	if (m_ismagic == false) {
+		if (KeyInput().GetPad(0).IsTrigger(enButtonA))
+		{
+
+			m_animationStat = Animationmagic;
+			m_animation.PlayAnimation(m_animationStat, 0.3f);
+			m_ismagic = true;
+		}
+		
+	}
+
+		if (m_animation.IsPlay() == false &&m_ismagic==true){
+
+			paticle();
+			m_ismagic = false;
+		}
+	
 	
 	Move();
 
@@ -57,8 +91,6 @@ void Player::Update()
 
 	//ワールド行列の更新。
 	m_skinModel.Update(m_position,m_rotation, m_scale);
-
-
 	
 }
 
@@ -79,11 +111,11 @@ void Player::Move()
 
 	if (LenXZ > 0.0f)
 	{
-		if (m_animationStat != AnimationWalk)
+		if (m_animationStat != AnimationWalk&&m_ismagic == false)
 		{
 			m_animationStat = AnimationWalk;
 			m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
-
+			
 		}
 
 		//AxisZとmoveXZのなす角を求める
@@ -109,43 +141,12 @@ void Player::Move()
 	}
 	else
 	{
-		if (m_animationStat != AnimationStand)
+		
+		if (m_animationStat != AnimationStand&&m_ismagic==false)
 		{
-			m_animationStat = AnimationStand;
+			m_animationStat = AnimationStand2;
 			m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
-
-			//パーティクルの生成
-			m_particle = NewGO<CParticleEmitter>(0);
-			m_particle->Init(random, g_gameCamera->GetCamera(),
-			{
-				"Assets/paticle/Textures/project2_4x4.png",				//!<テクスチャのファイwルパス。
-				{ 0.0f, 0.0f, 0.0f },								//!<初速度。
-				1.0f,											//!<寿命。単位は秒。
-				4.0f,											//!<発生時間。単位は秒。
-				4.0f,											//!<パーティクルの幅。
-				4.0f,											//!<パーティクルの高さ。
-				{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
-				{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
-				{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
-				{
-					{ 0.0f, 0.5f, 0.5f, 0.75f },//0.25,0.5,0.75,1UとVの位置
-					{ 0.0f, 0.0f, 0.0f, 0.0f },//X,Y,X,Y
-					{ 0.0f, 0.0f, 0.0f, 0.0f },
-					{ 0.0f, 0.0f, 0.0f, 0.0f }
-				},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
-				1,												//!<UVテーブルのサイズ。
-				{ 0.0f, 0.0f, 0.0f },							//!<重力。
-				true,											//!<死ぬときにフェードアウトする？
-				0.3f,											//!<フェードする時間。
-				2.0f,											//!<初期アルファ値。
-				true,											//!<ビルボード？
-				3.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
-				1,												//!<0半透明合成、1加算合成。
-				{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
-			},
-				m_position);
 			
-
 		}
 	}
 	
@@ -163,13 +164,9 @@ void Player::Move()
 	if (KeyInput().GetPad(0).IsPress(enButtonLB3) && m_characterController.IsOnGround())
 	{
 		m_characterController.Jump();
-		move.y = 4.0f;
-
-		m_animation.PlayAnimation(AnimationAttack, 0.3f);
-		m_animationStat = AnimationAttack;
+		move.y = 8.0f;
 		
 	}
-
 	//決定した移動速度をキャラクタコントローラーに設定。
 	m_characterController.SetMoveSpeed(move);
 	//キャラクターコントローラーを実行。
@@ -188,4 +185,169 @@ void Player::Render(CRenderContext& renderContext)
 void Player::Delete()
 {
 	m_dead = true;
+}
+
+void Player::paticle() {
+	switch (m_magicNo) {
+	case FIER:
+		//パーティクルの生成
+		m_particle = NewGO<CParticleEmitter>(0);
+		m_particle->Init(random, g_gameCamera->GetCamera(),
+		{
+			"Assets/paticle/burn.png",		//!<テクスチャのファイルパス。
+			{ 0.0f, 0.0f, 0.0f },							//!<初速度。
+			0.8f,											//!<寿命。単位は秒。
+			0.8f,											//!<発生時間。単位は秒。
+			7.0f,											//!<パーティクルの幅。
+			7.0f,											//!<パーティクルの高さ。
+			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
+			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
+			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
+			{
+				{ 0.0f, 0.0f,0.25f, 0.25f },//0.25,0.5,0.75,1UとVの位置
+				{ 0.0f, 0.0f, 0.0f, 0.0f },//X,Y,X,Y
+				{ 0.0f, 0.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f, 0.0f, 0.0f }
+			},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
+			1,												//!<UVテーブルのサイズ。
+			{ 0.0f, 0.0f, 0.0f },							//!<重力。
+			true,											//!<死ぬときにフェードアウトする？
+			0.3f,											//!<フェードする時間。
+			2.0f,											//!<初期アルファ値。
+			true,											//!<ビルボード？
+			3.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
+			1,												//!<0半透明合成、1加算合成。
+			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
+		},
+			m_position);
+		break;
+	case SUNDER:
+		//パーティクルの生成
+		m_particle = NewGO<CParticleEmitter>(0);
+		m_particle->Init(random, g_gameCamera->GetCamera(),
+		{
+			"Assets/paticle/Sunder2.tga",				//!<テクスチャのファイwルパス。
+			{ 0.0f, 0.0f, 0.0f },								//!<初速度。
+			0.4f,											//!<寿命。単位は秒。
+			0.4f,											//!<発生時間。単位は秒。
+			10.0f,											//!<パーティクルの幅。
+			10.0f,											//!<パーティクルの高さ。
+			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
+			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
+			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
+			{
+				{ 0.0f, 0.0f, 1.0f, 0.5f },//0.25,0.5,0.75,1UとVの位置
+				{ 0.0f, 0.0f, 0.0f, 0.0f },//X,Y,X,Y
+				{ 0.0f, 0.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f, 0.0f, 0.0f }
+			},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
+			1,												//!<UVテーブルのサイズ。
+			{ 0.0f, 0.0f, 0.0f },							//!<重力。
+			true,											//!<死ぬときにフェードアウトする？
+			0.3f,											//!<フェードする時間。
+			2.0f,											//!<初期アルファ値。
+			true,											//!<ビルボード？
+			0.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
+			1,												//!<0半透明合成、1加算合成。
+			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
+		},
+			m_position);
+		break;
+	case ICE:
+		//パーティクルの生成
+		m_particle = NewGO<CParticleEmitter>(0);
+		m_particle->Init(random, g_gameCamera->GetCamera(),
+		{
+			"Assets/paticle/ice.tga",//!<テクスチャのファイwルパス。
+			{ 0.0f, 0.0f, 1.0f },								//!<初速度。
+			0.4f,											//!<寿命。単位は秒。
+			0.4f,											//!<発生時間。単位は秒。
+			4.0f,											//!<パーティクルの幅。
+			4.0f,											//!<パーティクルの高さ。
+			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
+			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
+			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
+			{
+				{ 0.0f, 0.0f, 0.5f, 0.5f },//0.25,0.5,0.75,1UとVの位置
+				{ 0.0f, 0.0f, 0.0f, 0.0f },//X,Y,X,Y
+				{ 0.0f, 0.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f, 0.0f, 0.0f }
+			},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
+			1,												//!<UVテーブルのサイズ。
+			{ 0.0f, 0.0f, 0.0f },							//!<重力。
+			true,											//!<死ぬときにフェードアウトする？
+			0.3f,											//!<フェードする時間。
+			2.0f,											//!<初期アルファ値。
+			true,											//!<ビルボード？
+			3.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
+			1,												//!<0半透明合成、1加算合成。
+			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
+		},
+			m_position);
+		break;
+	case AQUA:
+			//パーティクルの生成
+			m_particle = NewGO<CParticleEmitter>(0);
+			m_particle->Init(random, g_gameCamera->GetCamera(),
+			{
+				"Assets/paticle/aqua.png",				//!<テクスチャのファイwルパス。
+				{ 0.0f, 0.0f, 0.0f },								//!<初速度。
+				0.4f,											//!<寿命。単位は秒。
+				0.4f,											//!<発生時間。単位は秒。
+				8.0f,											//!<パーティクルの幅。
+				7.0f,											//!<パーティクルの高さ。
+				{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
+				{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
+				{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
+				{
+					{ 0.0f, 0.0f, 0.25f,0.25f },//0.25,0.5,0.75,1UとVの位置
+					{ 0.0f, 0.0f, 0.0f, 0.0f },//X,Y,X,Y
+					{ 0.0f, 0.0f, 0.0f, 0.0f },
+					{ 0.0f, 0.0f, 0.0f, 0.0f }
+				},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
+				1,												//!<UVテーブルのサイズ。
+				{ 0.0f, 0.0f, 0.0f },							//!<重力。
+				true,											//!<死ぬときにフェードアウトする？
+				0.3f,											//!<フェードする時間。
+				2.0f,											//!<初期アルファ値。
+				true,											//!<ビルボード？
+				3.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
+				1,												//!<0半透明合成、1加算合成。
+				{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
+			},
+				m_position);
+			break;
+	case WIND:
+		//パーティクルの生成
+		m_particle = NewGO<CParticleEmitter>(0);
+		m_particle->Init(random, g_gameCamera->GetCamera(),
+		{
+			"Assets/paticle/wind.tga",						//!<テクスチャのファイwルパス。
+			{ 0.0f, 0.0f, 0.0f },							//!<初速度。
+			0.4f,											//!<寿命。単位は秒。
+			0.4f,											//!<発生時間。単位は秒。
+			4.0f,											//!<パーティクルの幅。
+			4.0f,											//!<パーティクルの高さ。
+			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
+			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
+			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
+			{
+				{ 0.0f, 0.0f, 1.0f, 1.0f },//0.25,0.5,0.75,1UとVの位置
+				{ 0.0f, 0.0f, 0.0f, 0.0f },//X,Y,X,Y
+				{ 0.0f, 0.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f, 0.0f, 0.0f }
+			},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
+			1,												//!<UVテーブルのサイズ。
+			{ 0.0f, 0.0f, 0.0f },							//!<重力。
+			true,											//!<死ぬときにフェードアウトする？
+			0.3f,											//!<フェードする時間。
+			2.0f,											//!<初期アルファ値。
+			true,											//!<ビルボード？
+			3.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
+			1,												//!<0半透明合成、1加算合成。
+			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
+		},
+		m_position);
+		break;
+	}
 }

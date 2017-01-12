@@ -25,13 +25,12 @@ void SC_Load::Start()
 	m_load.SetPivot({ 0.5f,0.5f });
 	m_load.SetPosition(LOADPOS);
 
-	/*soundSource.Init("Assets/modelData/bgm_maoudamashii_piano25.wav");
-	soundSource.Play(true);*/
+	
 }
 
 void SC_Load::Update()
 {
-	/*soundSource.Update();*/
+	
 }
 
 void SC_Load::PostRender(CRenderContext& renderContext)

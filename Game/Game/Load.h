@@ -11,7 +11,7 @@ public:
 	void Delete();
 
 private:
-	/*CSoundSource	soundSource;*/
+	
 	CSprite m_load;			//ロード
 	CTexture m_load_tex;	//ロードのテクスチャ
 
