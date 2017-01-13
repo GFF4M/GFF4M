@@ -1,11 +1,11 @@
 #pragma once
 #include "Player.h"
-class Magic :
+class SC_Magic :
 	public IGameObject
 {
 public:
-	Magic();
-	~Magic();
+	SC_Magic();
+	~SC_Magic();
 
 	void Start();
 	void Update();

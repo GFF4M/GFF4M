@@ -63,9 +63,6 @@ void Player::Update()
 		m_magicNo = FIER;
 	}
 	
-
-	
-
 	if (m_ismagic == false) {
 		if (KeyInput().GetPad(0).IsTrigger(enButtonA))
 		{
@@ -73,15 +70,23 @@ void Player::Update()
 			m_animationStat = Animationmagic;
 			m_animation.PlayAnimation(m_animationStat, 0.3f);
 			m_ismagic = true;
+			
+			
+			
 		}
 	}
-		if (m_animation.IsPlay() == false &&m_ismagic==true){
-
-			paticle();
-			m_ismagic = false;
-		}
-
-	if (m_moveflg&&m_ismagic == false)
+	if(m_animation.IsPlay() == false&& m_ismagic == true)
+	{
+		paticle();
+		m_ismagic = false;
+	}
+			
+				
+				
+			
+		
+	
+		if (m_moveflg&&m_ismagic == false)
 	{
 		Move();
 	}

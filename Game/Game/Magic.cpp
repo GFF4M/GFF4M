@@ -1,18 +1,18 @@
 #include "stdafx.h"
 #include "Magic.h"
 
-Magic::Magic()
+SC_Magic::SC_Magic()
 {
 	m_magicNo = 0;
 	
 }
 
 
-Magic::~Magic()
+SC_Magic::~SC_Magic()
 {
 }
 
-void Magic::Start()
+void SC_Magic::Start()
 {
 	
 	/*int magicNo = m_play->GetMagicNo();
@@ -28,7 +28,7 @@ void Magic::Start()
 
 }
 
-void Magic::Update()
+void SC_Magic::Update()
 {
 	
 	if (KeyInput().GetPad(0).IsTrigger(enButtonRB2))
@@ -45,10 +45,10 @@ void Magic::Update()
 			m_magic_tex.LoadEx("Assets/Sprite/magicTHUNDER.png", 0);
 			break;
 		case ICE:
-			m_magic_tex.LoadEx("Assets/Sprite/magicAQUA.png", 0);
+			m_magic_tex.LoadEx("Assets/Sprite/magicICE.png", 0);
 			break;
 		case AQUA:
-			m_magic_tex.LoadEx("Assets/Sprite/magicICE.png", 0);
+			m_magic_tex.LoadEx("Assets/Sprite/magicAQUA.png", 0);
 			break;
 		case WIND:
 			m_magic_tex.LoadEx("Assets/Sprite/magicWIND.png", 0);
@@ -60,12 +60,12 @@ void Magic::Update()
 	
 }
 
-void Magic::PostRender(CRenderContext& renderContext)
+void SC_Magic::PostRender(CRenderContext& renderContext)
 {
 	m_magic.Draw(renderContext);
 }
 
-void Magic::Delete()
+void SC_Magic::Delete()
 {
 	DeleteGO(this);
 }
