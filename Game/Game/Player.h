@@ -84,6 +84,10 @@ public:
 		AQUA,
 		WIND
 	};
+	int GetMagicNo()
+	{
+		return m_magicNo;
+	}
 private:
 	CSkinModel				m_skinModel;					//スキンモデル。
 	CSkinModelDataHandle	m_skinModelData;				//スキンモデルデータハンドル。

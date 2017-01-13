@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Start.h"
 #include "Load.h"
+#include "Magic.h"
 #include "EnemyManager.h"
 #include "Bar.h"
 
@@ -133,6 +134,7 @@ private:
 	SC_Start*			m_start;
 	SC_Bar*				m_hp_bar;
 	SC_Bar*				m_mp_bar;
+	Magic*				m_magic;
 
 	Scenes				m_scene;
 	LoadStat			m_loadstat;

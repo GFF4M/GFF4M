@@ -62,14 +62,9 @@ void Player::Update()
 	if (m_magicNo > WIND) {
 		m_magicNo = FIER;
 	}
-	/*CVector3 m_oldpos;
-	m_oldpos = m_position;*/
+	
 
-	//if (m_ismagic == true&&m_oldpos != m_position) {//魔法中移動などできないようにする
-
-	//	m_position = m_oldpos;
-
-	//}
+	
 
 	if (m_ismagic == false) {
 		if (KeyInput().GetPad(0).IsTrigger(enButtonA))
@@ -85,10 +80,12 @@ void Player::Update()
 			paticle();
 			m_ismagic = false;
 		}
-	if (m_moveflg)
+
+	if (m_moveflg&&m_ismagic == false)
 	{
 		Move();
 	}
+	
 
 	m_animation.Update(2.0 / 60.0f);
 
@@ -114,7 +111,7 @@ void Player::Move()
 
 	if (LenXZ > 0.0f)
 	{
-		if (m_animationStat != AnimationWalk&&m_ismagic == false)
+		if (m_animationStat != AnimationWalk)
 		{
 			m_animationStat = AnimationWalk;
 			m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
