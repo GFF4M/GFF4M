@@ -20,7 +20,6 @@ private:
 
 	const CVector2 LOADMAXSIZE	= { 230.0f, 80.0f };
 
-	const CVector2 LOADPOS		= { 400.0f, -250.0f };
 	const CVector2 LOADPOS		= { 500.0f, -250.0f };
 
 	const CVector2	BACK_POS = { 0.0f, 0.0f };
