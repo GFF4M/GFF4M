@@ -30,14 +30,14 @@ void SC_Bar::Start(Bar_Target target)
 	m_Bar.SetPosition(m_bar_dat[m_target].s_bar_pos);
 
 	sprintf(filePath, "Assets/sprite/%s", m_bar_dat[m_target].s_back_name);
-	m_BarTex.Load(filePath);
+	m_BarBackTex.Load(filePath);
 	m_BarBack.Init(&m_BarBackTex);
 	m_BarBack.SetSize(m_bar_dat[m_target].s_bar_max_size);
 	m_BarBack.SetPivot({ 0.0f, 0.5f });
 	m_BarBack.SetPosition(m_bar_dat[m_target].s_bar_pos);
 
 	sprintf(filePath, "Assets/sprite/%s", m_bar_dat[m_target].s_gauge_name);
-	m_BarTex.Load(filePath);
+	m_GaugeTex.Load(filePath);
 	m_Gauge.Init(&m_GaugeTex);
 	m_Gauge.SetSize(m_bar_dat[m_target].s_gauge_max_size);
 	m_Gauge.SetPivot({ 0.0f, 0.5f });
@@ -46,17 +46,16 @@ void SC_Bar::Start(Bar_Target target)
 	switch (m_target)
 	{
 	case PLAYER_HP:
-		m_LastFrame = (float)g_scene->GetPlayer()->GetHP() / (float)g_scene->GetPlayer()->GetMaxHP();
+		m_LastFrame = (float)g_scene->GetPlayer()->GetHP();
 		break;
 	case PLAYER_MP:
-		m_LastFrame = (float)g_scene->GetPlayer()->GetMP() / (float)g_scene->GetPlayer()->GetMaxMP();
+		m_LastFrame = (float)g_scene->GetPlayer()->GetMP();
 		break;
 	case PLAYER_LV:
 		break;
 	default:
 		break;
 	}
-	m_LastFrame = g_scene->GetPlayer()->GetHP();
 }
 
 void SC_Bar::Update()
@@ -76,6 +75,7 @@ void SC_Bar::Update()
 	default:
 		break;
 	}
+
 	CVector2 size = BAR_MAX_SIZE;
 	size.x *= Rate;
 	m_Bar.SetSize(size);
@@ -88,34 +88,57 @@ void SC_Bar::Update()
 			m_timer = 0.0f;
 		}
 		break;
-	case STATE_DAMAGE: {
-		CVector2 sizeHPBack = m_BarBack.GetSize();
-		sizeHPBack.x -= 2.5f;
-		if (sizeHPBack.x < size.x) {
+	case STATE_DAMAGE:
+		CVector2 sizeBack = m_BarBack.GetSize();
+		sizeBack.x -= 2.5f;
+
+		if (sizeBack.x < size.x) 
+		{
 			m_state = STATE_NORMAL;
-			sizeHPBack.x = size.x;
+			sizeBack.x = size.x;
 		}
-		m_BarBack.SetSize(sizeHPBack);
-	}break;
+		
+		m_BarBack.SetSize(sizeBack);
+		break;
 	case STATE_NORMAL:
-		if (m_LastFrame > g_scene->GetPlayer()->GetHP()) {
-			//ダメージを受けた。
-			m_state = STATE_DAMAGEWAIT;
-			m_timer = 0.0f;
-		}
-		else if (m_LastFrame < g_scene->GetPlayer()->GetHP()) {
-			//回復している。
-			m_BarBack.SetSize(size);
+		switch (m_target)
+		{
+		case PLAYER_HP:
+			if (m_LastFrame > g_scene->GetPlayer()->GetHP()) {
+				//ダメージを受けた。
+				m_state = STATE_DAMAGEWAIT;
+				m_timer = 0.0f;
+			}
+			else if (m_LastFrame < g_scene->GetPlayer()->GetHP()) {
+				//回復している。
+				m_BarBack.SetSize(size);
+			}	
+			break;
+		case PLAYER_MP:
+			if (m_LastFrame > g_scene->GetPlayer()->GetMP()) {
+				//ダメージを受けた。
+				m_state = STATE_DAMAGEWAIT;
+				m_timer = 0.0f;
+			}
+			else if (m_LastFrame < g_scene->GetPlayer()->GetMP()) {
+				//回復している。
+				m_BarBack.SetSize(size);
+			}
+			break;
+		case PLAYER_LV:
+			break;
+		default:
+			break;
 		}
 		break;
 	}
 	switch (m_target)
 	{
 	case PLAYER_HP:
-		m_LastFrame = (float)g_scene->GetPlayer()->GetHP() / (float)g_scene->GetPlayer()->GetMaxHP();
+		m_LastFrame = (float)g_scene->GetPlayer()->GetHP();
 		break;
 	case PLAYER_MP:
-		m_LastFrame = (float)g_scene->GetPlayer()->GetMP() / (float)g_scene->GetPlayer()->GetMaxMP();
+		m_LastFrame = (float)g_scene->GetPlayer()->GetMP();
 		break;
 	case PLAYER_LV:
 		break;

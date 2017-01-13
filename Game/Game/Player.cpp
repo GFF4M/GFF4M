@@ -50,6 +50,11 @@ void Player::Start()
 
 void Player::Update()
 {
+	if (Pad(0).IsTrigger(enButtonB))
+	{
+		m_hp -= 10;
+	}
+
 	if (m_dead)
 	{
 		m_characterController.RemoveRigidBoby();
@@ -66,7 +71,7 @@ void Player::Update()
 
 	
 
-	if (m_ismagic == false) {
+	if (!m_ismagic) {
 		if (KeyInput().GetPad(0).IsTrigger(enButtonA))
 		{
 
@@ -75,13 +80,13 @@ void Player::Update()
 			m_ismagic = true;
 		}
 	}
-		if (m_animation.IsPlay() == false &&m_ismagic==true){
+	if (!m_animation.IsPlay() && m_ismagic) {
 
 			paticle();
 			m_ismagic = false;
 		}
 
-	if (m_moveflg&&m_ismagic == false)
+	if (m_moveflg && !m_ismagic)
 	{
 		Move();
 	}
@@ -142,7 +147,7 @@ void Player::Move()
 	else
 	{
 		
-		if (m_animationStat != AnimationStand&&m_ismagic==false)
+		if (m_animationStat != AnimationStand && !m_ismagic)
 		{
 			m_animationStat = AnimationStand2;
 			m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生

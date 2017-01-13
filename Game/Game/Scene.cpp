@@ -351,11 +351,12 @@ bool Scene::SetSaveDat()
 
 	char dat[1000];
 
-	sprintf(dat, "%d,%.5f,%.5f,%.5f",
+	sprintf(dat, "%d,%.5f,%.5f,%.5f,%d",
 		(int)m_scene,
 		m_play->GetPos().x,
 		m_play->GetPos().y,
-		m_play->GetPos().z
+		m_play->GetPos().z,
+		m_play->GetHP()
 	);
 
 	fputs(dat, fp);
@@ -398,13 +399,17 @@ bool Scene::GetSaveDat()
 
 	Scenes r_scene;
 	CVector3 r_pos;
+	int r_hp;
 
-	sscanf(dat, "%d,%f,%f,%f", 
+	sscanf(dat, "%d,%f,%f,%f,%d", 
 		&r_scene,
 		&r_pos.x,
 		&r_pos.y,
-		&r_pos.z
+		&r_pos.z,
+		&r_hp
 	);
+
+	m_play->SetHP(r_hp);
 
 	Change(r_scene);
 

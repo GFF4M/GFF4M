@@ -43,6 +43,11 @@ public:
 		return m_radius;
 	}
 
+	void SetHP(int hp)
+	{
+		m_hp = hp;
+	}
+
 	int GetHP()
 	{
 		return m_hp;

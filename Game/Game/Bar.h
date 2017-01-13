@@ -53,25 +53,24 @@ private:
 	{ 
 		{
 			{ 230.5f, 7.2f },
-			{ -592.95f, 330.0f },
+			{ -592.95f, 350.0f },
 			{ 245.0f, 15.75f },
-			{ -600.0f, 330.0f },
+			{ -600.0f, 350.0f },
 			"White.png",
 			"Yellow.png",
 			"Black.png",
 		},
 		{
 			{ 230.5f, 7.2f },
-			{ -592.95f, 350.0f },
+			{ -592.95f, 330.0f },
 			{ 245.0f, 15.75f },
-			{ -600.0f, 350.0f },
-			"Black.png",
-			"Yellow.png",
+			{ -600.0f, 330.0f },
 			"White.png",
+			"Yellow.png",
+			"Black.png",
 		}, 
 	};
 };
-
 
 const CVector2 GAUGE_MAX_SIZE = { 245.0f, 15.75f };
 const CVector2 BAR_MAX_SIZE = { 230.5f, 7.2f };
