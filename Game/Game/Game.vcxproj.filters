@@ -33,6 +33,15 @@
     <ClCompile Include="EnemyManager.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="result.cpp">
+      <Filter>Screen\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="gameover.cpp">
+      <Filter>Screen\Gameover</Filter>
+    </ClCompile>
+    <ClCompile Include="Magic.cpp">
+      <Filter>Screen\Hud\Magic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -72,6 +81,15 @@
     <ClInclude Include="MapDat.h">
       <Filter>Map</Filter>
     </ClInclude>
+    <ClInclude Include="result.h">
+      <Filter>Screen\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="gameover.h">
+      <Filter>Screen\Gameover</Filter>
+    </ClInclude>
+    <ClInclude Include="Magic.h">
+      <Filter>Screen\Hud\Magic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Camera">
@@ -109,6 +127,15 @@
     </Filter>
     <Filter Include="Savedata">
       <UniqueIdentifier>{94fa6b9c-12ff-4ac3-af63-27f83a65b5f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screen\Result">
+      <UniqueIdentifier>{bb1c36a6-3a83-402b-8e43-1d40b17dd79d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screen\Gameover">
+      <UniqueIdentifier>{1916afe0-588f-4104-a8ec-1ebaa8139f80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screen\Hud\Magic">
+      <UniqueIdentifier>{e38710de-3c31-483a-a5cc-e9f67af059ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

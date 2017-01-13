@@ -171,6 +171,7 @@ void Scene::ChangeData()
 	{
 	case CS_ADD:
 		m_play = NewGO<Player>(0);
+		m_magic = NewGO<Magic>(0);
 		m_hp_bar = NewGO<SC_Bar>(0);
 		m_hp_bar->Start(SC_Bar::Bar_Target::PLAYER_HP);
 		m_mp_bar = NewGO<SC_Bar>(0);
@@ -180,7 +181,8 @@ void Scene::ChangeData()
 	case CS_DELETE:
 		m_play->Delete();
 		m_play = nullptr;
-
+		m_magic->Delete();
+		m_magic=nullptr;
 		m_hp_bar->Delete();
 		m_mp_bar->Delete();
 		m_hp_bar = nullptr;

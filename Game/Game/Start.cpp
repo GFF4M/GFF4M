@@ -33,14 +33,14 @@ void SC_Start::Start()
 	m_title.SetPosition(TITLE_POS);
 
 	//New Game
-	m_newgame_tex.LoadEx("Assets/Sprite/New Game-A.png",0);
+	m_newgame_tex.LoadEx("Assets/Sprite/4.png",0);
 	m_newgame.Init(&m_newgame_tex);
 	m_newgame.SetSize(NEWGAME_MAX_SIZE);
 	m_newgame.SetPivot({ 0.5f, 0.5f });
 	m_newgame.SetPosition(NEWGAME_POS);
 
 	//Continue
-	m_continue_tex.LoadEx("Assets/Sprite/Continue-A.png", 0);
+	m_continue_tex.LoadEx("Assets/Sprite/2.png", 0);
 	m_continue.Init(&m_continue_tex);
 	m_continue.SetSize(CONTINUE_MAX_SIZE);
 	m_continue.SetPivot({ 0.5f,0.5f });
@@ -53,7 +53,6 @@ void SC_Start::Start()
 
 void SC_Start::Update()
 {
-	
 	SetTexSize();
 	SetScene();
 }

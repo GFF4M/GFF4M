@@ -11,7 +11,7 @@ public:
 	void Delete();
 
 private:
-	/*CSoundSource	soundSource;*/
+	
 	CSprite m_load;			//ロード
 	CTexture m_load_tex;	//ロードのテクスチャ
 
@@ -19,7 +19,9 @@ private:
 	CTexture	m_back_tex;				//背景のテクスチャ
 
 	const CVector2 LOADMAXSIZE	= { 230.0f, 80.0f };
+
 	const CVector2 LOADPOS		= { 400.0f, -250.0f };
+	const CVector2 LOADPOS		= { 500.0f, -250.0f };
 
 	const CVector2	BACK_POS = { 0.0f, 0.0f };
 	const CVector2	BACK_MAX_SIZE = { 1500.0f, 1000.0f };

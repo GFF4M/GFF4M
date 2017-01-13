@@ -1,0 +1,44 @@
+#include "stdafx.h"
+#include "Result.h"
+
+SC_Result::SC_Result()
+{
+}
+
+
+SC_Result::~SC_Result()
+{
+}
+
+void SC_Result::Start()
+{
+	//îwåi
+	m_back_tex.Load("Assets/Sprite/White.png");
+	m_back.Init(&m_back_tex);
+	m_back.SetSize(BACK_MAX_SIZE);
+	m_back.SetPivot({ 0.5f,0.5f });
+	m_back.SetPosition(BACK_POS);
+
+	m_Result_tex.LoadEx("Assets/Sprite/completed.png", 0);
+	m_Result.Init(&m_Result_tex);
+	m_Result.SetSize(RESULTMAXSIZE);
+	m_Result.SetPivot({ 0.5f,0.5f });
+	m_Result.SetPosition(RESULTPOS);
+
+}
+
+void SC_Result::Update()
+{
+
+}
+
+void SC_Result::PostRender(CRenderContext& renderContext)
+{
+	m_back.Draw(renderContext);
+	m_Result.Draw(renderContext);
+}
+
+void SC_Result::Delete()
+{
+	DeleteGO(this);
+}

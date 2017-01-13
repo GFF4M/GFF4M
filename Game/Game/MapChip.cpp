@@ -28,7 +28,8 @@ void MapChip::Start(const char* modelName, CVector3 position, CQuaternion rotati
 	//ワールド行列を更新する。
 	//このオブジェクトは動かないので、初期化で一回だけワールド行列を作成すればおｋ。
 	m_skinModel.Update(position, rotation, scale);
-
+	
+	/*m_skinModel.SetFogParam(enFogFuncDist, 70.0f, 100.0f);*/
 	//メッシュコライダーの作成。
 	m_meshCollider.CreateFromSkinModel(&m_skinModel, m_skinModelData.GetRootBoneWorldMatrix());
 

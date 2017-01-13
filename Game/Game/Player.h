@@ -11,6 +11,7 @@ public:
 	void Render(CRenderContext& renderContext);
 	void Delete();
 	void Move();
+	void paticle();
 
 	void SetPos(CVector3 pos)
 	{
@@ -68,6 +69,7 @@ public:
 	}
 
 	enum AnimationStat{
+		AnimationStand2,
 		AnimationStand,
 		AnimationDamage,
 		Animationmagic,
@@ -75,7 +77,17 @@ public:
 		AnimationWalk,
 		AnimationNum,
 	};
-
+	enum MagicNo {
+		FIER,
+		SUNDER,
+		ICE,
+		AQUA,
+		WIND
+	};
+	int GetMagicNo()
+	{
+		return m_magicNo;
+	}
 private:
 	CSkinModel				m_skinModel;					//スキンモデル。
 	CSkinModelDataHandle	m_skinModelData;				//スキンモデルデータハンドル。
@@ -98,7 +110,10 @@ private:
 	int						m_mp;
 	int						m_maxmp;
 
+	CParticleEmitter	*m_particle;
+	int						m_magicNo;
+	bool					m_ismagic;
 	bool					m_moveflg;
 
-	CParticleEmitter *m_particle;
+
 };
