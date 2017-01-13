@@ -50,6 +50,11 @@ void Player::Start()
 
 void Player::Update()
 {
+	if (Pad(0).IsTrigger(enButtonB))
+	{
+		m_hp -= 10;
+	}
+
 	if (m_dead)
 	{
 		m_characterController.RemoveRigidBoby();
@@ -63,7 +68,8 @@ void Player::Update()
 		m_magicNo = FIER;
 	}
 	
-	if (m_ismagic == false) {
+
+	if (!m_ismagic) {
 		if (KeyInput().GetPad(0).IsTrigger(enButtonA))
 		{
 
@@ -75,18 +81,14 @@ void Player::Update()
 			
 		}
 	}
-	if(m_animation.IsPlay() == false&& m_ismagic == true)
-	{
-		paticle();
-		m_ismagic = false;
+
+	if (!m_animation.IsPlay() && m_ismagic) {
+
+			paticle();
+			m_ismagic = false;
 	}
-			
-				
-				
-			
-		
-	
-		if (m_moveflg&&m_ismagic == false)
+
+	if (m_moveflg && !m_ismagic)
 	{
 		Move();
 	}
@@ -147,7 +149,7 @@ void Player::Move()
 	else
 	{
 		
-		if (m_animationStat != AnimationStand&&m_ismagic==false)
+		if (m_animationStat != AnimationStand && !m_ismagic)
 		{
 			m_animationStat = AnimationStand2;
 			m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
@@ -231,8 +233,8 @@ void Player::paticle() {
 		m_particle = NewGO<CParticleEmitter>(0);
 		m_particle->Init(random, g_gameCamera->GetCamera(),
 		{
-			"Assets/paticle/Sunder2.tga",				//!<テクスチャのファイwルパス。
-			{ 0.0f, 0.0f, 0.0f },								//!<初速度。
+			"Assets/paticle/Sunder2.tga",				//!<テクスチャのファイルパス。
+			{ 0.0f, -1.0f, 0.0f },							//!<初速度。
 			0.4f,											//!<寿命。単位は秒。
 			0.4f,											//!<発生時間。単位は秒。
 			10.0f,											//!<パーティクルの幅。
@@ -263,13 +265,13 @@ void Player::paticle() {
 		m_particle = NewGO<CParticleEmitter>(0);
 		m_particle->Init(random, g_gameCamera->GetCamera(),
 		{
-			"Assets/paticle/ice.tga",//!<テクスチャのファイwルパス。
+			"Assets/paticle/ice.tga",//!<テクスチャのファイルパス。
 			{ 0.0f, 0.0f, 1.0f },								//!<初速度。
 			0.4f,											//!<寿命。単位は秒。
 			0.4f,											//!<発生時間。単位は秒。
 			4.0f,											//!<パーティクルの幅。
 			4.0f,											//!<パーティクルの高さ。
-			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
+			{ 1.0f, 1.0f, 0.0f },							//!<初期位置のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
 			{
@@ -295,13 +297,13 @@ void Player::paticle() {
 			m_particle = NewGO<CParticleEmitter>(0);
 			m_particle->Init(random, g_gameCamera->GetCamera(),
 			{
-				"Assets/paticle/aqua.png",				//!<テクスチャのファイwルパス。
+				"Assets/paticle/aqua.png",				//!<テクスチャのファイルパス。
 				{ 0.0f, 0.0f, 0.0f },								//!<初速度。
 				0.4f,											//!<寿命。単位は秒。
 				0.4f,											//!<発生時間。単位は秒。
 				8.0f,											//!<パーティクルの幅。
 				7.0f,											//!<パーティクルの高さ。
-				{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
+				{ 1.0f, 1.0f, 0.0f },							//!<初期位置のランダム幅。
 				{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
 				{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
 				{
@@ -328,12 +330,12 @@ void Player::paticle() {
 		m_particle->Init(random, g_gameCamera->GetCamera(),
 		{
 			"Assets/paticle/wind.tga",						//!<テクスチャのファイwルパス。
-			{ 0.0f, 0.0f, 0.0f },							//!<初速度。
+			{ 1.0f, 0.0f, 0.0f },							//!<初速度。
 			0.4f,											//!<寿命。単位は秒。
 			0.4f,											//!<発生時間。単位は秒。
 			4.0f,											//!<パーティクルの幅。
 			4.0f,											//!<パーティクルの高さ。
-			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
+			{ 1.0f, 1.0f, 0.0f },							//!<初期位置のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
 			{

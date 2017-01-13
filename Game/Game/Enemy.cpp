@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Enemy.h"
 #include "Camera.h"
+#include "Player.h"
+#include "Scene.h"
 
 Enemy::Enemy()
 {
@@ -64,10 +66,22 @@ void Enemy::Move()
 {
 	CVector3 move = m_characterController.GetMoveSpeed();
 
-	CVector3 moveXZ;
+	Player* player = g_scene->GetPlayer();
 
 	if (m_isBattle)
 	{
+		if (player != nullptr)
+		{
+			CVector3 dis = player->GetPos();
+			dis.Subtract(m_position);
+			dis.y = 0.0f;
+
+			dis.Normalize();
+			dis.Scale(5.0f);
+
+			move.x = dis.x;
+			move.z = dis.z;
+		}
 	}
 
 	//決定した移動速度をキャラクタコントローラーに設定。
