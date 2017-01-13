@@ -19,7 +19,7 @@ private:
 	CTexture	m_back_tex;				//背景のテクスチャ
 
 	const CVector2 LOADMAXSIZE	= { 230.0f, 80.0f };
-	const CVector2 LOADPOS		= { 0.0f, -100.0f };
+	const CVector2 LOADPOS		= { 400.0f, -250.0f };
 
 	const CVector2	BACK_POS = { 0.0f, 0.0f };
 	const CVector2	BACK_MAX_SIZE = { 1500.0f, 1000.0f };
