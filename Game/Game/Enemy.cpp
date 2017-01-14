@@ -11,13 +11,13 @@ Enemy::Enemy()
 	m_scale = { 0.6f,0.6f,0.6f };
 	m_radius = 0.5f;
 	m_dead = false;
-	m_move_timer = 0;
 
 	m_filename = NULL;
 	m_name = NULL;
 	m_hp = 0;
 	m_maxhp = 0;
 	m_angle = 0.0f;
+	m_attack_timer = 0.0f;
 
 	m_characterController.Init(m_radius, 1.0f, m_position);
 
@@ -39,15 +39,21 @@ void Enemy::Start(EneDat enedat, bool isBattle)
 	m_look_pos = enedat.s_look_pos;
 	m_scale = enedat.s_scale;
 	m_isBattle = isBattle;
+	m_animationStat = AnimationStand;
 
 	char filePath[256];
 	sprintf(filePath, "Assets/modelData/%s.X", m_filename);
 
-	SkinModelDataResources().Load(m_skinModelData, filePath, NULL);
+	SkinModelDataResources().Load(m_skinModelData, filePath, &m_animation);
 	m_skinModel.Init(m_skinModelData.GetBody());
 	m_skinModel.SetLight(&g_defaultLight);//デフォルトライトを設定。
 
 	m_characterController.SetPosition(m_position);
+
+	m_animation.SetAnimationLoopFlag(AnimationAttack, false);
+	m_animation.SetAnimationLoopFlag(AnimationStand, false);
+	m_animation.SetAnimationLoopFlag(Animationmagic, false);
+	m_animation.SetAnimationLoopFlag(AnimationDamage, false);
 }
 
 void Enemy::Update()
@@ -68,19 +74,53 @@ void Enemy::Move()
 
 	Player* player = g_scene->GetPlayer();
 
-	if (m_isBattle)
+	if (m_isBattle && player != nullptr)
 	{
-		if (player != nullptr)
+		m_animation.Update(1.0 / 60.0f);
+
+		CVector3 moveXZ = player->GetPos();
+		moveXZ.Subtract(m_position);
+		moveXZ.y = 0.0f;
+
+		if (m_look_pos.y + m_radius < moveXZ.Length())
 		{
-			CVector3 dis = player->GetPos();
-			dis.Subtract(m_position);
-			dis.y = 0.0f;
+			moveXZ.Normalize();
+			moveXZ.Scale(2.0f);
 
-			dis.Normalize();
-			dis.Scale(5.0f);
+			move.x = moveXZ.x;
+			move.z = moveXZ.z;
 
-			move.x = dis.x;
-			move.z = dis.z;
+			if (m_animationStat != AnimationWalk)
+			{
+				m_animationStat = AnimationWalk;
+				m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
+			}
+		}
+		else
+		{
+			m_attack_timer += DELTA_TIME;
+
+			move.Scale({ 0.0f,1.0f,0.0f });
+			
+			if (2.0f < m_attack_timer)
+			{
+				m_attack_timer = 0.0f;
+				m_animationStat = AnimationAttack;
+				m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
+				g_scene->GetPlayer()->SetDamage(10);
+			}
+			else if (m_animationStat != AnimationStand)
+			{
+				m_animationStat = AnimationStand;
+				m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
+			}
+		}
+		//AxisZとmoveXZのなす角を求める
+		m_angle = moveXZ.AngleBetween(CVector3::AxisZ);
+
+		if (moveXZ.x < 0.0f)
+		{
+			m_angle *= -1.0f;
 		}
 	}
 
@@ -89,6 +129,7 @@ void Enemy::Move()
 	//キャラクターコントローラーを実行。
 	m_characterController.Execute();
 	m_position = m_characterController.GetPosition();
+
 
 	m_rotation.SetRotation(CVector3::AxisY, CMath::DegToRad(m_angle));
 }

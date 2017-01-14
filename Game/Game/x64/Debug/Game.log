@@ -1,0 +1,4 @@
+﻿  Player.cpp
+c:\users\kbc16b12\documents\github\gff4m\game\game\player.cpp(110): warning C4305: '引数': 'double' から 'float' へ切り詰めます。
+  Game.vcxproj -> C:\Users\kbc16b12\Documents\github\GFF4M\Game\x64\Debug\Game.exe
+  Game.vcxproj -> C:\Users\kbc16b12\Documents\github\GFF4M\Game\x64\Debug\Game.pdb (Full PDB)

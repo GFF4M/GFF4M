@@ -27,6 +27,13 @@ enum Scenes
 	//Œõ
 	STAGE_5_1,
 	STAGE_5_BATTLE,
+
+	GAME_CLEAR,
+
+	GAMEOVER,
+	//ƒŠƒUƒ‹ƒg
+	RESULT,
+
 	STAGE_NUM,
 };
 
@@ -35,4 +42,23 @@ enum CameraTarget
 	CT_NOTARGET,
 	CT_PLAYER,
 	CT_ENEMY,
+};
+
+enum AnimationStat {
+	AnimationStand2,
+	AnimationStand,
+	AnimationDamage,
+	Animationmagic,
+	AnimationAttack,
+	AnimationWalk,
+	AnimationNum,
+};
+
+enum MagicNo {
+	FIER,
+	SUNDER,
+	ICE,
+	AQUA,
+	WIND,
+	MAGICNUM,
 };

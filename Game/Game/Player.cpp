@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "Camera.h"
+#include "Scene.h"
 
 Player *g_play;
 CRandom random;
@@ -20,15 +21,21 @@ Player::Player()
 
 	m_hp	= 100;
 	m_maxhp = 100;
+	m_hp_charge = 0.0f;
+
 	m_mp	= 100;
 	m_maxmp = 100;
+	m_mp_charge = 0.0f;
+	
 	random.Init((unsigned int) + time(NULL));
 	m_magicNo = 0;
 	m_ismagic = false;
 
-
 	m_moveflg = false;
 
+	m_particle = nullptr;
+
+	m_particletimer = 0.0f;
 }
 
 Player::~Player()
@@ -50,9 +57,23 @@ void Player::Start()
 
 void Player::Update()
 {
-	if (Pad(0).IsTrigger(enButtonB))
+	if (m_hp <= 0)
 	{
-		m_hp -= 10;
+		g_scene->Change(GAMEOVER);
+	}
+
+	if (m_mp < m_maxmp)
+	{
+		m_mp_charge += m_mp_charge_delta;
+		if (m_mp_charge >= 1.0f)
+		{
+			m_mp_charge = 0.0f;
+			m_mp++;
+		}
+	}
+	else
+	{
+		m_mp_charge = 0.0f;
 	}
 
 	if (m_dead)
@@ -60,31 +81,48 @@ void Player::Update()
 		m_characterController.RemoveRigidBoby();
 		DeleteGO(this);
 	}
-	if (KeyInput().GetPad(0).IsTrigger(enButtonRB2))
+	if (Pad(0).IsTrigger(enButtonRB1))
 	{
 		m_magicNo++;
-	}
-	if (m_magicNo > WIND) {
-		m_magicNo = FIER;
-	}
-	
-
-	
-
-	if (!m_ismagic) {
-		if (KeyInput().GetPad(0).IsTrigger(enButtonA))
-		{
-
-			m_animationStat = Animationmagic;
-			m_animation.PlayAnimation(m_animationStat, 0.3f);
-			m_ismagic = true;
+		if (m_magicNo > WIND) {
+			m_magicNo = FIER;
 		}
-	}
-	if (!m_animation.IsPlay() && m_ismagic) {
 
-			paticle();
+		g_scene->GetMagic()->Change();
+	}
+	
+	switch (g_scene->GetScenes())
+	{
+	case STAGE_T_BATTLE:
+	case STAGE_1_BATTLE:
+	case STAGE_2_BATTLE:
+	case STAGE_3_BATTLE:
+	case STAGE_4_BATTLE:
+	case STAGE_5_BATTLE:
+		if (!m_ismagic)
+		{
+			if (KeyInput().GetPad(0).IsTrigger(enButtonA))
+			{
+				m_animationStat = Animationmagic;
+				m_animation.PlayAnimation(m_animationStat, 0.3f);
+				m_ismagic = true;
+			}
+		}
+
+		if (!m_animation.IsPlay() && m_ismagic) 
+		{
+			if (m_magic_mp[m_magicNo] <= m_mp)
+			{
+				m_mp -= m_magic_mp[m_magicNo];
+				Paticle();
+				g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->SetDamage(m_magic_mp[m_magicNo]);
+			}
 			m_ismagic = false;
 		}
+		break;
+	default:
+		break;
+	}
 
 	if (m_moveflg && !m_ismagic)
 	{
@@ -96,7 +134,16 @@ void Player::Update()
 
 	//ワールド行列の更新。
 	m_skinModel.Update(m_position,m_rotation, m_scale);
-	
+
+	if (m_particle != nullptr && m_particletimer <= 0.0f)
+	{
+		DeleteGO(m_particle);
+		m_particle = nullptr;
+	}
+	if (m_particletimer > 0.0f)
+	{
+		m_particletimer -= 1.0f / 60.0f;
+	}
 }
 
 
@@ -104,23 +151,20 @@ void Player::Move()
 {
 	//キャラクターの移動速度を決定。
 	CVector3 move = m_characterController.GetMoveSpeed();
-	move.x = -Pad(0).GetLStickXF() * 10.0f;
-	move.z = -Pad(0).GetLStickYF() * 10.0f;
+	move.x = -Pad(0).GetLStickXF();
+	move.z = -Pad(0).GetLStickYF();
 
 	CVector3 old_move = move;
 
 	CVector3 moveXZ = move;						//方向ベクトル
 	moveXZ.y = 0.0f;
 
-	float    LenXZ = moveXZ.Length();
-
-	if (LenXZ > 0.0f)
+	if (moveXZ.Length() > 0.0f)
 	{
 		if (m_animationStat != AnimationWalk)
 		{
 			m_animationStat = AnimationWalk;
 			m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
-			
 		}
 
 		//AxisZとmoveXZのなす角を求める
@@ -135,12 +179,12 @@ void Player::Move()
 		m_angle -= g_gameCamera->GetAngle().x;
 
 		//回転した方向に移動
-		move.x = LenXZ * sin(CMath::DegToRad(m_angle));
-		move.z = LenXZ * cos(CMath::DegToRad(m_angle));
+		move.x = sin(CMath::DegToRad(m_angle)) * 500.0f * DELTA_TIME;
+		move.z = cos(CMath::DegToRad(m_angle)) * 500.0f * DELTA_TIME;
 
 		if (m_particle != nullptr)
 		{
-			DeleteGO(m_particle);//パーティクルの消去
+			DeleteGO(m_particle);
 			m_particle = nullptr;
 		}
 	}
@@ -172,6 +216,7 @@ void Player::Move()
 		move.y = 8.0f;
 		
 	}
+
 	//決定した移動速度をキャラクタコントローラーに設定。
 	m_characterController.SetMoveSpeed(move);
 	//キャラクターコントローラーを実行。
@@ -192,7 +237,12 @@ void Player::Delete()
 	m_dead = true;
 }
 
-void Player::paticle() {
+void Player::Paticle() {
+	if (m_particle != nullptr)
+	{
+		return;
+	}
+
 	switch (m_magicNo) {
 	case FIER:
 		//パーティクルの生成
@@ -224,14 +274,15 @@ void Player::paticle() {
 			1,												//!<0半透明合成、1加算合成。
 			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
 		},
-			m_position);
+			g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->GetLookPos());
+		m_particletimer = 0.8f;
 		break;
 	case SUNDER:
 		//パーティクルの生成
 		m_particle = NewGO<CParticleEmitter>(0);
 		m_particle->Init(random, g_gameCamera->GetCamera(),
 		{
-			"Assets/paticle/Sunder2.tga",				//!<テクスチャのファイwルパス。
+			"Assets/paticle/Sunder2.tga",				//!<テクスチャのファイルパス。
 			{ 0.0f, 0.0f, 0.0f },								//!<初速度。
 			0.4f,											//!<寿命。単位は秒。
 			0.4f,											//!<発生時間。単位は秒。
@@ -256,7 +307,8 @@ void Player::paticle() {
 			1,												//!<0半透明合成、1加算合成。
 			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
 		},
-			m_position);
+			g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->GetLookPos());
+		m_particletimer = 0.4f;
 		break;
 	case ICE:
 		//パーティクルの生成
@@ -288,46 +340,48 @@ void Player::paticle() {
 			1,												//!<0半透明合成、1加算合成。
 			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
 		},
-			m_position);
+			g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->GetLookPos());
+		m_particletimer = 0.4f;
 		break;
 	case AQUA:
-			//パーティクルの生成
-			m_particle = NewGO<CParticleEmitter>(0);
-			m_particle->Init(random, g_gameCamera->GetCamera(),
+		//パーティクルの生成
+		m_particle = NewGO<CParticleEmitter>(0);
+		m_particle->Init(random, g_gameCamera->GetCamera(),
+		{
+			"Assets/paticle/aqua.png",				//!<テクスチャのファイルパス。
+			{ 0.0f, 0.0f, 0.0f },								//!<初速度。
+			0.4f,											//!<寿命。単位は秒。
+			0.4f,											//!<発生時間。単位は秒。
+			8.0f,											//!<パーティクルの幅。
+			7.0f,											//!<パーティクルの高さ。
+			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
+			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
+			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
 			{
-				"Assets/paticle/aqua.png",				//!<テクスチャのファイwルパス。
-				{ 0.0f, 0.0f, 0.0f },								//!<初速度。
-				0.4f,											//!<寿命。単位は秒。
-				0.4f,											//!<発生時間。単位は秒。
-				8.0f,											//!<パーティクルの幅。
-				7.0f,											//!<パーティクルの高さ。
-				{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
-				{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
-				{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
-				{
-					{ 0.0f, 0.0f, 0.25f,0.25f },//0.25,0.5,0.75,1UとVの位置
-					{ 0.0f, 0.0f, 0.0f, 0.0f },//X,Y,X,Y
-					{ 0.0f, 0.0f, 0.0f, 0.0f },
-					{ 0.0f, 0.0f, 0.0f, 0.0f }
-				},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
-				1,												//!<UVテーブルのサイズ。
-				{ 0.0f, 0.0f, 0.0f },							//!<重力。
-				true,											//!<死ぬときにフェードアウトする？
-				0.3f,											//!<フェードする時間。
-				2.0f,											//!<初期アルファ値。
-				true,											//!<ビルボード？
-				3.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
-				1,												//!<0半透明合成、1加算合成。
-				{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
-			},
-				m_position);
-			break;
+				{ 0.0f, 0.0f, 0.25f,0.25f },//0.25,0.5,0.75,1UとVの位置
+				{ 0.0f, 0.0f, 0.0f, 0.0f },//X,Y,X,Y
+				{ 0.0f, 0.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f, 0.0f, 0.0f }
+			},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
+			1,												//!<UVテーブルのサイズ。
+			{ 0.0f, 0.0f, 0.0f },							//!<重力。
+			true,											//!<死ぬときにフェードアウトする？
+			0.3f,											//!<フェードする時間。
+			2.0f,											//!<初期アルファ値。
+			true,											//!<ビルボード？
+			3.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
+			1,												//!<0半透明合成、1加算合成。
+			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
+		},
+			g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->GetLookPos());
+		m_particletimer = 0.4f;
+		break;
 	case WIND:
 		//パーティクルの生成
 		m_particle = NewGO<CParticleEmitter>(0);
 		m_particle->Init(random, g_gameCamera->GetCamera(),
 		{
-			"Assets/paticle/wind.tga",						//!<テクスチャのファイwルパス。
+			"Assets/paticle/wind.tga",						//!<テクスチャのファイルパス。
 			{ 0.0f, 0.0f, 0.0f },							//!<初速度。
 			0.4f,											//!<寿命。単位は秒。
 			0.4f,											//!<発生時間。単位は秒。
@@ -352,7 +406,8 @@ void Player::paticle() {
 			1,												//!<0半透明合成、1加算合成。
 			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
 		},
-		m_position);
+			g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->GetLookPos());
+		m_particletimer = 0.4f;
 		break;
 	}
 }

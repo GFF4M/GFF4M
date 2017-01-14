@@ -1,10 +1,9 @@
 #include "stdafx.h"
 #include "Magic.h"
+#include "Scene.h"
 
 Magic::Magic()
 {
-	m_magicNo = 0;
-	
 }
 
 
@@ -14,11 +13,16 @@ Magic::~Magic()
 
 void Magic::Start()
 {
-	
 	/*int magicNo = m_play->GetMagicNo();
 	m_play = nullptr;*/
 	
-	m_magic_tex.LoadEx("Assets/Sprite/magicFIRE.png", 0);
+	m_all_magic_tex[FIER].LoadEx("Assets/Sprite/magicFIRE.png", 0);
+	m_all_magic_tex[SUNDER].LoadEx("Assets/Sprite/magicTHUNDER.png", 0);
+	m_all_magic_tex[ICE].LoadEx("Assets/Sprite/magicICE.png", 0);
+	m_all_magic_tex[AQUA].LoadEx("Assets/Sprite/magicAQUA.png", 0);
+	m_all_magic_tex[WIND].LoadEx("Assets/Sprite/magicWIND.png", 0);
+
+	m_magic_tex = m_all_magic_tex[FIER];
 
 	m_magic.Init(&m_magic_tex);
 	m_magic.SetSize(MAGICMAXSIZE);
@@ -30,39 +34,16 @@ void Magic::Start()
 
 void Magic::Update()
 {
-	
-	if (KeyInput().GetPad(0).IsTrigger(enButtonRB2))
-	{
-		m_magicNo++;
-		if (m_magicNo > WIND) {
-			m_magicNo = FIER;
-		}
-		switch (m_magicNo) {
-		case FIER:
-			m_magic_tex.LoadEx("Assets/Sprite/magicFIRE.png", 0);
-			break;
-		case SUNDER:
-			m_magic_tex.LoadEx("Assets/Sprite/magicTHUNDER.png", 0);
-			break;
-		case ICE:
-			m_magic_tex.LoadEx("Assets/Sprite/magicAQUA.png", 0);
-			break;
-		case AQUA:
-			m_magic_tex.LoadEx("Assets/Sprite/magicICE.png", 0);
-			break;
-		case WIND:
-			m_magic_tex.LoadEx("Assets/Sprite/magicWIND.png", 0);
-			break;
-		}
-	}
-	
-	
-	
 }
 
 void Magic::PostRender(CRenderContext& renderContext)
 {
 	m_magic.Draw(renderContext);
+}
+
+void Magic::Change()
+{
+	m_magic_tex = m_all_magic_tex[g_scene->GetPlayer()->GetMagicNo()];
 }
 
 void Magic::Delete()

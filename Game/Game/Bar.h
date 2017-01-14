@@ -52,27 +52,22 @@ private:
 	const BarDat m_bar_dat[2] =
 	{ 
 		{
-			{ 230.5f, 7.2f },
-			{ -592.95f, 350.0f },
-			{ 245.0f, 15.75f },
-			{ -600.0f, 350.0f },
-			"White.png",
+			{ 230.5f, 17.2f },
+			{ -592.95f, 320.0f },
+			{ 245.0f, 25.75f },
+			{ -600.0f, 320.0f },
+			"HP-2.png",
 			"Yellow.png",
 			"Black.png",
 		},
 		{
-			{ 230.5f, 7.2f },
-			{ -592.95f, 330.0f },
-			{ 245.0f, 15.75f },
-			{ -600.0f, 330.0f },
-			"White.png",
+			{ 230.5f, 17.2f },
+			{ -592.95f, 300.0f },
+			{ 245.0f, 25.75f },
+			{ -600.0f, 300.0f },
+			"MP-1.png",
 			"Yellow.png",
 			"Black.png",
 		}, 
 	};
 };
-
-const CVector2 GAUGE_MAX_SIZE = { 245.0f, 15.75f };
-const CVector2 BAR_MAX_SIZE = { 230.5f, 7.2f };
-const CVector2 BAR_POS = { -592.95f, 320.0f };
-const CVector2 GAUGE_POS = { -600.0f, 320.0f };

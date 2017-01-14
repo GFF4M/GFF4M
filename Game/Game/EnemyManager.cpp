@@ -2,11 +2,14 @@
 #include "EnemyManager.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Scene.h"
 
 const Enemy::EneDat			m_enemiesdat[ENEMY_DAT] =
 {
-	{ STAGE_T_1,			"dog",		"“G",	100,{ 3.0f,55.0f,0.0f },{ 0.0f,1.0f,0.0f }	,{ 1.0f,1.0f,1.0f } },
-	{ STAGE_T_BATTLE,		"Player",	"“G",	100,{ 3.0f,70.0f,3.0f },{ 0.0f,1.0f,0.0f }	,{ 1.0f,1.0f,1.0f } },
+	{ STAGE_T_1,			"dog",		"“G",	100,{ 3.0f,55.0f,0.0f },{ 0.0f,5.0f,0.0f }	,{ 1.0f,1.0f,1.0f } },
+	{ STAGE_T_BATTLE,		"kinokomove",	"“G",	100,{ 3.0f,70.0f,3.0f },{ 0.0f,2.0f,0.0f }	,{ 1.0f,1.0f,1.0f } },
+	{ STAGE_1_1,			"dog",		"“G",	100,{ 3.0f,55.0f,0.0f },{ 0.0f,5.0f,0.0f }	,{ 1.0f,1.0f,1.0f } },
+	{ STAGE_1_BATTLE,		"Player",	"“G",	100,{ 3.0f,70.0f,3.0f },{ 0.0f,2.0f,0.0f }	,{ 1.0f,1.0f,1.0f } },
 };
 
 EnemyManager::EnemyManager()
@@ -35,7 +38,50 @@ void EnemyManager::Start()
 
 void EnemyManager::Update()
 {
+	if (m_isBattle)
+	{
+		bool changeflg = true;
+		for (int i = 0;i < ENEMY_NUM;i++)
+		{
+			if (m_enemy[i] != nullptr)
+			{
+				if (m_enemy[i]->GetHP() > 0)
+				{
+					changeflg = false;
+				}
+			}
+		}
 
+		if (changeflg)
+		{
+			Scenes scene = NOSCENES;
+			switch (g_scene->GetScenes())
+			{
+			case STAGE_T_BATTLE:
+				scene = STAGE_1_1;
+				break;
+			case STAGE_1_BATTLE:
+				scene = STAGE_2_1;
+				break;
+			case STAGE_2_BATTLE:
+				scene = STAGE_3_1;
+				break;
+			case STAGE_3_BATTLE:
+				scene = STAGE_4_1;
+				break;
+			case STAGE_4_BATTLE:
+				scene = STAGE_5_1;
+				break;
+			case STAGE_5_BATTLE:
+				scene = GAME_CLEAR;
+				break;
+			default:
+				break;
+			}
+
+			g_scene->Change(scene);
+		}
+	}
 }
 
 void EnemyManager::Change(Scenes scene)

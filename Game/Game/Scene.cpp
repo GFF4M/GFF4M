@@ -22,6 +22,9 @@ Scene::Scene()
 
 	m_loadsavedat = false;
 	m_loadpos = CVector3::Zero;
+
+	m_gameover = nullptr;
+	m_result = nullptr;
 }
 
 Scene::~Scene()
@@ -98,6 +101,11 @@ void Scene::LoadCheck()
 
 void Scene::Change(Scenes scenes)
 {
+	if (scenes == NOSCENES)
+	{
+		return;
+	}
+
 	bool found = false;
 
 	m_dat_num = 0;
@@ -136,6 +144,17 @@ void Scene::Change(Scenes scenes)
 		break;
 	}
 
+	if (m_scene == GAMEOVER)
+	{
+		m_gameover = NewGO<SC_Gameover>(1);
+		return;
+	}
+	if (m_scene == GAME_CLEAR)
+	{
+		m_result = NewGO<SC_Result>(1);
+		return;
+	}
+
 	//ロード画面開始
 	if (m_loadstat == LS_NOSTAT)
 	{
@@ -164,6 +183,20 @@ void Scene::ChangeData()
 		break;
 	default:
 		break;
+	}
+
+	if (m_scene == START)
+	{
+		if (m_gameover != nullptr)
+		{
+			m_gameover->Delete();
+			m_gameover = nullptr;
+		}
+		if (m_result != nullptr)
+		{
+			m_result->Delete();
+			m_result = nullptr;
+		}
 	}
 
 	//プレイヤのデータ更新
@@ -351,12 +384,13 @@ bool Scene::SetSaveDat()
 
 	char dat[1000];
 
-	sprintf(dat, "%d,%.5f,%.5f,%.5f,%d",
+	sprintf(dat, "%d,%.5f,%.5f,%.5f,%d,%d",
 		(int)m_scene,
 		m_play->GetPos().x,
 		m_play->GetPos().y,
 		m_play->GetPos().z,
-		m_play->GetHP()
+		m_play->GetHP(),
+		m_play->GetMP()
 	);
 
 	fputs(dat, fp);
@@ -400,16 +434,19 @@ bool Scene::GetSaveDat()
 	Scenes r_scene;
 	CVector3 r_pos;
 	int r_hp;
+	int r_mp;
 
-	sscanf(dat, "%d,%f,%f,%f,%d", 
+	sscanf(dat, "%d,%f,%f,%f,%d,%d", 
 		&r_scene,
 		&r_pos.x,
 		&r_pos.y,
 		&r_pos.z,
-		&r_hp
+		&r_hp,
+		&r_mp
 	);
 
 	m_play->SetHP(r_hp);
+	m_play->SetMP(r_mp);
 
 	Change(r_scene);
 

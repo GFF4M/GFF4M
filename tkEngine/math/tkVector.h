@@ -216,6 +216,13 @@ namespace tkEngine{
 			y *= s;
 			z *= s;
 		}
+
+		void Scale(CVector3 s)
+		{
+			x *= s.x;
+			y *= s.y;
+			z *= s.z;
+		}
 		/*!
 		* @brief	–@ü‚ğ³‹K‰»B
 		*/

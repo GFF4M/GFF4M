@@ -12,19 +12,13 @@ public:
 	void PostRender(CRenderContext& renderContext);
 
 	void Delete();
-	enum MagicNo {
-		FIER,
-		SUNDER,
-		ICE,
-		AQUA,
-		WIND
-	};
+
+	void Change();
 	
 private:
 	CSprite m_magic;			//魔法
 	CTexture m_magic_tex;	//魔法のテクスチャ
-	/*Player*				m_play;*/
-	int				m_magicNo;
+	CTexture m_all_magic_tex[MAGICNUM];	//魔法のテクスチャ
 
 	const CVector2 MAGICMAXSIZE = { 300.0f, 300.0f };
 	const CVector2 MAGICPOS = { 500.0f, -250.0f };

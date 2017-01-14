@@ -32,7 +32,7 @@ public:
 	* @brief	更新。
 	*/
 	void Update();
-	
+
 	/*!
 	* @brief	描画。
 	*/
@@ -57,7 +57,10 @@ public:
 	{
 		CVector3 retpos = m_position;
 
-		retpos.Add(m_look_pos);
+		CVector3 addpos = m_look_pos;
+		addpos.Scale(m_scale);
+
+		retpos.Add(addpos);
 
 		return retpos;
 	}
@@ -65,6 +68,24 @@ public:
 	float GetRadius()
 	{
 		return m_radius;
+	}
+
+	void SetDamage(int damage)
+	{
+		if (damage <= 0)
+		{
+			return;
+		}
+		m_hp -= damage;
+		if (m_hp < 0)
+		{
+			m_hp = 0;
+		}
+	}
+
+	int GetHP()
+	{
+		return m_hp;
 	}
 
 private:
@@ -89,5 +110,8 @@ private:
 	CRandom					m_random;
 	bool					m_isBattle;
 
-	int						m_move_timer;
+	CAnimation				m_animation;						//アニメーション。
+	AnimationStat			m_animationStat;
+
+	float					m_attack_timer;
 };
