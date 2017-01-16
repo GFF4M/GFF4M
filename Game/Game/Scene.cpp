@@ -22,6 +22,12 @@ Scene::Scene()
 
 	m_loadsavedat = false;
 	m_loadpos = CVector3::Zero;
+
+	m_sound_bgm_start = NewGO<CSoundSource>(0);
+	m_sound_bgm_start->Init("Assets/Sound/bgm_maoudamashii_piano25.wav");
+
+	m_sound_bgm_play = NewGO<CSoundSource>(0);
+	m_sound_bgm_play->Init("Assets/Sound/bgm_maoudamashii_fantasy10.wav");
 }
 
 Scene::~Scene()
@@ -120,6 +126,19 @@ void Scene::Change(Scenes scenes)
 	}
 
 	m_scene = scenes;
+
+	m_sound_bgm_play->Stop();
+	m_sound_bgm_start->Stop();
+
+	switch (m_scene)
+	{
+	case START:
+		m_sound_bgm_start->Play(true);
+	case STAGE_T_1:
+		m_sound_bgm_play->Play(true);
+	default:
+		break;
+	}
 
 	switch (m_scene)
 	{

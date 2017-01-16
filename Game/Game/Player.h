@@ -87,7 +87,8 @@ public:
 		SUNDER,
 		ICE,
 		AQUA,
-		WIND
+		WIND,
+		MAGIC
 	};
 	int GetMagicNo()
 	{

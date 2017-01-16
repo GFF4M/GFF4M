@@ -23,7 +23,7 @@ Player::Player()
 	m_mp	= 100;
 	m_maxmp = 100;
 	random.Init((unsigned int) + time(NULL));
-	m_magicNo = 0;
+	m_magicNo = FIER;
 	m_ismagic = false;
 
 
@@ -64,26 +64,32 @@ void Player::Update()
 	{
 		m_magicNo++;
 	}
-	if (m_magicNo > WIND) {
+	/*if (m_magicNo > WIND) {
 		m_magicNo = FIER;
-	}
+	}*/
 	
 
 	if (!m_ismagic) {
+		
 		if (KeyInput().GetPad(0).IsTrigger(enButtonA))
 		{
+			int old_magic = m_magicNo;
+			m_magicNo = MAGIC;
 
 			m_animationStat = Animationmagic;
 			m_animation.PlayAnimation(m_animationStat, 0.3f);
+			paticle();
 			m_ismagic = true;
-			
+			m_magicNo=old_magic;
 			
 			
 		}
+	
 	}
 
 	if (!m_animation.IsPlay() && m_ismagic) {
 
+		
 			paticle();
 			m_ismagic = false;
 	}
@@ -148,7 +154,6 @@ void Player::Move()
 	}
 	else
 	{
-		
 		if (m_animationStat != AnimationStand && !m_ismagic)
 		{
 			m_animationStat = AnimationStand2;
@@ -356,5 +361,38 @@ void Player::paticle() {
 		},
 		m_position);
 		break;
+	case MAGIC:
+		//パーティクルの生成
+		m_particle = NewGO<CParticleEmitter>(0);
+		m_particle->Init(random, g_gameCamera->GetCamera(),
+		{
+			"Assets/paticle/fx_Magiccircle_j.png",			//!<テクスチャのファイwルパス。
+			{ 1.0f, 0.0f, 0.0f },							//!<初速度。
+			0.7f,											//!<寿命。単位は秒。
+			0.7f,											//!<発生時間。単位は秒。
+			6.0f,											//!<パーティクルの幅。
+			7.0f,											//!<パーティクルの高さ。
+			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
+			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
+			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
+			{
+				{ 0.0f, 0.0f, 0.25f,0.5f },//0.25,0.5,0.75,1UとVの位置
+				{ 0.0f, 0.0f, 0.0f, 0.0f },//X,Y,X,Y
+				{ 0.0f, 0.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f, 0.0f, 0.0f }
+			},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
+			1,												//!<UVテーブルのサイズ。
+			{ 0.0f, 0.0f, 0.0f },							//!<重力。
+			true,											//!<死ぬときにフェードアウトする？
+			0.3f,											//!<フェードする時間。
+			2.0f,											//!<初期アルファ値。
+			true,											//!<ビルボード？
+			3.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
+			0,												//!<0半透明合成、1加算合成。
+			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
+		},
+			m_position);
+		break;
+		
 	}
 }

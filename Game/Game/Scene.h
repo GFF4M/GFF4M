@@ -127,6 +127,8 @@ public:
 	void Encryption(char *);
 
 private:
+	CSoundSource*		m_sound_bgm_start;
+	CSoundSource*		m_sound_bgm_play;
 	SC_Load*			m_load;
 	Player*				m_play;
 	EnemyManager*		m_enem_manage;
@@ -134,7 +136,7 @@ private:
 	SC_Start*			m_start;
 	SC_Bar*				m_hp_bar;
 	SC_Bar*				m_mp_bar;
-	SC_Magic*				m_magic;
+	SC_Magic*			m_magic;
 
 	Scenes				m_scene;
 	LoadStat			m_loadstat;

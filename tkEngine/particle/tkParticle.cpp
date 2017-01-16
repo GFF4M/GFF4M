@@ -92,13 +92,14 @@ namespace tkEngine{
 		alphaBlendMode = param.alphaBlendMode;
 		mulColor = param.mulColor;
 
-		rotateZ = 30.0f;/*CMath::PI * 2.0f * (float)random.GetRandDouble();*///パーティクルのランダム回転？
-
+		rotateZ = 120.0f;/*CMath::PI * 2.0f * (float)random.GetRandDouble();*///パーティクルのランダム回転？
 
 	}
+
 	void CParticle::Start()
 	{
 	}
+
 	void CParticle::Update()
 	{
 		float deltaTime = 1.0f / 60.0f;
