@@ -120,7 +120,7 @@ void Player::Update()
 		
 	}
 
-	if (Pad(0).IsTrigger(enButtonLB1))
+	if (Pad(0).IsTrigger(enButtonLB2))
 	{
 		m_magicNo--;
 		if (m_magicNo < FIER) {
