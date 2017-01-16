@@ -76,7 +76,7 @@ void SC_Bar::Update()
 		break;
 	}
 
-	CVector2 size = BAR_MAX_SIZE;
+	CVector2 size = m_bar_dat[m_target].s_bar_max_size;
 	size.x *= Rate;
 	m_Bar.SetSize(size);
 	switch (m_state) {

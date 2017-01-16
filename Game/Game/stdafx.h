@@ -27,6 +27,8 @@ using namespace tkEngine;
 
 #include "EnumDat.h"
 
+#define DELTA_TIME 1.0f / 60.0f
+
 extern CLight g_defaultLight;	//デフォルトライト。
 
 #endif // _STDAFX_H_

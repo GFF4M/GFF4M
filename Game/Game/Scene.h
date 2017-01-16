@@ -7,8 +7,10 @@
 #include "Magic.h"
 #include "EnemyManager.h"
 #include "Bar.h"
+#include "result.h"
+#include "gameover.h"
 
-#define CHANGEDAT_NUM	22
+#define CHANGEDAT_NUM	36
 
 #define SAVE			"SaveDat.txt"
 
@@ -115,6 +117,16 @@ public:
 		return m_enem_manage;
 	}
 
+	Scenes GetScenes()
+	{
+		return m_scene;
+	}
+
+	SC_Magic* GetMagic()
+	{
+		return m_magic;
+	}
+
 	bool SetSaveDat();
 
 	bool GetSaveDat();
@@ -136,7 +148,12 @@ private:
 	SC_Start*			m_start;
 	SC_Bar*				m_hp_bar;
 	SC_Bar*				m_mp_bar;
+
 	SC_Magic*			m_magic;
+
+	SC_Gameover*		m_gameover;
+	SC_Result*			m_result;
+
 
 	Scenes				m_scene;
 	LoadStat			m_loadstat;
@@ -175,8 +192,23 @@ private:
 		{ STAGE_2_BATTLE,		STAGE_3_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
 		{ STAGE_3_BATTLE,		STAGE_4_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
 		{ STAGE_4_BATTLE,		STAGE_5_1,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
-		{ STAGE_5_BATTLE,		START,					CS_ADD,			CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ STAGE_5_BATTLE,		GAME_CLEAR,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+	
+		{ STAGE_T_1,			GAMEOVER,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ STAGE_1_1,			GAMEOVER,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ STAGE_2_1,			GAMEOVER,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ STAGE_3_1,			GAMEOVER,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ STAGE_4_1,			GAMEOVER,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ STAGE_5_1,			GAMEOVER,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ STAGE_T_BATTLE,		GAMEOVER,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ STAGE_1_BATTLE,		GAMEOVER,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ STAGE_2_BATTLE,		GAMEOVER,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ STAGE_3_BATTLE,		GAMEOVER,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ STAGE_4_BATTLE,		GAMEOVER,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ STAGE_5_BATTLE,		GAMEOVER,				CS_NOSTAT,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
 
+		{ GAME_CLEAR,			START,					CS_ADD,			CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ GAMEOVER,				START,					CS_ADD,			CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
 	};
 };
 

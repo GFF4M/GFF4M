@@ -66,8 +66,6 @@ private:
 	float					m_scale;
 	const	float			ADD_SCALE = 5.0f;
 	
-	const	float			DELTA_TIME = 1.0f / 60.0f;
-	
 	CameraTarget			m_target;
 
 	bool					m_rot_flg;

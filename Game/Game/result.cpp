@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Result.h"
+#include "Scene.h"
 
 SC_Result::SC_Result()
 {
@@ -29,7 +30,10 @@ void SC_Result::Start()
 
 void SC_Result::Update()
 {
-
+	if (Pad(0).IsTrigger(enButtonA))
+	{
+		g_scene->Change(START);
+	}
 }
 
 void SC_Result::PostRender(CRenderContext& renderContext)

@@ -11,7 +11,7 @@ public:
 	void Render(CRenderContext& renderContext);
 	void Delete();
 	void Move();
-	void paticle();
+	void Paticle();
 
 	void SetPos(CVector3 pos)
 	{
@@ -33,7 +33,10 @@ public:
 	{
 		CVector3 retpos = m_position;
 
-		retpos.Add(m_look_pos);
+		CVector3 addpos = m_look_pos;
+		addpos.Scale(m_scale);
+
+		retpos.Add(addpos);
 
 		return retpos;
 	}
@@ -53,9 +56,28 @@ public:
 		return m_hp;
 	}
 
+	void SetDamage(int damage)
+	{
+		if (damage <= 0)
+		{
+			return;
+		}
+
+		m_hp -= damage;
+		if (m_hp < 0)
+		{
+			m_hp = 0;
+		}
+	}
+
 	int GetMaxHP()
 	{
 		return m_maxhp;
+	}
+
+	void SetMP(int mp)
+	{
+		m_mp = mp;
 	}
 
 	int GetMP()
@@ -72,6 +94,7 @@ public:
 	{
 		m_moveflg = dat;
 	}
+
 
 	enum AnimationStat{
 		AnimationStand2,
@@ -90,6 +113,8 @@ public:
 		WIND,
 		MAGIC
 	};
+
+
 	int GetMagicNo()
 	{
 		return m_magicNo;
@@ -113,13 +138,21 @@ private:
 
 	int						m_hp;
 	int						m_maxhp;
+	const float				m_hp_charge_delta = 2.f * DELTA_TIME;
+	float					m_hp_charge;
+
 	int						m_mp;
 	int						m_maxmp;
+	const float				m_mp_charge_delta = 2.f * DELTA_TIME;
+	float					m_mp_charge;
 
-	CParticleEmitter	*m_particle;
+	CParticleEmitter		*m_particle;
+	float					m_particletimer;
+
 	int						m_magicNo;
 	bool					m_ismagic;
 	bool					m_moveflg;
 
+	int						m_magic_mp[MAGICNUM] = { 10,20,30,40,50 };
 
 };

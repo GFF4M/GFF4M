@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Gameover.h"
-
+#include "Scene.h"
 
 SC_Gameover::SC_Gameover()
 {
@@ -30,13 +30,75 @@ void SC_Gameover::Start()
 
 void SC_Gameover::Update()
 {
-
+	if (Pad(0).IsTrigger(enButtonA))
+	{
+		g_scene->Change(START);
+		SaveGameover();
+	}
 }
 
 void SC_Gameover::PostRender(CRenderContext& renderContext)
 {
 	m_back.Draw(renderContext);
 	m_Gameover.Draw(renderContext);
+}
+
+
+bool SC_Gameover::SaveGameover()
+{
+	g_scene->GetPlayer()->SetHP(g_scene->GetPlayer()->GetMaxHP());
+	g_scene->GetPlayer()->SetMP(g_scene->GetPlayer()->GetMaxMP());
+
+	FILE *fp;
+
+	fp = fopen(SAVE, "r");
+
+	if (fp == NULL)
+	{
+		return false;
+	}
+
+	char dat[1000];
+
+	fgets(dat, 1000, fp);
+
+	Scenes r_scene;
+	CVector3 r_pos;
+	int r_hp;
+	int r_mp;
+
+	sscanf(dat, "%d,%f,%f,%f,%d,%d",
+		&r_scene,
+		&r_pos.x,
+		&r_pos.y,
+		&r_pos.z,
+		&r_hp,
+		&r_mp
+	);
+
+	fclose(fp);
+
+	fp = fopen(SAVE, "w");
+
+	if (fp == NULL)
+	{
+		return false;
+	}
+
+	sprintf(dat, "%d,%.5f,%.5f,%.5f,%d,%d",
+		r_scene,
+		r_pos.x,
+		r_pos.y,
+		r_pos.z,
+		g_scene->GetPlayer()->GetMaxHP(),
+		g_scene->GetPlayer()->GetMaxMP()
+	);
+
+	fputs(dat, fp);
+
+	fclose(fp);
+
+	return true;
 }
 
 void SC_Gameover::Delete()

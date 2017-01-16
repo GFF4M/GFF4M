@@ -9,6 +9,7 @@ public:
 	void Start();
 	void Update();
 	void PostRender(CRenderContext& renderContext);
+	bool SaveGameover();
 	void Delete();
 
 private:
