@@ -35,31 +35,6 @@ void SC_Magic::Update()
 {
 
 	
-	/*if (KeyInput().GetPad(0).IsTrigger(enButtonRB2))
-	{
-		m_magicNo++;
-		if (m_magicNo > WIND) {
-			m_magicNo = FIER;
-		}
-		switch (m_magicNo) {
-		case FIER:
-			m_magic_tex.LoadEx("Assets/Sprite/magicFIRE.png", 0);
-			break;
-		case SUNDER:
-			m_magic_tex.LoadEx("Assets/Sprite/magicTHUNDER.png", 0);
-			break;
-		case ICE:
-			m_magic_tex.LoadEx("Assets/Sprite/magicICE.png", 0);
-			break;
-		case AQUA:
-			m_magic_tex.LoadEx("Assets/Sprite/magicAQUA.png", 0);
-			break;
-		case WIND:
-			m_magic_tex.LoadEx("Assets/Sprite/magicWIND.png", 0);
-			break;
-		}
-	}*/
-	
 	
 	
 }

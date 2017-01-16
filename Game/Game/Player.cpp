@@ -86,9 +86,6 @@ void Player::Update()
 		m_magicNo++;
 		g_scene->GetMagic()->Change();
 	}
-	/*if (m_magicNo > WIND) {
-		m_magicNo = FIER;
-	}*/
 	
 
 	if (!m_ismagic) {

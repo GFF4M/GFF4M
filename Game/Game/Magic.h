@@ -16,7 +16,7 @@ public:
 	void Change();
 	
 private:
-	/*int m_magicNo;*/
+	
 	CSprite m_magic;		//魔法
 	CTexture m_magic_tex;	//魔法のテクスチャ
 	CTexture m_all_magic_tex[MAGICNUM];	//魔法のテクスチャ

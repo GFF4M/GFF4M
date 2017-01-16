@@ -143,8 +143,8 @@ void Scene::Change(Scenes scenes)
 		m_sound_bgm_play->Play(true);
 	default:
 		break;
-	}
-*/
+	}*/
+
 	switch (m_scene)
 	{
 	case NEWGAME:
