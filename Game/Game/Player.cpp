@@ -81,11 +81,22 @@ void Player::Update()
 		m_characterController.RemoveRigidBoby();
 		DeleteGO(this);
 	}
+
 	if (Pad(0).IsTrigger(enButtonRB1))
 	{
 		m_magicNo++;
 		if (m_magicNo > WIND) {
 			m_magicNo = FIER;
+		}
+
+		g_scene->GetMagic()->Change();
+	}
+
+	if (Pad(0).IsTrigger(enButtonLB1))
+	{
+		m_magicNo--;
+		if (m_magicNo < FIER) {
+			m_magicNo = WIND;
 		}
 
 		g_scene->GetMagic()->Change();
@@ -101,11 +112,24 @@ void Player::Update()
 	case STAGE_5_BATTLE:
 		if (!m_ismagic)
 		{
-			if (KeyInput().GetPad(0).IsTrigger(enButtonA))
+			CVector3 dist = g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->GetLookPos();
+			dist.Subtract(m_position);
+			dist.y = 0.0f;
+
+			CVector3 angle_pos;
+			angle_pos.x = sin(CMath::DegToRad(m_angle));
+			angle_pos.y = 0.0f;
+			angle_pos.z = cos(CMath::DegToRad(m_angle));
+
+
+			if (dist.AngleBetween(angle_pos) < 30.0f)
 			{
-				m_animationStat = Animationmagic;
-				m_animation.PlayAnimation(m_animationStat, 0.3f);
-				m_ismagic = true;
+				if (KeyInput().GetPad(0).IsTrigger(enButtonA))
+				{
+					m_animationStat = Animationmagic;
+					m_animation.PlayAnimation(m_animationStat, 0.3f);
+					m_ismagic = true;
+				}
 			}
 		}
 

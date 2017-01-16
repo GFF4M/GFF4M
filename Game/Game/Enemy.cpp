@@ -58,6 +58,11 @@ void Enemy::Start(EneDat enedat, bool isBattle)
 
 void Enemy::Update()
 {
+	if (m_position.y < 0.0f)
+	{
+		m_hp = 0;
+	}
+
 	if (m_dead)
 	{
 		m_characterController.RemoveRigidBoby();
@@ -82,7 +87,7 @@ void Enemy::Move()
 		moveXZ.Subtract(m_position);
 		moveXZ.y = 0.0f;
 
-		if (m_look_pos.y + m_radius < moveXZ.Length())
+		if (m_look_pos.y * m_scale.y < moveXZ.Length())
 		{
 			moveXZ.Normalize();
 			moveXZ.Scale(2.0f);

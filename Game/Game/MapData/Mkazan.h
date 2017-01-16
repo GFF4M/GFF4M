@@ -1,18 +1,4 @@
-﻿//Building_a
-{
-	"Building_a",
-	CVector3(0.33f, 53.44f, -14.73f),             //平行移動
-	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ), //回転
-	CVector3(1.00f, 1.00f, 1.00f),             //スケール
-},
-//Building_a
-{
-	"Building_a",
-	CVector3(-14.50f, 53.70f, -17.70f),             //平行移動
-	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ), //回転
-	CVector3(1.00f, 1.00f, 1.00f),             //スケール
-},
-//ooiwa2
+﻿//ooiwa2
 {
 	"ooiwa2",
 	CVector3(10.30f, 52.60f, 52.70f),             //平行移動

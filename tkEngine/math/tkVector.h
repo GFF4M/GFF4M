@@ -228,8 +228,8 @@ namespace tkEngine{
 		*/
 		void Normalize()
 		{
-			float len = Length();
-			TK_ASSERT( len > 0.0f, "zero vector!!!");
+			//0.00001fは、0ベクトル対策。
+			float len = Length() + 0.00001f;
 			x /= len;
 			y /= len;
 			z /= len;

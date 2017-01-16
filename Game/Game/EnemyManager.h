@@ -3,7 +3,7 @@
 #include "Enemy.h"
 
 #define ENEMY_NUM 1
-#define ENEMY_DAT 4
+#define ENEMY_DAT 6
 
 class EnemyManager : public IGameObject
 {
