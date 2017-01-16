@@ -2,19 +2,18 @@
 #include "Magic.h"
 #include "Scene.h"
 
-Magic::Magic()
+SC_Magic::SC_Magic()
 {
 }
 
 
-Magic::~Magic()
+SC_Magic::~SC_Magic()
 {
 }
 
-void Magic::Start()
+void SC_Magic::Start()
 {
-	/*int magicNo = m_play->GetMagicNo();
-	m_play = nullptr;*/
+
 	
 	m_all_magic_tex[FIER].LoadEx("Assets/Sprite/magicFIRE.png", 0);
 	m_all_magic_tex[SUNDER].LoadEx("Assets/Sprite/magicTHUNDER.png", 0);
@@ -32,21 +31,23 @@ void Magic::Start()
 
 }
 
-void Magic::Update()
+void SC_Magic::Update()
 {
+	
 }
 
-void Magic::PostRender(CRenderContext& renderContext)
+void SC_Magic::PostRender(CRenderContext& renderContext)
 {
 	m_magic.Draw(renderContext);
 }
 
-void Magic::Change()
+void SC_Magic::Change()
 {
 	m_magic_tex = m_all_magic_tex[g_scene->GetPlayer()->GetMagicNo()];
 }
 
-void Magic::Delete()
+void SC_Magic::Delete()
+
 {
 	DeleteGO(this);
 }

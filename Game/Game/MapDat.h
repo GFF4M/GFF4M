@@ -14,5 +14,5 @@ std::vector<SMapInfo> Stage_1_1
 
 std::vector<SMapInfo> Stage_1_2
 {
-#include "MapData/Mkazan6.h"
+#include "MapData/Micestage5.h"
 };

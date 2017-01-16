@@ -28,7 +28,7 @@ Player::Player()
 	m_mp_charge = 0.0f;
 	
 	random.Init((unsigned int) + time(NULL));
-	m_magicNo = 0;
+	m_magicNo = FIER;
 	m_ismagic = false;
 
 	m_moveflg = false;
@@ -71,7 +71,7 @@ void Player::Update()
 			m_mp++;
 		}
 	}
-	else
+	
 	{
 		m_mp_charge = 0.0f;
 	}
@@ -82,17 +82,45 @@ void Player::Update()
 		DeleteGO(this);
 	}
 
-	if (Pad(0).IsTrigger(enButtonRB1))
+
+	if (Pad(0).IsTrigger(enButtonRB2))
 	{
 		m_magicNo++;
+		g_scene->GetMagic()->Change();
+	}
+	
+
+	if (!m_ismagic) {
+		
+		if (KeyInput().GetPad(0).IsTrigger(enButtonA))
+		{
+			int old_magic = m_magicNo;
+			m_magicNo = MAGIC;
+
+			m_animationStat = Animationmagic;
+			m_animation.PlayAnimation(m_animationStat, 0.3f);
+			Paticle();
+			m_ismagic = true;
+			m_magicNo=old_magic;
+			
+			
+		}
+	
+	}
+
+	if (!m_animation.IsPlay() && m_ismagic) {
+
+		
+			Paticle();
+			m_ismagic = false;
 		if (m_magicNo > WIND) {
 			m_magicNo = FIER;
 		}
 
-		g_scene->GetMagic()->Change();
+		
 	}
 
-	if (Pad(0).IsTrigger(enButtonLB1))
+	if (Pad(0).IsTrigger(enButtonLB2))
 	{
 		m_magicNo--;
 		if (m_magicNo < FIER) {
@@ -214,7 +242,6 @@ void Player::Move()
 	}
 	else
 	{
-		
 		if (m_animationStat != AnimationStand && !m_ismagic)
 		{
 			m_animationStat = AnimationStand2;
@@ -308,6 +335,7 @@ void Player::Paticle() {
 		{
 			"Assets/paticle/Sunder2.tga",				//!<テクスチャのファイルパス。
 			{ 0.0f, 0.0f, 0.0f },								//!<初速度。
+
 			0.4f,											//!<寿命。単位は秒。
 			0.4f,											//!<発生時間。単位は秒。
 			10.0f,											//!<パーティクルの幅。
@@ -339,13 +367,13 @@ void Player::Paticle() {
 		m_particle = NewGO<CParticleEmitter>(0);
 		m_particle->Init(random, g_gameCamera->GetCamera(),
 		{
-			"Assets/paticle/ice.tga",//!<テクスチャのファイwルパス。
+			"Assets/paticle/ice.tga",//!<テクスチャのファイルパス。
 			{ 0.0f, 0.0f, 1.0f },								//!<初速度。
 			0.4f,											//!<寿命。単位は秒。
 			0.4f,											//!<発生時間。単位は秒。
 			4.0f,											//!<パーティクルの幅。
 			4.0f,											//!<パーティクルの高さ。
-			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
+			{ 1.0f, 1.0f, 0.0f },							//!<初期位置のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
 			{
@@ -382,6 +410,7 @@ void Player::Paticle() {
 			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
 			{
+
 				{ 0.0f, 0.0f, 0.25f,0.25f },//0.25,0.5,0.75,1UとVの位置
 				{ 0.0f, 0.0f, 0.0f, 0.0f },//X,Y,X,Y
 				{ 0.0f, 0.0f, 0.0f, 0.0f },
@@ -405,13 +434,14 @@ void Player::Paticle() {
 		m_particle = NewGO<CParticleEmitter>(0);
 		m_particle->Init(random, g_gameCamera->GetCamera(),
 		{
-			"Assets/paticle/wind.tga",						//!<テクスチャのファイルパス。
-			{ 0.0f, 0.0f, 0.0f },							//!<初速度。
+			"Assets/paticle/wind.tga",						//!<テクスチャのファイwルパス。
+			{ 1.0f, 0.0f, 0.0f },							//!<初速度。
+
 			0.4f,											//!<寿命。単位は秒。
 			0.4f,											//!<発生時間。単位は秒。
 			4.0f,											//!<パーティクルの幅。
 			4.0f,											//!<パーティクルの高さ。
-			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
+			{ 1.0f, 1.0f, 0.0f },							//!<初期位置のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
 			{
@@ -433,5 +463,38 @@ void Player::Paticle() {
 			g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->GetLookPos());
 		m_particletimer = 0.4f;
 		break;
+	case MAGIC:
+		//パーティクルの生成
+		m_particle = NewGO<CParticleEmitter>(0);
+		m_particle->Init(random, g_gameCamera->GetCamera(),
+		{
+			"Assets/paticle/fx_Magiccircle_j.png",			//!<テクスチャのファイwルパス。
+			{ 1.0f, 0.0f, 0.0f },							//!<初速度。
+			0.7f,											//!<寿命。単位は秒。
+			0.7f,											//!<発生時間。単位は秒。
+			6.0f,											//!<パーティクルの幅。
+			7.0f,											//!<パーティクルの高さ。
+			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
+			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
+			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
+			{
+				{ 0.0f, 0.0f, 0.25f,0.5f },//0.25,0.5,0.75,1UとVの位置
+				{ 0.0f, 0.0f, 0.0f, 0.0f },//X,Y,X,Y
+				{ 0.0f, 0.0f, 0.0f, 0.0f },
+				{ 0.0f, 0.0f, 0.0f, 0.0f }
+			},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
+			1,												//!<UVテーブルのサイズ。
+			{ 0.0f, 0.0f, 0.0f },							//!<重力。
+			true,											//!<死ぬときにフェードアウトする？
+			0.3f,											//!<フェードする時間。
+			2.0f,											//!<初期アルファ値。
+			true,											//!<ビルボード？
+			3.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
+			0,												//!<0半透明合成、1加算合成。
+			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
+		},
+			m_position);
+		break;
+
 	}
 }

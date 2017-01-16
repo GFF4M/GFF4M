@@ -7,7 +7,6 @@ public:
 	void Start();
 	void Update();
 	void PostRender(CRenderContext& renderContext);
-
 	void Delete();
 
 private:

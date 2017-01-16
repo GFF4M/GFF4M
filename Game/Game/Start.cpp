@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Start.h"
 #include "Scene.h"
-#include "tkEngine/Sound/tkSoundSource.h"
 
 SC_Start::SC_Start()
 {
@@ -13,7 +12,7 @@ SC_Start::SC_Start()
 
 SC_Start::~SC_Start()
 {
-	/*DeleteGO(m_soundSource);*/
+	DeleteGO(m_sound_choise);
 }
 
 void SC_Start::Start()
@@ -46,9 +45,6 @@ void SC_Start::Start()
 	m_continue.SetPivot({ 0.5f,0.5f });
 	m_continue.SetPosition(CONTINUE_POS);
 
-	/*m_soundSource = NewGO<CSoundSource>(0);
-	m_soundSource->Init("Assets/Sound/bgm_maoudamashii_piano25.wav");
-	m_soundSource->Play(true);*/
 }
 
 void SC_Start::Update()
@@ -89,9 +85,9 @@ void SC_Start::SetScene()
 		if (!m_UPressflag)
 		{
 			tex_num--;
-			/*m_soundSource = NewGO<CSoundSource>(0);
-			m_soundSource->Init("Assets/Sound/se_maoudamashii_system24.wav");
-			m_soundSource->Play(false);*/
+			m_sound_choise = NewGO<CSoundSource>(0);
+			m_sound_choise->Init("Assets/Sound/se_maoudamashii_system24.wav");
+			m_sound_choise->Play(false);
 			m_UPressflag = true;
 		}
 	}
@@ -105,9 +101,9 @@ void SC_Start::SetScene()
 		if (!m_DPressflag)
 		{
 			tex_num++;
-			/*m_soundSource = NewGO<CSoundSource>(0);
-			m_soundSource->Init("Assets/Sound/se_maoudamashii_system24.wav");
-			m_soundSource->Play(false);*/
+			m_sound_choise = NewGO<CSoundSource>(0);
+			m_sound_choise->Init("Assets/Sound/se_maoudamashii_system24.wav");
+			m_sound_choise->Play(false);
 			m_DPressflag = true;
 		}
 	}
@@ -135,9 +131,15 @@ void SC_Start::SetScene()
 	{
 	case NEWGAME:
 		g_scene->Change(Scenes::NEWGAME);
+		m_sound_choise = NewGO<CSoundSource>(0);
+		m_sound_choise->Init("Assets/Sound/se_maoudamashii_system24.wav");
+		m_sound_choise->Play(false);
 		break;
 	case CONTINUE:
 		g_scene->Change(Scenes::CONTINUE);
+		m_sound_choise = NewGO<CSoundSource>(0);
+		m_sound_choise->Init("Assets/Sound/se_maoudamashii_system24.wav");
+		m_sound_choise->Play(false);
 		break;
 	default:
 		break;

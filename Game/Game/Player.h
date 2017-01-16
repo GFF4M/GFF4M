@@ -106,6 +106,26 @@ public:
 		m_moveflg = dat;
 	}
 
+
+	enum AnimationStat{
+		AnimationStand2,
+		AnimationStand,
+		AnimationDamage,
+		Animationmagic,
+		AnimationAttack,
+		AnimationWalk,
+		AnimationNum,
+	};
+	enum MagicNo {
+		FIER,
+		SUNDER,
+		ICE,
+		AQUA,
+		WIND,
+		MAGIC
+	};
+
+
 	int GetMagicNo()
 	{
 		return m_magicNo;

@@ -23,6 +23,9 @@ Scene::Scene()
 	m_loadsavedat = false;
 	m_loadpos = CVector3::Zero;
 
+	m_sound_bgm_play = NewGO<CSoundSource>(0);
+	m_sound_bgm_play->Init("Assets/Sound/bgm_maoudamashii_fantasy10.wav");
+
 	m_gameover = nullptr;
 	m_result = nullptr;
 }
@@ -129,6 +132,19 @@ void Scene::Change(Scenes scenes)
 
 	m_scene = scenes;
 
+	/*m_sound_bgm_play->Stop();
+	m_sound_bgm_start->Stop();
+
+	switch (m_scene)
+	{
+	case START:
+		m_sound_bgm_start->Play(true);
+	case STAGE_T_1:
+		m_sound_bgm_play->Play(true);
+	default:
+		break;
+	}*/
+
 	switch (m_scene)
 	{
 	case NEWGAME:
@@ -204,7 +220,7 @@ void Scene::ChangeData()
 	{
 	case CS_ADD:
 		m_play = NewGO<Player>(0);
-		m_magic = NewGO<Magic>(0);
+		m_magic = NewGO<SC_Magic>(0);
 		m_hp_bar = NewGO<SC_Bar>(0);
 		m_hp_bar->Start(SC_Bar::Bar_Target::PLAYER_HP);
 		m_mp_bar = NewGO<SC_Bar>(0);

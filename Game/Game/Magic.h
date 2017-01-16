@@ -1,11 +1,11 @@
 #pragma once
 #include "Player.h"
-class Magic :
+class SC_Magic :
 	public IGameObject
 {
 public:
-	Magic();
-	~Magic();
+	SC_Magic();
+	~SC_Magic();
 
 	void Start();
 	void Update();
@@ -16,7 +16,8 @@ public:
 	void Change();
 	
 private:
-	CSprite m_magic;			//魔法
+	
+	CSprite m_magic;		//魔法
 	CTexture m_magic_tex;	//魔法のテクスチャ
 	CTexture m_all_magic_tex[MAGICNUM];	//魔法のテクスチャ
 

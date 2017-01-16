@@ -45,7 +45,7 @@ public:
 	*/
 	void Delete();
 private:
-	/*CSoundSource* m_soundSource;*/
+	CSoundSource* m_sound_choise;
 
 	CSprite		m_back;					//”wŒi
 	CTexture	m_back_tex;				//”wŒi‚ÌƒeƒNƒXƒ`ƒƒ
