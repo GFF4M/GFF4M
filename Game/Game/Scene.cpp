@@ -330,7 +330,7 @@ void Scene::Collision()
 	dis.y = 0.0f;
 
 	Scenes scenes = NOSCENES;
-	if (dis.Length() <= m_play->GetRadius() + enemy->GetRadius() + 0.2f)
+	if (dis.Length() <= 50.0f)
 	{
 		switch (m_scene)
 		{

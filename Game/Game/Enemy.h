@@ -88,6 +88,11 @@ public:
 		return m_hp;
 	}
 
+	CVector3 GetScale()
+	{
+		return m_scale;
+	}
+
 private:
 	CSkinModel				m_skinModel;					//スキンモデル。
 	CSkinModelDataHandle	m_skinModelData;				//スキンモデルデータ。

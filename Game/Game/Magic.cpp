@@ -33,9 +33,6 @@ void SC_Magic::Start()
 
 void SC_Magic::Update()
 {
-
-	
-	
 	
 }
 

@@ -166,12 +166,12 @@ private:
 	int					m_dat_num;
 	const ChangeDat		m_changedat[CHANGEDAT_NUM] =
 	{
-		{ NOSCENES,				START,					CS_ADD,			CS_ADD,			CS_ADD,			CS_ADD		, CVector3(0.0f,0.0f,0.0f)},
+		{ NOSCENES,				START,					CS_ADD,			CS_ADD,			CS_ADD,			CS_ADD		, CVector3(0.0f,55.0f,0.0f)},
 	
 		{ START,				NEWGAME,				CS_NOSTAT,		CS_NOSTAT,		CS_NOSTAT,		CS_NOSTAT	, CVector3(0.0f,55.0f,0.0f) },
 		{ START,				CONTINUE,				CS_NOSTAT,		CS_NOSTAT,		CS_NOSTAT,		CS_NOSTAT	, CVector3(0.0f,55.0f,0.0f) },
 		
-		{ NEWGAME,				STAGE_T_1,				CS_DELETE,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
+		{ NEWGAME,				STAGE_T_1,				CS_DELETE,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,120.0f) },
 
 		{ CONTINUE,				STAGE_T_1,				CS_DELETE,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
 		{ CONTINUE,				STAGE_1_1,				CS_DELETE,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },

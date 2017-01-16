@@ -56,6 +56,11 @@ public:
 		return m_hp;
 	}
 
+	CVector3 GetScale()
+	{
+		return m_scale;
+	}
+
 	void SetDamage(int damage)
 	{
 		if (damage <= 0)
@@ -67,7 +72,11 @@ public:
 		if (m_hp < 0)
 		{
 			m_hp = 0;
-		}
+		}		
+		
+		m_animationStat = AnimationDamage;
+		m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
+
 	}
 
 	int GetMaxHP()
