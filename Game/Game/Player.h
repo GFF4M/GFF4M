@@ -68,6 +68,8 @@ public:
 			return;
 		}
 
+
+
 		m_hp -= damage;
 		if (m_hp < 0)
 		{
