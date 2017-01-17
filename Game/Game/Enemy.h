@@ -12,7 +12,9 @@ public:
 		CVector3		s_pos;			//基本初期座標
 		CVector3		s_look_pos;		//注視点
 		CVector3		s_scale;		//スケール
+		MagicNo			s_property;		//属性
 	};
+
 	/*!
 	* @brief	コンストラクタ。
 	*/
@@ -47,6 +49,8 @@ public:
 	* @brief	移動。
 	*/
 	void Move();
+
+	void Particle();
 
 	CVector3 GetPos()
 	{
@@ -93,6 +97,12 @@ public:
 		return m_scale;
 	}
 
+	enum AnimationStat
+	{
+		AnimationAttack,
+		AnimationWalk,
+		AnimationStand
+	};
 private:
 	CSkinModel				m_skinModel;					//スキンモデル。
 	CSkinModelDataHandle	m_skinModelData;				//スキンモデルデータ。
@@ -103,6 +113,7 @@ private:
 	CVector3				m_scale;						//拡大。
 	float					m_angle;						//角度。
 
+	MagicNo					m_property;						//属性
 	float					m_radius;
 
 	bool					m_dead;
@@ -119,4 +130,9 @@ private:
 	AnimationStat			m_animationStat;
 
 	float					m_attack_timer;
+
+	CParticleEmitter		*m_particle;
+	float					m_particletimer;
+
+	int						m_magicNo;
 };

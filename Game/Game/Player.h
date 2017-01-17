@@ -11,7 +11,12 @@ public:
 	void Render(CRenderContext& renderContext);
 	void Delete();
 	void Move();
-	void Paticle();
+	void Particle();
+	void DeadCheck();
+	void Charge();
+	void DeleteCheck();
+	void MagicChange();
+	void Magic();
 
 	void SetPos(CVector3 pos)
 	{
@@ -116,14 +121,6 @@ public:
 		AnimationWalk,
 		AnimationNum,
 	};
-	enum MagicNo {
-		FIER,
-		SUNDER,
-		ICE,
-		AQUA,
-		WIND,
-		MAGIC
-	};
 
 
 	int GetMagicNo()
@@ -149,17 +146,21 @@ private:
 
 	int						m_hp;
 	int						m_maxhp;
-	const float				m_hp_charge_delta = 2.f * DELTA_TIME;
+	const float				m_hp_charge_delta = 0.5f * DELTA_TIME;
 	float					m_hp_charge;
 
 	int						m_mp;
 	int						m_maxmp;
-	const float				m_mp_charge_delta = 2.f * DELTA_TIME;
+	const float				m_mp_charge_delta = 1.5f * DELTA_TIME;
 	float					m_mp_charge;
 
 	CParticleEmitter		*m_particle;
 	float					m_particletimer;
 
+	CParticleEmitter		*m_particle_charge;
+	float					m_particletimer_charge;
+
+	CRandom					m_random;
 	int						m_magicNo;
 	bool					m_ismagic;
 	bool					m_moveflg;

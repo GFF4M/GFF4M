@@ -42,6 +42,9 @@
     <ClCompile Include="Magic.cpp">
       <Filter>Screen\Hud\Magic</Filter>
     </ClCompile>
+    <ClCompile Include="StatusAilment.cpp">
+      <Filter>StatusAilment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -90,6 +93,9 @@
     <ClInclude Include="Magic.h">
       <Filter>Screen\Hud\Magic</Filter>
     </ClInclude>
+    <ClInclude Include="StatusAilment.h">
+      <Filter>StatusAilment</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Camera">
@@ -136,6 +142,9 @@
     </Filter>
     <Filter Include="Screen\Hud\Magic">
       <UniqueIdentifier>{e38710de-3c31-483a-a5cc-e9f67af059ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StatusAilment">
+      <UniqueIdentifier>{f9e34f62-6f4e-40dd-8d29-7342bbc6dc9d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

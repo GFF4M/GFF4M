@@ -35,13 +35,13 @@ struct btPointCollector : public btDiscreteCollisionDetectorInterface::Result
 	{
 	}
 
-	virtual void setShapeIdentifiersA(int partId0,int index0)
+	virtual void setShapeIdentiFIREsA(int partId0,int index0)
 	{
 		(void)partId0;
 		(void)index0;
 			
 	}
-	virtual void setShapeIdentifiersB(int partId1,int index1)
+	virtual void setShapeIdentiFIREsB(int partId1,int index1)
 	{
 		(void)partId1;
 		(void)index1;

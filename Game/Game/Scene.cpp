@@ -26,6 +26,9 @@ Scene::Scene()
 	m_sound_bgm_play = NewGO<CSoundSource>(0);
 	m_sound_bgm_play->Init("Assets/Sound/bgm_maoudamashii_fantasy10.wav");
 
+	m_sound_bgm_start = NewGO<CSoundSource>(0);
+	m_sound_bgm_start->Init("Assets/Sound/bgm_maoudamashii_piano25.wav");
+
 	m_gameover = nullptr;
 	m_result = nullptr;
 }
@@ -95,6 +98,20 @@ void Scene::LoadCheck()
 		m_load->Delete();
 		m_load = nullptr;
 		m_loadstat = LS_NOSTAT;
+
+		m_sound_bgm_play->Stop();
+		m_sound_bgm_start->Stop();
+		switch (m_scene)
+		{
+		case START:
+			m_sound_bgm_start->Play(true);
+			break;
+		case STAGE_T_1:
+			m_sound_bgm_play->Play(true);
+			break;
+		default:
+			break;
+		}
 		break;
 
 	default:
@@ -131,19 +148,6 @@ void Scene::Change(Scenes scenes)
 	}
 
 	m_scene = scenes;
-
-	/*m_sound_bgm_play->Stop();
-	m_sound_bgm_start->Stop();
-
-	switch (m_scene)
-	{
-	case START:
-		m_sound_bgm_start->Play(true);
-	case STAGE_T_1:
-		m_sound_bgm_play->Play(true);
-	default:
-		break;
-	}*/
 
 	switch (m_scene)
 	{

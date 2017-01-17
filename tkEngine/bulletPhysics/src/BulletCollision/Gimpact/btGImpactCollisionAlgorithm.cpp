@@ -215,8 +215,8 @@ void btGImpactCollisionAlgorithm::addContactPoint(const btCollisionObjectWrapper
 				const btVector3 & normal,
 				btScalar distance)
 {
-	m_resultOut->setShapeIdentifiersA(m_part0,m_triface0);
-	m_resultOut->setShapeIdentifiersB(m_part1,m_triface1);
+	m_resultOut->setShapeIdentiFIREsA(m_part0,m_triface0);
+	m_resultOut->setShapeIdentiFIREsB(m_part1,m_triface1);
 	checkManifold(body0Wrap,body1Wrap);
 	m_resultOut->addContactPoint(normal,point,distance);
 }
@@ -235,8 +235,8 @@ void btGImpactCollisionAlgorithm::shape_vs_shape_collision(
 		btCollisionAlgorithm* algor = newAlgorithm(body0Wrap,body1Wrap);
 		// post :	checkManifold is called
 
-		m_resultOut->setShapeIdentifiersA(m_part0,m_triface0);
-		m_resultOut->setShapeIdentifiersB(m_part1,m_triface1);
+		m_resultOut->setShapeIdentiFIREsA(m_part0,m_triface0);
+		m_resultOut->setShapeIdentiFIREsB(m_part1,m_triface1);
 		
 		algor->processCollision(body0Wrap,body1Wrap,*m_dispatchInfo,m_resultOut);
 		
@@ -253,8 +253,8 @@ void btGImpactCollisionAlgorithm::convex_vs_convex_collision(
 					  const btCollisionShape* shape1)
 {
 
-	m_resultOut->setShapeIdentifiersA(m_part0,m_triface0);
-	m_resultOut->setShapeIdentifiersB(m_part1,m_triface1);
+	m_resultOut->setShapeIdentiFIREsA(m_part0,m_triface0);
+	m_resultOut->setShapeIdentiFIREsB(m_part1,m_triface1);
 
 	btCollisionObjectWrapper ob0(body0Wrap,shape0,body0Wrap->getCollisionObject(),body0Wrap->getWorldTransform(),m_part0,m_triface0);
 	btCollisionObjectWrapper ob1(body1Wrap,shape1,body1Wrap->getCollisionObject(),body1Wrap->getWorldTransform(),m_part1,m_triface1);

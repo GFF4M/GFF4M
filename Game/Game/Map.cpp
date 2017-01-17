@@ -28,43 +28,43 @@ void Map::Change(Scenes scene)
 	case START:
 		break;
 	case STAGE_T_1:
-		map_dat = Stage_1_2;
+		map_dat = Stage_T_1;
 		break;
 	case STAGE_T_BATTLE:
-		map_dat = Stage_1_1;
+		map_dat = Stage_T_B;
 		break;
 	case STAGE_1_1:
-		map_dat = Stage_1_2;
+		map_dat = Stage_1_1;
 		break;
 	case STAGE_1_BATTLE:
-		map_dat = Stage_1_1;
+		map_dat = Stage_1_B;
 		break;
 	case STAGE_2_1:
-		map_dat = Stage_1_1;
+		map_dat = Stage_2_1;
 		break;
 	case STAGE_2_BATTLE:
-		map_dat = Stage_1_1;
+		map_dat = Stage_2_B;
 		break;
 	case STAGE_3_1:
-		map_dat = Stage_1_1;
+		map_dat = Stage_3_1;
 		break;
 	case STAGE_3_BATTLE:
-		map_dat = Stage_1_1;
+		map_dat = Stage_3_B;
 		break;
 	case STAGE_4_1:
-		map_dat = Stage_1_1;
+		map_dat = Stage_4_1;
 		break;
 	case STAGE_4_BATTLE:
-		map_dat = Stage_1_1;
+		map_dat = Stage_4_B;
 		break;
 	case STAGE_5_1:
-		map_dat = Stage_1_1;
+		map_dat = Stage_5_1;
 		break;
 	case STAGE_5_BATTLE:
-		map_dat = Stage_1_1;
+		map_dat = Stage_5_B;
 		break;
 	default:
-		map_dat = Stage_1_1;
+		map_dat = Stage_T_1;
 		break;
 	}
 

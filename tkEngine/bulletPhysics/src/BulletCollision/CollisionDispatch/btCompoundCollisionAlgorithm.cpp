@@ -156,12 +156,12 @@ public:
 			{
 				tmpWrap = m_resultOut->getBody0Wrap();
 				m_resultOut->setBody0Wrap(&compoundWrap);
-				m_resultOut->setShapeIdentifiersA(-1,index);
+				m_resultOut->setShapeIdentiFIREsA(-1,index);
 			} else
 			{
 				tmpWrap = m_resultOut->getBody1Wrap();
 				m_resultOut->setBody1Wrap(&compoundWrap);
-				m_resultOut->setShapeIdentifiersB(-1,index);
+				m_resultOut->setShapeIdentiFIREsB(-1,index);
 			}
 
 

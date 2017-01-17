@@ -124,13 +124,13 @@ partId, int triangleIndex)
 		{
 			tmpWrap = m_resultOut->getBody0Wrap();
 			m_resultOut->setBody0Wrap(&triObWrap);
-			m_resultOut->setShapeIdentifiersA(partId,triangleIndex);
+			m_resultOut->setShapeIdentiFIREsA(partId,triangleIndex);
 		}
 		else
 		{
 			tmpWrap = m_resultOut->getBody1Wrap();
 			m_resultOut->setBody1Wrap(&triObWrap);
-			m_resultOut->setShapeIdentifiersB(partId,triangleIndex);
+			m_resultOut->setShapeIdentiFIREsB(partId,triangleIndex);
 		}
 	
 		colAlgo->processCollision(m_convexBodyWrap,&triObWrap,*m_dispatchInfoPtr,m_resultOut);

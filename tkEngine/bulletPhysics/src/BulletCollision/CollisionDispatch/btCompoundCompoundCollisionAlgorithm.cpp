@@ -198,8 +198,8 @@ struct	btCompoundCompoundLeafCallback : btDbvt::ICollide
 			m_resultOut->setBody0Wrap(&compoundWrap0);
 			m_resultOut->setBody1Wrap(&compoundWrap1);
 
-			m_resultOut->setShapeIdentifiersA(-1,childIndex0);
-			m_resultOut->setShapeIdentifiersB(-1,childIndex1);
+			m_resultOut->setShapeIdentiFIREsA(-1,childIndex0);
+			m_resultOut->setShapeIdentiFIREsB(-1,childIndex1);
 
 
 			colAlgo->processCollision(&compoundWrap0,&compoundWrap1,m_dispatchInfo,m_resultOut);
