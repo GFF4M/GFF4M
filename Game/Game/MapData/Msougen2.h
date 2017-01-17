@@ -1,16 +1,9 @@
-﻿//Building_a
+﻿//sora
 {
-	"Building_a",
-	CVector3(0.33f, 53.44f, -14.73f),             //平行移動
+	"sora",
+	CVector3(-16.20f, 90.30f, -6.70f),             //平行移動
 	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ), //回転
-	CVector3(1.00f, 1.00f, 1.00f),             //スケール
-},
-//Building_a
-{
-	"Building_a",
-	CVector3(-14.50f, 53.70f, -17.70f),             //平行移動
-	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ), //回転
-	CVector3(1.00f, 1.00f, 1.00f),             //スケール
+	CVector3(1.32f, 1.32f, 0.83f),             //スケール
 },
 //sougen2
 {
@@ -38,5 +31,19 @@
 	"sakusaku",
 	CVector3(-21.02f, 53.09f, -38.96f),             //平行移動
 	CQuaternion(0.05f, 0.71f, 0.71f, -0.03f ), //回転
+	CVector3(0.03f, 0.03f, 0.10f),             //スケール
+},
+//sakusaku
+{
+	"sakusaku",
+	CVector3(-22.55f, 54.27f, 50.74f),             //平行移動
+	CQuaternion(-0.01f, 0.71f, 0.71f, 0.02f ), //回転
+	CVector3(0.03f, 0.03f, 0.10f),             //スケール
+},
+//sakusaku
+{
+	"sakusaku",
+	CVector3(-62.32f, 55.10f, 49.71f),             //平行移動
+	CQuaternion(0.00f, 0.71f, 0.71f, 0.02f ), //回転
 	CVector3(0.03f, 0.03f, 0.10f),             //スケール
 },

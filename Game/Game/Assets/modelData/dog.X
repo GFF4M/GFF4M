@@ -18394,7 +18394,6 @@ AnimationSet attack {
   }
  }
 }
-
 AnimationSet walk{
  
 
@@ -20277,4 +20276,3 @@ AnimationSet Stand {
   }
  }
 }
-

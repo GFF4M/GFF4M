@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tkTools(Scale付き).CSharp", "tkTools(Scale付き).CSharp.csproj", "{B24D6FEF-CC1E-BCE8-6362-10495A3DAF2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tkTools(Scale付き).CSharp.Editor", "tkTools(Scale付き).CSharp.Editor.csproj", "{9A053CD7-DA28-2112-268C-89EFD6A1A510}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B24D6FEF-CC1E-BCE8-6362-10495A3DAF2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B24D6FEF-CC1E-BCE8-6362-10495A3DAF2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B24D6FEF-CC1E-BCE8-6362-10495A3DAF2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B24D6FEF-CC1E-BCE8-6362-10495A3DAF2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A053CD7-DA28-2112-268C-89EFD6A1A510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A053CD7-DA28-2112-268C-89EFD6A1A510}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A053CD7-DA28-2112-268C-89EFD6A1A510}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A053CD7-DA28-2112-268C-89EFD6A1A510}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

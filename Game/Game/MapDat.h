@@ -19,7 +19,7 @@ std::vector<SMapInfo> Stage_T_B
 
 std::vector<SMapInfo> Stage_1_1
 {
-#include "MapData/Mkazan.h"
+#include "MapData/Mkazan6.h"
 };
 
 std::vector<SMapInfo> Stage_1_B
