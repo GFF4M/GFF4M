@@ -1,7 +1,5 @@
 #pragma once
-#include "Player.h"
-class SC_Magic :
-	public IGameObject
+class SC_Magic : public IGameObject
 {
 public:
 	SC_Magic();

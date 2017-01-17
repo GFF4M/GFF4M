@@ -4,7 +4,6 @@
 #include "Scene.h"
 
 Player *g_play;
-CRandom random;
 
 Player::Player()
 {
@@ -19,16 +18,16 @@ Player::Player()
 
 	m_characterController.Init(m_radius, 1.0f, m_position);//キャラクタコントローラの初期化。
 
-	m_hp	= 100;
-	m_maxhp = 100;
+	m_hp	= 5000;
+	m_maxhp = 5000;
 	m_hp_charge = 0.0f;
 
-	m_mp	= 100;
-	m_maxmp = 100;
+	m_mp	= 200;
+	m_maxmp = 200;
 	m_mp_charge = 0.0f;
 	
-	random.Init((unsigned int) + time(NULL));
-	m_magicNo = FIER;
+	m_random.Init((unsigned int)time(NULL));
+	m_magicNo = FIRE;
 	m_ismagic = false;
 
 	m_moveflg = false;
@@ -36,6 +35,10 @@ Player::Player()
 	m_particle = nullptr;
 
 	m_particletimer = 0.0f;
+
+	m_particle_charge = nullptr;
+
+	m_particletimer_charge = 0.0f;
 }
 
 Player::~Player()
@@ -57,133 +60,30 @@ void Player::Start()
 
 void Player::Update()
 {
-	if (m_hp <= 0)
-	{
-		g_scene->Change(GAMEOVER);
-	}
+	DeadCheck();
 
-	if (m_mp < m_maxmp)
-	{
-		m_mp_charge += m_mp_charge_delta;
-		if (m_mp_charge >= 1.0f)
-		{
-			m_mp_charge = 0.0f;
-			m_mp++;
-		}
-	}
-	
-	{
-		m_mp_charge = 0.0f;
-	}
+	Charge();
 
-	if (m_dead)
-	{
-		m_characterController.RemoveRigidBoby();
-		DeleteGO(this);
-	}
+	DeleteCheck();
 
+	MagicChange();
 
-	if (Pad(0).IsTrigger(enButtonRB2))
-	{
-		m_magicNo++;
-		g_scene->GetMagic()->Change();
-	}
-	
-
-	if (!m_ismagic) {
-		
-		if (KeyInput().GetPad(0).IsTrigger(enButtonA))
-		{
-			int old_magic = m_magicNo;
-			m_magicNo = MAGIC;
-
-			m_animationStat = Animationmagic;
-			m_animation.PlayAnimation(m_animationStat, 0.3f);
-			Paticle();
-			m_ismagic = true;
-			m_magicNo=old_magic;
-			
-			
-		}
-	
-	}
-
-	if (!m_animation.IsPlay() && m_ismagic) {
-
-		
-			Paticle();
-			m_ismagic = false;
-		if (m_magicNo > WIND) {
-			m_magicNo = FIER;
-		}
-
-		
-	}
-
-	if (Pad(0).IsTrigger(enButtonLB2))
-	{
-		m_magicNo--;
-		if (m_magicNo < FIER) {
-			m_magicNo = WIND;
-		}
-
-		g_scene->GetMagic()->Change();
-	}
-	
-	switch (g_scene->GetScenes())
-	{
-	case STAGE_T_BATTLE:
-	case STAGE_1_BATTLE:
-	case STAGE_2_BATTLE:
-	case STAGE_3_BATTLE:
-	case STAGE_4_BATTLE:
-	case STAGE_5_BATTLE:
-		if (!m_ismagic)
-		{
-			CVector3 dist = g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->GetLookPos();
-			dist.Subtract(m_position);
-			dist.y = 0.0f;
-
-			CVector3 angle_pos;
-			angle_pos.x = sin(CMath::DegToRad(m_angle));
-			angle_pos.y = 0.0f;
-			angle_pos.z = cos(CMath::DegToRad(m_angle));
-
-
-			if (dist.AngleBetween(angle_pos) < 30.0f)
-			{
-				if (KeyInput().GetPad(0).IsTrigger(enButtonA))
-				{
-					m_animationStat = Animationmagic;
-					m_animation.PlayAnimation(m_animationStat, 0.3f);
-					m_ismagic = true;
-				}
-			}
-		}
-
-		if (!m_animation.IsPlay() && m_ismagic) 
-		{
-			if (m_magic_mp[m_magicNo] <= m_mp)
-			{
-				m_mp -= m_magic_mp[m_magicNo];
-				Paticle();
-				g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->SetDamage(m_magic_mp[m_magicNo]);
-			}
-			m_ismagic = false;
-		}
-		break;
-	default:
-		break;
-	}
+	Magic();
 
 	if (m_moveflg && !m_ismagic)
 	{
 		Move();
 	}
 	
-
-	m_animation.Update(2.0 / 60.0f);
-
+	switch (m_animationStat)
+	{
+	case AnimationDamage:
+		m_animation.Update(1.0f / 60.0f);
+		break;
+	default:
+		m_animation.Update(2.0f / 60.0f);
+		break;
+	}
 	//ワールド行列の更新。
 	m_skinModel.Update(m_position,m_rotation, m_scale);
 
@@ -192,12 +92,23 @@ void Player::Update()
 		DeleteGO(m_particle);
 		m_particle = nullptr;
 	}
+
 	if (m_particletimer > 0.0f)
 	{
 		m_particletimer -= 1.0f / 60.0f;
 	}
-}
 
+	if (m_particle_charge != nullptr && m_particletimer_charge <= 0.0f)
+	{
+		DeleteGO(m_particle_charge);
+		m_particle_charge = nullptr;
+	}
+
+	if (m_particletimer_charge > 0.0f)
+	{
+		m_particletimer_charge -= 1.0f / 60.0f;
+	}
+}
 
 void Player::Move()
 {
@@ -231,13 +142,19 @@ void Player::Move()
 		m_angle -= g_gameCamera->GetAngle().x;
 
 		//回転した方向に移動
-		move.x = sin(CMath::DegToRad(m_angle)) * 500.0f * DELTA_TIME;
-		move.z = cos(CMath::DegToRad(m_angle)) * 500.0f * DELTA_TIME;
+		move.x = sin(CMath::DegToRad(m_angle)) * 1000.0f * DELTA_TIME;
+		move.z = cos(CMath::DegToRad(m_angle)) * 1000.0f * DELTA_TIME;
 
 		if (m_particle != nullptr)
 		{
 			DeleteGO(m_particle);
 			m_particle = nullptr;
+		}
+
+		if (m_particle_charge != nullptr)
+		{
+			DeleteGO(m_particle_charge);
+			m_particle_charge = nullptr;
 		}
 	}
 	else
@@ -261,7 +178,7 @@ void Player::Move()
 	}
 
 	//一段ジャンプ
-	if (KeyInput().GetPad(0).IsPress(enButtonLB3) && m_characterController.IsOnGround())
+	if (KeyInput().GetPad(0).IsPress(enButtonA) && m_characterController.IsOnGround())
 	{
 		m_characterController.Jump();
 		move.y = 8.0f;
@@ -288,24 +205,28 @@ void Player::Delete()
 	m_dead = true;
 }
 
-void Player::Paticle() {
+void Player::Particle() {
 	if (m_particle != nullptr)
 	{
 		return;
 	}
 
+	CVector3 target = g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->GetPos();
+
+	target.y = GetLookPos().y;
+
 	switch (m_magicNo) {
-	case FIER:
+	case FIRE:
 		//パーティクルの生成
 		m_particle = NewGO<CParticleEmitter>(0);
-		m_particle->Init(random, g_gameCamera->GetCamera(),
+		m_particle->Init(m_random, g_gameCamera->GetCamera(),
 		{
 			"Assets/paticle/burn.png",		//!<テクスチャのファイルパス。
 			{ 0.0f, 0.0f, 0.0f },							//!<初速度。
 			0.8f,											//!<寿命。単位は秒。
 			0.8f,											//!<発生時間。単位は秒。
-			7.0f,											//!<パーティクルの幅。
-			7.0f,											//!<パーティクルの高さ。
+			17.0f,											//!<パーティクルの幅。
+			17.0f,											//!<パーティクルの高さ。
 			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
@@ -325,15 +246,15 @@ void Player::Paticle() {
 			1,												//!<0半透明合成、1加算合成。
 			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
 		},
-			g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->GetLookPos());
+			target);
 		m_particletimer = 0.8f;
 		break;
-	case SUNDER:
+	case THUNDER:
 		//パーティクルの生成
 		m_particle = NewGO<CParticleEmitter>(0);
-		m_particle->Init(random, g_gameCamera->GetCamera(),
+		m_particle->Init(m_random, g_gameCamera->GetCamera(),
 		{
-			"Assets/paticle/Sunder2.tga",				//!<テクスチャのファイルパス。
+			"Assets/paticle/Thunder2.tga",				//!<テクスチャのファイルパス。
 			{ 0.0f, 0.0f, 0.0f },								//!<初速度。
 
 			0.4f,											//!<寿命。単位は秒。
@@ -359,20 +280,20 @@ void Player::Paticle() {
 			1,												//!<0半透明合成、1加算合成。
 			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
 		},
-			g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->GetLookPos());
+			target);
 		m_particletimer = 0.4f;
 		break;
 	case ICE:
 		//パーティクルの生成
 		m_particle = NewGO<CParticleEmitter>(0);
-		m_particle->Init(random, g_gameCamera->GetCamera(),
+		m_particle->Init(m_random, g_gameCamera->GetCamera(),
 		{
 			"Assets/paticle/ice.tga",//!<テクスチャのファイルパス。
 			{ 0.0f, 0.0f, 1.0f },								//!<初速度。
 			0.4f,											//!<寿命。単位は秒。
 			0.4f,											//!<発生時間。単位は秒。
-			4.0f,											//!<パーティクルの幅。
-			4.0f,											//!<パーティクルの高さ。
+			10.0f,											//!<パーティクルの幅。
+			10.0f,											//!<パーティクルの高さ。
 			{ 1.0f, 1.0f, 0.0f },							//!<初期位置のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
@@ -392,20 +313,20 @@ void Player::Paticle() {
 			1,												//!<0半透明合成、1加算合成。
 			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
 		},
-			g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->GetLookPos());
+			target);
 		m_particletimer = 0.4f;
 		break;
 	case AQUA:
 		//パーティクルの生成
 		m_particle = NewGO<CParticleEmitter>(0);
-		m_particle->Init(random, g_gameCamera->GetCamera(),
+		m_particle->Init(m_random, g_gameCamera->GetCamera(),
 		{
 			"Assets/paticle/aqua.png",				//!<テクスチャのファイルパス。
 			{ 0.0f, 0.0f, 0.0f },								//!<初速度。
 			0.4f,											//!<寿命。単位は秒。
 			0.4f,											//!<発生時間。単位は秒。
-			8.0f,											//!<パーティクルの幅。
-			7.0f,											//!<パーティクルの高さ。
+			10.0f,											//!<パーティクルの幅。
+			10.0f,											//!<パーティクルの高さ。
 			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
@@ -426,21 +347,21 @@ void Player::Paticle() {
 			1,												//!<0半透明合成、1加算合成。
 			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
 		},
-			g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->GetLookPos());
+			target);
 		m_particletimer = 0.4f;
 		break;
 	case WIND:
 		//パーティクルの生成
 		m_particle = NewGO<CParticleEmitter>(0);
-		m_particle->Init(random, g_gameCamera->GetCamera(),
+		m_particle->Init(m_random, g_gameCamera->GetCamera(),
 		{
 			"Assets/paticle/wind.tga",						//!<テクスチャのファイwルパス。
 			{ 1.0f, 0.0f, 0.0f },							//!<初速度。
 
 			0.4f,											//!<寿命。単位は秒。
 			0.4f,											//!<発生時間。単位は秒。
-			4.0f,											//!<パーティクルの幅。
-			4.0f,											//!<パーティクルの高さ。
+			10.0f,											//!<パーティクルの幅。
+			10.0f,											//!<パーティクルの高さ。
 			{ 1.0f, 1.0f, 0.0f },							//!<初期位置のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
@@ -460,41 +381,155 @@ void Player::Paticle() {
 			1,												//!<0半透明合成、1加算合成。
 			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
 		},
-			g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->GetLookPos());
+			target);
 		m_particletimer = 0.4f;
 		break;
-	case MAGIC:
-		//パーティクルの生成
-		m_particle = NewGO<CParticleEmitter>(0);
-		m_particle->Init(random, g_gameCamera->GetCamera(),
-		{
-			"Assets/paticle/fx_Magiccircle_j.png",			//!<テクスチャのファイwルパス。
-			{ 1.0f, 0.0f, 0.0f },							//!<初速度。
-			0.7f,											//!<寿命。単位は秒。
-			0.7f,											//!<発生時間。単位は秒。
-			6.0f,											//!<パーティクルの幅。
-			7.0f,											//!<パーティクルの高さ。
-			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
-			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
-			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
-			{
-				{ 0.0f, 0.0f, 0.25f,0.5f },//0.25,0.5,0.75,1UとVの位置
-				{ 0.0f, 0.0f, 0.0f, 0.0f },//X,Y,X,Y
-				{ 0.0f, 0.0f, 0.0f, 0.0f },
-				{ 0.0f, 0.0f, 0.0f, 0.0f }
-			},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
-			1,												//!<UVテーブルのサイズ。
-			{ 0.0f, 0.0f, 0.0f },							//!<重力。
-			true,											//!<死ぬときにフェードアウトする？
-			0.3f,											//!<フェードする時間。
-			2.0f,											//!<初期アルファ値。
-			true,											//!<ビルボード？
-			3.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
-			0,												//!<0半透明合成、1加算合成。
-			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
-		},
-			m_position);
-		break;
-
 	}
+}
+
+void Player::DeadCheck()
+{
+	if (m_hp <= 0)
+	{
+		g_scene->Change(GAMEOVER);
+	}
+}
+
+void Player::Charge()
+{
+	if (m_mp < m_maxmp)
+	{
+		m_mp_charge += m_mp_charge_delta;
+		if (m_mp_charge >= 1.0f)
+		{
+			m_mp_charge = 0.0f;
+			m_mp++;
+		}
+	}
+
+	if (m_hp < m_maxhp)
+	{
+		m_hp_charge += m_hp_charge_delta;
+		if (m_hp_charge >= 1.0f)
+		{
+			m_hp_charge = 0.0f;
+			m_hp++;
+		}
+	}
+}
+
+void Player::DeleteCheck()
+{
+	if (m_dead)
+	{
+		m_characterController.RemoveRigidBoby();
+		DeleteGO(this);
+	}
+}
+
+void Player::MagicChange()
+{
+	if (Pad(0).IsTrigger(enButtonRB1))
+	{
+		m_magicNo++;
+		if (WIND < m_magicNo) {
+			m_magicNo = FIRE;
+		}
+		g_scene->GetMagic()->Change();
+	}
+
+	if (Pad(0).IsTrigger(enButtonLB1))
+	{
+		m_magicNo--;
+		if (m_magicNo < FIRE) {
+			m_magicNo = WIND;
+		}
+
+		g_scene->GetMagic()->Change();
+	}
+}
+
+void Player::Magic()
+{
+	switch (g_scene->GetScenes())
+	{
+	case STAGE_T_BATTLE:
+	case STAGE_1_BATTLE:
+	case STAGE_2_BATTLE:
+	case STAGE_3_BATTLE:
+	case STAGE_4_BATTLE:
+	case STAGE_5_BATTLE:
+	{
+		CVector3 dist = g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->GetLookPos();
+		dist.Subtract(m_position);
+		dist.y = 0.0f;
+
+		CVector3 angle_pos;
+		angle_pos.x = sin(CMath::DegToRad(m_angle));
+		angle_pos.y = 0.0f;
+		angle_pos.z = cos(CMath::DegToRad(m_angle));
+
+		if (m_magic_mp[m_magicNo] <= m_mp)
+		{
+			if (dist.AngleBetween(angle_pos) < 30.0f)
+			{
+				if (!m_ismagic)
+				{
+					if (m_particle_charge == nullptr)
+					{
+						if (KeyInput().GetPad(0).IsTrigger(enButtonB))
+						{
+							m_animationStat = Animationmagic;
+							m_animation.PlayAnimation(m_animationStat, 0.3f);
+							m_ismagic = true;
+
+							//パーティクルの生成
+							m_particle_charge = NewGO<CParticleEmitter>(0);
+							m_particle_charge->Init(m_random, g_gameCamera->GetCamera(),
+							{
+								"Assets/paticle/fx_Magiccircle_j.png",			//!<テクスチャのファイwルパス。
+								{ 1.0f, 0.0f, 0.0f },							//!<初速度。
+								0.7f,											//!<寿命。単位は秒。
+								0.7f,											//!<発生時間。単位は秒。
+								6.0f,											//!<パーティクルの幅。
+								7.0f,											//!<パーティクルの高さ。
+								{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
+								{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
+								{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
+								{
+									{ 0.0f, 0.0f, 0.25f,0.5f },//0.25,0.5,0.75,1UとVの位置
+									{ 0.0f, 0.0f, 0.0f, 0.0f },//X,Y,X,Y
+									{ 0.0f, 0.0f, 0.0f, 0.0f },
+									{ 0.0f, 0.0f, 0.0f, 0.0f }
+								},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
+								1,												//!<UVテーブルのサイズ。
+								{ 0.0f, 0.0f, 0.0f },							//!<重力。
+								true,											//!<死ぬときにフェードアウトする？
+								0.3f,											//!<フェードする時間。
+								2.0f,											//!<初期アルファ値。
+								true,											//!<ビルボード？
+								3.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
+								0,												//!<0半透明合成、1加算合成。
+								{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
+							},
+								GetLookPos());
+							m_particletimer_charge = 0.7f;
+						}
+					}
+				}
+				if (!m_animation.IsPlay() && m_ismagic)
+				{
+					m_mp -= m_magic_mp[m_magicNo];
+					Particle();
+					g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->SetDamage(m_magic_mp[m_magicNo]);
+					m_ismagic = false;
+				}
+			}
+		}
+	}
+	break;
+	default:
+		break;
+	}
+
 }

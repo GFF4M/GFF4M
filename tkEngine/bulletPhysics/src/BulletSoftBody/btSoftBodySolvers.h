@@ -124,7 +124,7 @@ public:
 	/**
 	 * Add a collision object to be used by the indicated softbody.
 	 */
-	virtual void addCollisionObjectForSoftBody( int clothIdentifier, btCollisionObject *collisionObject ) = 0;
+	virtual void addCollisionObjectForSoftBody( int clothIdentiFIRE, btCollisionObject *collisionObject ) = 0;
 #endif
 };
 

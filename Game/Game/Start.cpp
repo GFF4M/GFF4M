@@ -122,7 +122,7 @@ void SC_Start::SetScene()
 	}
 	m_tex_num = (TexNum)tex_num;
 
-	if (!KeyInput().GetPad(0).IsTrigger(enButtonA))
+	if (!KeyInput().GetPad(0).IsTrigger(enButtonB))
 	{
 		return;
 	}

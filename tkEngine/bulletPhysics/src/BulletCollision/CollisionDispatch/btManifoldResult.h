@@ -81,13 +81,13 @@ public:
 		return m_manifoldPtr;
 	}
 
-	virtual void setShapeIdentifiersA(int partId0,int index0)
+	virtual void setShapeIdentiFIREsA(int partId0,int index0)
 	{
 		m_partId0=partId0;
 		m_index0=index0;
 	}
 
-	virtual void setShapeIdentifiersB(	int partId1,int index1)
+	virtual void setShapeIdentiFIREsB(	int partId1,int index1)
 	{
 		m_partId1=partId1;
 		m_index1=index1;

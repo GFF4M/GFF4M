@@ -92,7 +92,7 @@ namespace tkEngine{
 		alphaBlendMode = param.alphaBlendMode;
 		mulColor = param.mulColor;
 
-		rotateZ = CMath::DegToRad(30.0f);/*CMath::PI * 2.0f * (float)random.GetRandDouble();*///パーティクルのランダム回転？
+		rotateZ = CMath::DegToRad(40.0f);/*CMath::PI * 2.0f * (float)random.GetRandDouble();*///パーティクルのランダム回転？
 
 	}
 

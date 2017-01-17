@@ -175,6 +175,7 @@
     <ClCompile Include="result.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Bar.cpp" />
+    <ClCompile Include="StatusAilment.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -198,6 +199,7 @@
     <ClInclude Include="result.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Bar.h" />
+    <ClInclude Include="StatusAilment.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Start.h" />
   </ItemGroup>

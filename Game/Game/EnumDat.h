@@ -24,7 +24,7 @@ enum Scenes
 	//óã
 	STAGE_4_1,
 	STAGE_4_BATTLE,
-	//åı
+	//êÖ
 	STAGE_5_1,
 	STAGE_5_BATTLE,
 
@@ -55,10 +55,12 @@ enum AnimationStat {
 };
 
 enum MagicNo {
-	FIER,
-	SUNDER,
+	FIRE,
+	THUNDER,
 	ICE,
 	AQUA,
 	WIND,
+	NORMAL,
 	MAGICNUM,
 };
+

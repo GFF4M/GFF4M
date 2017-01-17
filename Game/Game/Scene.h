@@ -141,6 +141,8 @@ public:
 private:
 	CSoundSource*		m_sound_bgm_start;
 	CSoundSource*		m_sound_bgm_play;
+
+
 	SC_Load*			m_load;
 	Player*				m_play;
 	EnemyManager*		m_enem_manage;
@@ -171,7 +173,7 @@ private:
 		{ START,				NEWGAME,				CS_NOSTAT,		CS_NOSTAT,		CS_NOSTAT,		CS_NOSTAT	, CVector3(0.0f,55.0f,0.0f) },
 		{ START,				CONTINUE,				CS_NOSTAT,		CS_NOSTAT,		CS_NOSTAT,		CS_NOSTAT	, CVector3(0.0f,55.0f,0.0f) },
 		
-		{ NEWGAME,				STAGE_T_1,				CS_DELETE,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,120.0f) },
+		{ NEWGAME,				STAGE_T_1,				CS_DELETE,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
 
 		{ CONTINUE,				STAGE_T_1,				CS_DELETE,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
 		{ CONTINUE,				STAGE_1_1,				CS_DELETE,		CS_NOSTAT,		CS_CHANGE,		CS_CHANGE	, CVector3(0.0f,55.0f,0.0f) },
