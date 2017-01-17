@@ -7,7 +7,7 @@
 const Enemy::EneDat			m_enemiesdat[ENEMY_DAT] =
 {
 	{ STAGE_T_1,			"kinokomove",			"“G",	100,	{ 0.0f,55.0f,-50.0f },	{ 0.0f,5.0f,0.0f }	,	{ 10.0f,10.0f,10.0f } },
-	{ STAGE_T_BATTLE,		"kinokomove",			"“G",	100,	{ 3.0f,70.0f,3.0f },	{ 0.0f,2.0f,0.0f }	,	{ 10.0f,10.0f,10.0f } },
+	{ STAGE_T_BATTLE,		"tex4",			"“G",	100,	{ 3.0f,70.0f,3.0f },	{ 0.0f,2.0f,0.0f }	,	{ 2.0f,2.0f,2.0f } },
 	{ STAGE_1_1,			"dog",					"“G",	100,	{ 3.0f,55.0f,0.0f },	{ 0.0f,6.0f,0.0f }	,	{ 1.0f,1.0f,1.0f } },
 	{ STAGE_1_BATTLE,		"dog",					"“G",	100,	{ 3.0f,70.0f,3.0f },	{ 0.0f,6.0f,0.0f }	,	{ 1.0f,1.0f,1.0f } },
 	{ STAGE_2_1,			"Player",				"“G",	100,	{ 3.0f,55.0f,0.0f },	{ 0.0f,5.0f,0.0f }	,	{ 1.0f,1.0f,1.0f } },
