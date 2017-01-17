@@ -1,4 +1,7 @@
 #pragma once
+
+#define DAT_NULL 1000
+
 class SC_Bar : public IGameObject
 {
 public:
@@ -6,6 +9,7 @@ public:
 		PLAYER_HP,
 		PLAYER_MP,
 		PLAYER_LV,
+		ENEMY_HP,
 	};
 
 	SC_Bar();
@@ -49,25 +53,43 @@ private:
 		const char* s_gauge_name;
 	};
 
-	const BarDat m_bar_dat[2] =
+	const BarDat m_bar_dat[4] =
 	{ 
 		{
 			{ 230.5f, 17.2f },
-			{ -592.95f, 320.0f },
+			{ -592.95f, -300.0f },
 			{ 245.0f, 25.75f },
-			{ -600.0f, 320.0f },
+			{ -600.0f, -300.0f },
 			"HP-2.png",
 			"Yellow.png",
 			"Black.png",
 		},
 		{
 			{ 230.5f, 17.2f },
-			{ -592.95f, 300.0f },
+			{ -592.95f, -320.0f },
 			{ 245.0f, 25.75f },
-			{ -600.0f, 300.0f },
+			{ -600.0f, -320.0f },
 			"MP-1.png",
 			"Yellow.png",
 			"Black.png",
-		}, 
+		},
+		{
+			{ 230.5f, 17.2f },
+			{ -592.95f, -340.0f },
+			{ 245.0f, 25.75f },
+			{ -600.0f, -340.0f },
+			"MP-1.png",
+			"Yellow.png",
+			"Black.png",
+		},
+		{
+			{ 1200.0f, 17.2f },
+			{ -592.95f, 320.0f },
+			{ 1220.0f, 25.75f },
+			{ -600.0f, 320.0f },
+			"HP-2.png",
+			"Yellow.png",
+			"Black.png",
+		},
 	};
 };

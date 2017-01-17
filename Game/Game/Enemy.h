@@ -92,6 +92,11 @@ public:
 		return m_hp;
 	}
 
+	int GetMaxHP()
+	{
+		return m_maxhp;
+	}
+
 	CVector3 GetScale()
 	{
 		return m_scale;

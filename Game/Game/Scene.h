@@ -148,8 +148,9 @@ private:
 	EnemyManager*		m_enem_manage;
 	Map*				m_map;
 	SC_Start*			m_start;
-	SC_Bar*				m_hp_bar;
-	SC_Bar*				m_mp_bar;
+	SC_Bar*				m_player_hp_bar;
+	SC_Bar*				m_player_mp_bar;
+	SC_Bar*				m_enemy_hp_bar;
 
 	SC_Magic*			m_magic;
 

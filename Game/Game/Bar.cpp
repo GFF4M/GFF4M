@@ -53,6 +53,18 @@ void SC_Bar::Start(Bar_Target target)
 		break;
 	case PLAYER_LV:
 		break;
+	case ENEMY_HP:
+		if (g_scene->GetEnemy() == nullptr ||
+			g_scene->GetEnemy()->GetEnemyNum() == 0 ||
+			g_scene->GetPlayer() == nullptr)
+		{
+			m_LastFrame = DAT_NULL;
+		}
+		else
+		{
+			m_LastFrame = (float)g_scene->GetEnemy()->GetNearestEnemy(g_scene->GetPlayer()->GetPos(), 0)->GetHP();
+		}
+		break;
 	default:
 		break;
 	}
@@ -71,6 +83,18 @@ void SC_Bar::Update()
 		Rate = (float)g_scene->GetPlayer()->GetMP() / (float)g_scene->GetPlayer()->GetMaxMP();
 		break;
 	case PLAYER_LV:	
+		break;
+	case ENEMY_HP:
+		if (g_scene->GetEnemy() == nullptr ||
+			g_scene->GetEnemy()->GetEnemyNum() == 0 ||
+			g_scene->GetPlayer() == nullptr)
+		{
+			Rate = DAT_NULL;
+		}
+		else
+		{
+			Rate = (float)g_scene->GetEnemy()->GetNearestEnemy(g_scene->GetPlayer()->GetPos(), 0)->GetHP() / (float)g_scene->GetEnemy()->GetNearestEnemy(g_scene->GetPlayer()->GetPos(), 0)->GetMaxHP();
+		}
 		break;
 	default:
 		break;
@@ -127,6 +151,26 @@ void SC_Bar::Update()
 			break;
 		case PLAYER_LV:
 			break;
+		case ENEMY_HP:
+			if (g_scene->GetEnemy() != nullptr &&
+				g_scene->GetEnemy()->GetEnemyNum() != 0 &&
+				g_scene->GetPlayer() != nullptr)
+			{	
+				if (m_LastFrame >(float)g_scene->GetEnemy()->GetNearestEnemy(g_scene->GetPlayer()->GetPos(), 0)->GetHP()) 
+				{
+					//ダメージを受けた。
+					m_state = STATE_DAMAGEWAIT;
+					m_timer = 0.0f;
+				}
+				else if (m_LastFrame < (float)g_scene->GetEnemy()->GetNearestEnemy(g_scene->GetPlayer()->GetPos(), 0)->GetHP()) 
+				{
+					//回復している。
+					m_BarBack.SetSize(size);
+				}
+	
+			}
+			break;
+
 		default:
 			break;
 		}
@@ -142,6 +186,18 @@ void SC_Bar::Update()
 		break;
 	case PLAYER_LV:
 		break;
+	case ENEMY_HP:
+		if (g_scene->GetEnemy() == nullptr || 
+			g_scene->GetEnemy()->GetEnemyNum() == 0 ||
+			g_scene->GetPlayer() == nullptr)
+		{
+			m_LastFrame = DAT_NULL;
+		}
+		else
+		{
+			m_LastFrame = (float)g_scene->GetEnemy()->GetNearestEnemy(g_scene->GetPlayer()->GetPos(), 0)->GetHP();
+		}
+		break;
 	default:
 		break;
 	}
@@ -149,6 +205,10 @@ void SC_Bar::Update()
 
 void SC_Bar::PostRender(CRenderContext& renderContext)
 {
+	if (m_target == ENEMY_HP && (!g_scene->GetEnemy()->IsBattle() || g_scene->GetEnemy() == nullptr || g_scene->GetEnemy()->GetEnemyNum() == 0))
+	{
+		return;
+	}
 	m_Gauge.Draw(renderContext);
 	m_BarBack.Draw(renderContext);
 	m_Bar.Draw(renderContext);

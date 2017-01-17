@@ -13,8 +13,8 @@ Scene::Scene()
 	m_start = nullptr;
 	m_enem_manage = nullptr;
 
-	m_hp_bar = nullptr;
-	m_mp_bar = nullptr;
+	m_player_hp_bar = nullptr;
+	m_player_mp_bar = nullptr;
 	m_scene = NOSCENES;
 	m_loadstat = LS_NOSTAT;
 
@@ -225,10 +225,10 @@ void Scene::ChangeData()
 	case CS_ADD:
 		m_play = NewGO<Player>(0);
 		m_magic = NewGO<SC_Magic>(0);
-		m_hp_bar = NewGO<SC_Bar>(0);
-		m_hp_bar->Start(SC_Bar::Bar_Target::PLAYER_HP);
-		m_mp_bar = NewGO<SC_Bar>(0);
-		m_mp_bar->Start(SC_Bar::Bar_Target::PLAYER_MP);
+		m_player_hp_bar = NewGO<SC_Bar>(0);
+		m_player_hp_bar->Start(SC_Bar::Bar_Target::PLAYER_HP);
+		m_player_mp_bar = NewGO<SC_Bar>(0);
+		m_player_mp_bar->Start(SC_Bar::Bar_Target::PLAYER_MP);
 		break;
 
 	case CS_DELETE:
@@ -236,10 +236,10 @@ void Scene::ChangeData()
 		m_play = nullptr;
 		m_magic->Delete();
 		m_magic=nullptr;
-		m_hp_bar->Delete();
-		m_mp_bar->Delete();
-		m_hp_bar = nullptr;
-		m_mp_bar = nullptr;
+		m_player_hp_bar->Delete();
+		m_player_mp_bar->Delete();
+		m_player_hp_bar = nullptr;
+		m_player_mp_bar = nullptr;
 		break;
 	default:
 		break;
@@ -251,6 +251,8 @@ void Scene::ChangeData()
 	case CS_ADD:
 		m_enem_manage = NewGO<EnemyManager>(0);
 		m_enem_manage->Change(dat.s_move_scene);
+		m_enemy_hp_bar = NewGO<SC_Bar>(0);
+		m_enemy_hp_bar->Start(SC_Bar::Bar_Target::ENEMY_HP);
 		break;
 	case CS_CHANGE:
 		m_enem_manage->Change(dat.s_move_scene);
