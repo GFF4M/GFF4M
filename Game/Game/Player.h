@@ -151,7 +151,7 @@ private:
 
 	int						m_mp;
 	int						m_maxmp;
-	const float				m_mp_charge_delta = 1.5f * DELTA_TIME;
+	const float				m_mp_charge_delta = 991.5f * DELTA_TIME;
 	float					m_mp_charge;
 
 	CParticleEmitter		*m_particle;

@@ -74,6 +74,19 @@ void Player::Update()
 	{
 		Move();
 	}
+	else if (m_moveflg && m_ismagic)
+	{
+		CVector3 move = m_characterController.GetMoveSpeed();
+		move.Scale({ 0.0f,1.0f,0.0f });
+		//決定した移動速度をキャラクタコントローラーに設定。
+		m_characterController.SetMoveSpeed(move);
+		//キャラクターコントローラーを実行。
+		m_characterController.Execute();
+		//実行結果を受け取る。
+		m_position = m_characterController.GetPosition();
+
+		m_rotation.SetRotation(CVector3::AxisY, CMath::DegToRad(m_angle));
+	}
 	
 	switch (m_animationStat)
 	{
@@ -144,18 +157,6 @@ void Player::Move()
 		//回転した方向に移動
 		move.x = sin(CMath::DegToRad(m_angle)) * 1000.0f * DELTA_TIME;
 		move.z = cos(CMath::DegToRad(m_angle)) * 1000.0f * DELTA_TIME;
-
-		if (m_particle != nullptr)
-		{
-			DeleteGO(m_particle);
-			m_particle = nullptr;
-		}
-
-		if (m_particle_charge != nullptr)
-		{
-			DeleteGO(m_particle_charge);
-			m_particle_charge = nullptr;
-		}
 	}
 	else
 	{
@@ -224,12 +225,12 @@ void Player::Particle() {
 			"Assets/paticle/burn.png",		//!<テクスチャのファイルパス。
 			{ 0.0f, 0.0f, 0.0f },							//!<初速度。
 			0.8f,											//!<寿命。単位は秒。
-			0.8f,											//!<発生時間。単位は秒。
+			0.01f,											//!<発生時間。単位は秒。
 			17.0f,											//!<パーティクルの幅。
 			17.0f,											//!<パーティクルの高さ。
-			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
-			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
-			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
+			{ 3.0f, 3.0f, 3.0f },							//!<初期位置のランダム幅。
+			{ 1.0f, 1.0f, 1.0f },							//!<初速度のランダム幅。
+			{ 1.0f, 1.0f, 1.0f },							//!<速度の積分のときのランダム幅。
 			{
 				{ 0.0f, 0.0f,0.25f, 0.25f },//0.25,0.5,0.75,1UとVの位置
 				{ 0.0f, 0.0f, 0.0f, 0.0f },//X,Y,X,Y
@@ -289,13 +290,13 @@ void Player::Particle() {
 		m_particle->Init(m_random, g_gameCamera->GetCamera(),
 		{
 			"Assets/paticle/ice.tga",//!<テクスチャのファイルパス。
-			{ 0.0f, 0.0f, 1.0f },								//!<初速度。
+			{ 0.0f, 5.0f, 0.0f },								//!<初速度。
 			0.4f,											//!<寿命。単位は秒。
-			0.4f,											//!<発生時間。単位は秒。
-			10.0f,											//!<パーティクルの幅。
-			10.0f,											//!<パーティクルの高さ。
-			{ 1.0f, 1.0f, 0.0f },							//!<初期位置のランダム幅。
-			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
+			0.1f,											//!<発生時間。単位は秒。
+			10.0f * (1.0f - (float)m_random.GetRandDouble() / 2.0f),											//!<パーティクルの幅。
+			10.0f * (1.0f - (float)m_random.GetRandDouble() / 2.0f),											//!<パーティクルの高さ。
+			{ 5.0f, 6.0f, 5.0f },							//!<初期位置のランダム幅。
+			{ 0.0f, 2.0f, 0.0f },							//!<初速度のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
 			{
 				{ 0.0f, 0.0f, 0.5f, 0.5f },//0.25,0.5,0.75,1UとVの位置
@@ -304,7 +305,7 @@ void Player::Particle() {
 				{ 0.0f, 0.0f, 0.0f, 0.0f }
 			},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
 			1,												//!<UVテーブルのサイズ。
-			{ 0.0f, 0.0f, 0.0f },							//!<重力。
+			{ 0.0f, -2.0f, 0.0f },							//!<重力。
 			true,											//!<死ぬときにフェードアウトする？
 			0.3f,											//!<フェードする時間。
 			2.0f,											//!<初期アルファ値。
@@ -322,13 +323,13 @@ void Player::Particle() {
 		m_particle->Init(m_random, g_gameCamera->GetCamera(),
 		{
 			"Assets/paticle/aqua.png",				//!<テクスチャのファイルパス。
-			{ 0.0f, 0.0f, 0.0f },								//!<初速度。
-			0.4f,											//!<寿命。単位は秒。
-			0.4f,											//!<発生時間。単位は秒。
-			10.0f,											//!<パーティクルの幅。
-			10.0f,											//!<パーティクルの高さ。
-			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
-			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
+			{ 0.0f, 20.0f, 0.0f },								//!<初速度。
+			2.0f,											//!<寿命。単位は秒。
+			0.01f,											//!<発生時間。単位は秒。
+			2.0f + ((float)m_random.GetRandDouble() - 0.5f),											//!<パーティクルの幅。
+			2.0f + ((float)m_random.GetRandDouble() - 0.5f),											//!<パーティクルの高さ。
+			{ 0.0f, 5.0f, 0.0f },							//!<初期位置のランダム幅。
+			{ 5.0f, 0.0f, 5.0f },							//!<初速度のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
 			{
 
@@ -338,7 +339,7 @@ void Player::Particle() {
 				{ 0.0f, 0.0f, 0.0f, 0.0f }
 			},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
 			1,												//!<UVテーブルのサイズ。
-			{ 0.0f, 0.0f, 0.0f },							//!<重力。
+			{ 0.0f, -20.0f, 0.0f },							//!<重力。
 			true,											//!<死ぬときにフェードアウトする？
 			0.3f,											//!<フェードする時間。
 			2.0f,											//!<初期アルファ値。
@@ -348,22 +349,23 @@ void Player::Particle() {
 			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
 		},
 			target);
-		m_particletimer = 0.4f;
+		m_particletimer = 2.0f;
 		break;
 	case WIND:
+		m_random.GetRandDouble();
 		//パーティクルの生成
 		m_particle = NewGO<CParticleEmitter>(0);
 		m_particle->Init(m_random, g_gameCamera->GetCamera(),
 		{
 			"Assets/paticle/wind.tga",						//!<テクスチャのファイwルパス。
-			{ 1.0f, 0.0f, 0.0f },							//!<初速度。
+			{ 10.0f, 0.0f, 0.0f },							//!<初速度。
 
-			0.4f,											//!<寿命。単位は秒。
-			0.4f,											//!<発生時間。単位は秒。
-			10.0f,											//!<パーティクルの幅。
-			10.0f,											//!<パーティクルの高さ。
-			{ 1.0f, 1.0f, 0.0f },							//!<初期位置のランダム幅。
-			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
+			0.5f,											//!<寿命。単位は秒。
+			0.2f,											//!<発生時間。単位は秒。
+			10.0f * ((float)m_random.GetRandDouble() + 0.5f),											//!<パーティクルの幅。
+			10.0f * ((float)m_random.GetRandDouble() + 0.5f),											//!<パーティクルの高さ。
+			{ 5.0f, 3.0f, 0.0f },							//!<初期位置のランダム幅。
+			{ 3.0f, 5.0f, 1.0f },							//!<初速度のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
 			{
 				{ 0.0f, 0.0f, 1.0f, 1.0f },//0.25,0.5,0.75,1UとVの位置
@@ -382,7 +384,7 @@ void Player::Particle() {
 			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
 		},
 			target);
-		m_particletimer = 0.4f;
+		m_particletimer = .5f;
 		break;
 	}
 }
@@ -475,7 +477,7 @@ void Player::Magic()
 			{
 				if (!m_ismagic)
 				{
-					if (m_particle_charge == nullptr)
+					if (m_particle_charge == nullptr && m_particle == nullptr)
 					{
 						if (KeyInput().GetPad(0).IsTrigger(enButtonB))
 						{
