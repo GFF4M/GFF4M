@@ -159,7 +159,7 @@ void Player::Move()
 	}
 	else
 	{
-		if (m_animationStat != AnimationStand && !m_ismagic)
+		if (m_animationStat != AnimationStand2 && !m_ismagic)
 		{
 			m_animationStat = AnimationStand2;
 			m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
@@ -487,8 +487,8 @@ void Player::Magic()
 							m_particle_charge = NewGO<CParticleEmitter>(0);
 							m_particle_charge->Init(m_random, g_gameCamera->GetCamera(),
 							{
-								"Assets/paticle/fx_Magiccircle_j.png",			//!<テクスチャのファイwルパス。
-								{ 1.0f, 0.0f, 0.0f },							//!<初速度。
+								"Assets/paticle/fx_Magiccircle_j.png",			//!<テクスチャのファイルパス。
+								{ 0.0f, 0.0f, 0.0f },							//!<初速度。
 								0.7f,											//!<寿命。単位は秒。
 								0.7f,											//!<発生時間。単位は秒。
 								6.0f,											//!<パーティクルの幅。

@@ -8,7 +8,7 @@ const Enemy::EneDat			m_enemiesdat[ENEMY_DAT] =
 {
 
 	{ STAGE_T_1,			"kinoko",				"“G",	0,		{ 0.0f,55.0f,-50.0f },	{ 0.0f,5.0f,0.0f }	,	{ 10.0f,10.0f,10.0f } ,	NORMAL},
-	{ STAGE_T_BATTLE,		"kinoko",				"“G",	100,	{ 3.0f,70.0f,3.0f },	{ 0.0f,2.0f,0.0f }	,	{ 10.0f,10.0f,10.0f } ,	NORMAL},
+	{ STAGE_T_BATTLE,		"kinoko",				"“G",	100,	{ 3.0f,70.0f,3.0f },	{ 0.0f,2.0f,0.0f }	,	{ 4.0f,4.0f,4.0f } ,	NORMAL},
 	{ STAGE_1_1,			"golem",				"“G",	0,		{ 3.0f,55.0f,0.0f },	{ 0.0f,6.0f,0.0f }	,	{ 1.0f,1.0f,1.0f } ,	WIND},
 	{ STAGE_1_BATTLE,		"golem",				"“G",	200,	{ 3.0f,70.0f,3.0f },	{ 0.0f,6.0f,0.0f }	,	{ 1.0f,1.0f,1.0f } ,	WIND},
 	{ STAGE_2_1,			"Player",				"“G",	0,		{ 3.0f,55.0f,0.0f },	{ 0.0f,5.0f,0.0f }	,	{ 1.0f,1.0f,1.0f } ,	FIRE},
@@ -203,10 +203,7 @@ Enemy* EnemyManager::GetNearestEnemy(CVector3 pos, int no)
 	return nullptr;
 }
 
-//dog.X
-//doragon.X
-//golem.X
-//kaeruwalk.X
-//woodAttack.X
-//kinokomove.X
-//kinokoAttack.X
+//dog.X		scale0.8f
+//doragon.X scale0.8f
+//golem.X	scale1.0f
+//kinoko.X	scale4.0f
