@@ -76,7 +76,7 @@ void Player::Update()
 			m_damagetimer_ABSORPTION_enemy += DELTA_TIME;
 			if (m_damagetimer_ABSORPTION_enemy > 1.0f)
 			{
-				m_hp += 20;
+				m_hp += 50;
 				if (m_maxhp < m_hp)
 				{
 					m_hp = m_maxhp;
@@ -162,7 +162,8 @@ void Player::Update()
 
 	DeleteCheck();
 
-	if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FAINT) <= 0.0f)
+	if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FAINT) <= 0.0f ||
+		m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FROZEN) <= 0.0f)
 	{
 		MagicChange();
 
@@ -268,17 +269,9 @@ void Player::Move()
 
 		float scale = 1000.0f;
 
-		if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FROZEN) > 0.0f)
-		{
-			scale = 0.0f;
-		}
 		if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FEAR) > 0.0f)
 		{
 			scale /= 5.0f;
-		}
-		if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FAINT) > 0.0f)
-		{
-			scale = 0.0f;
 		}
 		if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_PARALYSIS) > 0.0f)
 		{
@@ -368,7 +361,7 @@ void Player::Particle() {
 			17.0f,											//!<パーティクルの幅。
 			17.0f,											//!<パーティクルの高さ。
 			{ 3.0f, 3.0f, 3.0f },							//!<初期位置のランダム幅。
-			{ 10.0f, 10.0f, 10.0f },							//!<初速度のランダム幅。
+			{ 10.0f, 0.0f, 10.0f },							//!<初速度のランダム幅。
 			{ 1.0f, 1.0f, 1.0f },							//!<速度の積分のときのランダム幅。
 			{
 				{ 0.0f, 0.0f,0.25f, 0.25f },//0.25,0.5,0.75,1UとVの位置
@@ -377,7 +370,7 @@ void Player::Particle() {
 				{ 0.0f, 0.0f, 0.0f, 0.0f }
 			},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
 			1,												//!<UVテーブルのサイズ。
-			{ 0.0f, 0.0f, 0.0f },							//!<重力。
+			{ 0.0f, 30.0f, 0.0f },							//!<重力。
 			true,											//!<死ぬときにフェードアウトする？
 			0.3f,											//!<フェードする時間。
 			2.0f,											//!<初期アルファ値。
@@ -400,7 +393,7 @@ void Player::Particle() {
 			0.4f,											//!<寿命。単位は秒。
 			0.4f,											//!<発生時間。単位は秒。
 			10.0f,											//!<パーティクルの幅。
-			10.0f,											//!<パーティクルの高さ。
+			50.0f,											//!<パーティクルの高さ。
 			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
@@ -668,8 +661,35 @@ void Player::Magic()
 				if (!m_animation.IsPlay() && m_ismagic)
 				{
 					m_mp -= m_magic_mp[m_magicNo];
-					Particle();
-					g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->SetDamage(m_magic_mp[m_magicNo], (MagicNo)m_magicNo);
+					if (m_mp < 0)
+					{
+						m_mp = 0;
+					}
+
+					if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_BLEEDING) > 0.0f)
+					{
+						m_hp -= m_maxhp * 0.15f;
+						if (m_hp < 0)
+						{
+							m_hp = 0;
+						}
+					}
+
+					if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_IGNITION) > 0.0f)
+					{
+						if (m_random.GetRandInt() % 100 < 50)
+						{
+							g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->SetDamage(m_magic_mp[m_magicNo], (MagicNo)m_magicNo);
+							
+							Particle();
+						}
+					}
+					else
+					{
+						g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->SetDamage(m_magic_mp[m_magicNo], (MagicNo)m_magicNo);
+						
+						Particle();
+					}
 					m_ismagic = false;
 				}
 			}

@@ -88,6 +88,69 @@ public:
 			m_StatusAilment.Execute(StatusAilment::AttackStat::AS_OTHER, magic);
 		}
 
+		if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_IGNITION) > 0.0f ||
+			m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FROZEN) > 0.0f || 
+			m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_BLEEDING) > 0.0f)
+		{
+			damage *= 1.5f;
+		}
+
+		switch (m_magicNo)
+		{
+		case FIRE:
+			if (magic == AQUA)
+			{
+				damage *= 1.5f;
+			}
+			else if (magic == ICE)
+			{
+				damage *= 0.5f;
+			}
+			break;
+		case WIND:
+			if (magic == THUNDER)
+			{
+				damage *= 1.5f;
+			}
+			else if (magic == ICE)
+			{
+				damage *= 0.5f;
+			}
+			break;
+		case THUNDER:
+			if (magic == WIND)
+			{
+				damage *= 1.5f;
+			}
+			else if (magic == AQUA)
+			{
+				damage *= 0.5f;
+			}
+			break;
+		case ICE:
+			if (magic == FIRE)
+			{
+				damage *= 1.5f;
+			}
+			else if (magic == THUNDER)
+			{
+				damage *= 0.5f;
+			}
+			break;
+		case AQUA:
+			if (magic == THUNDER)
+			{
+				damage *= 1.5f;
+			}
+			else if (magic == FIRE)
+			{
+				damage *= 0.5f;
+			}
+			break;
+		default:
+			break;
+		}
+
 		m_hp -= damage;
 		if (m_hp < 0)
 		{

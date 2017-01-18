@@ -60,7 +60,7 @@ private:
 		{FIRE, SA_IGNITION, 20, 6.0f},
 		
 		{ICE, SA_FAINT, 10, 3.5f},
-		{ICE, SA_ABSORPTION, 20, 5.0f},
+		{ICE, SA_ABSORPTION, 50, 5.0f},
 		{ICE, SA_FEAR, 25, 3.0f},
 		{ICE, SA_FROZEN, 50, 3.5f},
 		{ICE, SA_PARALYSIS, 10, 3.5f},

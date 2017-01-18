@@ -75,7 +75,7 @@ void Enemy::Update()
 			m_damagetimer_ABSORPTION_player += DELTA_TIME;
 			if (m_damagetimer_ABSORPTION_player > 1.0f)
 			{
-				m_hp += 20;
+				m_hp += 50;
 				if (m_maxhp < m_hp)
 				{
 					m_hp = m_maxhp;
@@ -167,7 +167,22 @@ void Enemy::Update()
 		DeleteGO(this);
 	}
 
-	Move();
+	if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FROZEN) <= 0.0f ||
+		m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FAINT) <= 0.0f)
+	{
+		Move();
+	}
+	else
+	{
+		CVector3 move = m_characterController.GetMoveSpeed();
+		move.Scale({ 0.0f,1.0f,0.0f });
+		//決定した移動速度をキャラクタコントローラーに設定。
+		m_characterController.SetMoveSpeed(move);
+		//キャラクターコントローラーを実行。
+		m_characterController.Execute();
+		//実行結果を受け取る。
+		m_position = m_characterController.GetPosition();
+	}
 	m_skinModel.Update(m_position, m_rotation, m_scale);//ワールド行列の更新。
 }
 
@@ -190,17 +205,9 @@ void Enemy::Move()
 			moveXZ.Normalize();
 			moveXZ.Scale(2.0f);
 
-			if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FROZEN) > 0.0f)
-			{
-				moveXZ.Scale(0.0f);
-			}
 			if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FEAR) > 0.0f)
 			{
 				moveXZ.Scale(1/5.0f);
-			}
-			if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FAINT) > 0.0f)
-			{
-				moveXZ.Scale(0.0f);
 			}
 			if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_PARALYSIS) > 0.0f)
 			{
@@ -235,9 +242,23 @@ void Enemy::Move()
 				m_attack_timer = 0.0f;
 				m_animationStat = AnimationAttack;
 				m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
-				g_scene->GetPlayer()->SetDamage(100, m_property);
-				m_StatusAilment.Execute(StatusAilment::AttackStat::AS_ME, m_property);
-				Particle();
+				if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_IGNITION) > 0.0f)
+				{
+					if (m_random.GetRandInt() % 100 < 50)
+					{
+						g_scene->GetPlayer()->SetDamage(100, m_property);
+						m_StatusAilment.Execute(StatusAilment::AttackStat::AS_ME, m_property);
+
+						Particle();
+					}
+				}
+				else
+				{
+					g_scene->GetPlayer()->SetDamage(100, m_property);
+					m_StatusAilment.Execute(StatusAilment::AttackStat::AS_ME, m_property);
+
+					Particle();
+				}
 			}
 			else if (m_animationStat != AnimationStand)
 			{
@@ -332,7 +353,7 @@ void Enemy::Particle() {
 			0.4f,											//!<寿命。単位は秒。
 			0.4f,											//!<発生時間。単位は秒。
 			10.0f,											//!<パーティクルの幅。
-			10.0f,											//!<パーティクルの高さ。
+			50.0f,											//!<パーティクルの高さ。
 			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
