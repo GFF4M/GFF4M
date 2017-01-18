@@ -1,5 +1,6 @@
 #pragma once
 #include "tkEngine/character/tkCharacterController.h"
+#include "StatusAilment.h"
 
 class Player : public IGameObject
 {
@@ -66,24 +67,23 @@ public:
 		return m_scale;
 	}
 
-	void SetDamage(int damage)
+	void SetDamage(int damage, MagicNo magic)
 	{
 		if (damage <= 0)
 		{
 			return;
 		}
-
-
+		
+		if (magic < MAGICNUM)
+		{
+			m_StatusAilment.Execute(StatusAilment::AttackStat::AS_OTHER, magic);
+		}
 
 		m_hp -= damage;
 		if (m_hp < 0)
 		{
 			m_hp = 0;
 		}		
-		
-		m_animationStat = AnimationDamage;
-		m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
-
 	}
 
 	int GetMaxHP()
@@ -111,6 +111,10 @@ public:
 		m_moveflg = dat;
 	}
 
+	StatusAilment GetStatusAilment()
+	{
+		return m_StatusAilment;
+	}
 
 	enum AnimationStat{
 		AnimationStand2,
@@ -144,6 +148,8 @@ private:
 	CAnimation				m_animation;						//アニメーション。
 	AnimationStat			m_animationStat;
 
+	StatusAilment			m_StatusAilment;
+
 	int						m_hp;
 	int						m_maxhp;
 	const float				m_hp_charge_delta = 0.5f * DELTA_TIME;
@@ -159,6 +165,12 @@ private:
 
 	CParticleEmitter		*m_particle_charge;
 	float					m_particletimer_charge;
+
+	float					m_damagetimer_ABSORPTION_enemy;
+	float					m_damagetimer_ABSORPTION;
+	float					m_damagetimer_BLEEDING;
+	float					m_damagetimer_POISON;
+	float					m_damagetimer_IGNITION;
 
 	CRandom					m_random;
 	int						m_magicNo;

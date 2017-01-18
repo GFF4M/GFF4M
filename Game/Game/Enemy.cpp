@@ -24,6 +24,12 @@ Enemy::Enemy()
 	m_random.Init((unsigned int)time(NULL));
 
 	m_particle = nullptr;
+
+	m_damagetimer_ABSORPTION_player = 0.0f;
+	m_damagetimer_ABSORPTION = 0.0f;
+	m_damagetimer_BLEEDING = 0.0f;
+	m_damagetimer_POISON = 0.0f;
+	m_damagetimer_IGNITION = 0.0f;
 }
 
 Enemy::~Enemy()
@@ -60,6 +66,85 @@ void Enemy::Start(EneDat enedat, bool isBattle)
 
 void Enemy::Update()
 {
+	m_StatusAilment.Update();
+
+	if (g_scene->GetPlayer() != nullptr)
+	{
+		if (g_scene->GetPlayer()->GetStatusAilment().GetStatusAilment(StatusAilment::SA_Eng::SA_ABSORPTION) > 0.0f)
+		{
+			m_damagetimer_ABSORPTION_player += DELTA_TIME;
+			if (m_damagetimer_ABSORPTION_player > 1.0f)
+			{
+				m_hp += 20;
+				if (m_maxhp < m_hp)
+				{
+					m_hp = m_maxhp;
+				}
+				m_damagetimer_ABSORPTION_player = 0.0f;
+			}
+		}
+		else
+		{
+			m_damagetimer_ABSORPTION_player = 0.0f;
+		}
+	}
+
+	if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_ABSORPTION) > 0.0f)
+	{
+		m_damagetimer_ABSORPTION += DELTA_TIME;
+		if (m_damagetimer_ABSORPTION > 1.0f)
+		{
+			SetDamage(m_maxhp*0.05f, MAGICNUM);
+			m_damagetimer_ABSORPTION = 0.0f;
+		}
+	}
+	else
+	{
+		m_damagetimer_ABSORPTION = 0.0f;
+	}
+
+	if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_BLEEDING) > 0.0f)
+	{
+		m_damagetimer_BLEEDING += DELTA_TIME;
+		if (m_damagetimer_BLEEDING > 1.0f)
+		{
+			SetDamage(m_maxhp*0.04f, MAGICNUM);
+			m_damagetimer_BLEEDING = 0.0f;
+		}
+	}
+	else
+	{
+		m_damagetimer_BLEEDING = 0.0f;
+	}
+	
+	if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_POISON) > 0.0f)
+	{
+		m_damagetimer_POISON += DELTA_TIME;
+		if (m_damagetimer_POISON > 1.0f)
+		{
+			SetDamage(m_maxhp*0.03f, MAGICNUM);
+			m_damagetimer_POISON = 0.0f;
+		}
+	}
+	else
+	{
+		m_damagetimer_POISON = 0.0f;
+	}
+
+	if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_IGNITION) > 0.0f)
+	{
+		m_damagetimer_IGNITION += DELTA_TIME;
+		if (m_damagetimer_IGNITION > 1.0f)
+		{
+			SetDamage(m_maxhp*0.02f, MAGICNUM);
+			m_damagetimer_IGNITION = 0.0f;
+		}
+	}
+	else
+	{
+		m_damagetimer_IGNITION = 0.0f;
+	}
+
 	if (m_particle != nullptr && m_particletimer <= 0.0f)
 	{
 		DeleteGO(m_particle);
@@ -105,8 +190,33 @@ void Enemy::Move()
 			moveXZ.Normalize();
 			moveXZ.Scale(2.0f);
 
-			move.x = moveXZ.x;
-			move.z = moveXZ.z;
+			if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FROZEN) > 0.0f)
+			{
+				moveXZ.Scale(0.0f);
+			}
+			if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FEAR) > 0.0f)
+			{
+				moveXZ.Scale(1/5.0f);
+			}
+			if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FAINT) > 0.0f)
+			{
+				moveXZ.Scale(0.0f);
+			}
+			if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_PARALYSIS) > 0.0f)
+			{
+				moveXZ.Scale(1.0/10.0f);
+			}
+
+			CVector3 move_rand = CVector3::One;
+
+			if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_DARKNESS) > 0.0f)
+			{
+				move_rand.x = sin(m_random.GetRandDouble() * 2.0f * CMath::PI);
+				move_rand.z = cos(m_random.GetRandDouble() * 2.0f * CMath::PI);
+			}
+
+			move.x = moveXZ.x * move_rand.x;
+			move.z = moveXZ.z * move_rand.z;
 
 			if (m_animationStat != AnimationWalk)
 			{
@@ -125,7 +235,8 @@ void Enemy::Move()
 				m_attack_timer = 0.0f;
 				m_animationStat = AnimationAttack;
 				m_animation.PlayAnimation(m_animationStat, 0.3f);//アニメーションの再生
-				g_scene->GetPlayer()->SetDamage(100);
+				g_scene->GetPlayer()->SetDamage(100, m_property);
+				m_StatusAilment.Execute(StatusAilment::AttackStat::AS_ME, m_property);
 				Particle();
 			}
 			else if (m_animationStat != AnimationStand)
@@ -185,12 +296,12 @@ void Enemy::Particle() {
 			"Assets/paticle/burn.png",		//!<テクスチャのファイルパス。
 			{ 0.0f, 0.0f, 0.0f },							//!<初速度。
 			0.8f,											//!<寿命。単位は秒。
-			0.8f,											//!<発生時間。単位は秒。
+			0.01f,											//!<発生時間。単位は秒。
 			17.0f,											//!<パーティクルの幅。
 			17.0f,											//!<パーティクルの高さ。
-			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
-			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
-			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
+			{ 3.0f, 3.0f, 3.0f },							//!<初期位置のランダム幅。
+			{ 1.0f, 1.0f, 1.0f },							//!<初速度のランダム幅。
+			{ 1.0f, 1.0f, 1.0f },							//!<速度の積分のときのランダム幅。
 			{
 				{ 0.0f, 0.0f,0.25f, 0.25f },//0.25,0.5,0.75,1UとVの位置
 				{ 0.0f, 0.0f, 0.0f, 0.0f },//X,Y,X,Y
@@ -250,13 +361,13 @@ void Enemy::Particle() {
 		m_particle->Init(m_random, g_gameCamera->GetCamera(),
 		{
 			"Assets/paticle/ice.tga",//!<テクスチャのファイルパス。
-			{ 0.0f, 0.0f, 1.0f },								//!<初速度。
+			{ 0.0f, 5.0f, 0.0f },								//!<初速度。
 			0.4f,											//!<寿命。単位は秒。
-			0.4f,											//!<発生時間。単位は秒。
-			10.0f,											//!<パーティクルの幅。
-			10.0f,											//!<パーティクルの高さ。
-			{ 1.0f, 1.0f, 0.0f },							//!<初期位置のランダム幅。
-			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
+			0.1f,											//!<発生時間。単位は秒。
+			10.0f * (1.0f - (float)m_random.GetRandDouble() / 2.0f),											//!<パーティクルの幅。
+			10.0f * (1.0f - (float)m_random.GetRandDouble() / 2.0f),											//!<パーティクルの高さ。
+			{ 5.0f, 6.0f, 5.0f },							//!<初期位置のランダム幅。
+			{ 0.0f, 2.0f, 0.0f },							//!<初速度のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
 			{
 				{ 0.0f, 0.0f, 0.5f, 0.5f },//0.25,0.5,0.75,1UとVの位置
@@ -265,7 +376,7 @@ void Enemy::Particle() {
 				{ 0.0f, 0.0f, 0.0f, 0.0f }
 			},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
 			1,												//!<UVテーブルのサイズ。
-			{ 0.0f, 0.0f, 0.0f },							//!<重力。
+			{ 0.0f, -2.0f, 0.0f },							//!<重力。
 			true,											//!<死ぬときにフェードアウトする？
 			0.3f,											//!<フェードする時間。
 			2.0f,											//!<初期アルファ値。
@@ -283,13 +394,13 @@ void Enemy::Particle() {
 		m_particle->Init(m_random, g_gameCamera->GetCamera(),
 		{
 			"Assets/paticle/aqua.png",				//!<テクスチャのファイルパス。
-			{ 0.0f, 0.0f, 0.0f },								//!<初速度。
-			0.4f,											//!<寿命。単位は秒。
-			0.4f,											//!<発生時間。単位は秒。
-			10.0f,											//!<パーティクルの幅。
-			10.0f,											//!<パーティクルの高さ。
-			{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
-			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
+			{ 0.0f, 20.0f, 0.0f },								//!<初速度。
+			2.0f,											//!<寿命。単位は秒。
+			0.01f,											//!<発生時間。単位は秒。
+			2.0f + ((float)m_random.GetRandDouble() - 0.5f),											//!<パーティクルの幅。
+			2.0f + ((float)m_random.GetRandDouble() - 0.5f),											//!<パーティクルの高さ。
+			{ 0.0f, 5.0f, 0.0f },							//!<初期位置のランダム幅。
+			{ 5.0f, 0.0f, 5.0f },							//!<初速度のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
 			{
 
@@ -299,7 +410,7 @@ void Enemy::Particle() {
 				{ 0.0f, 0.0f, 0.0f, 0.0f }
 			},//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
 			1,												//!<UVテーブルのサイズ。
-			{ 0.0f, 0.0f, 0.0f },							//!<重力。
+			{ 0.0f, -20.0f, 0.0f },							//!<重力。
 			true,											//!<死ぬときにフェードアウトする？
 			0.3f,											//!<フェードする時間。
 			2.0f,											//!<初期アルファ値。
@@ -309,22 +420,23 @@ void Enemy::Particle() {
 			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
 		},
 			target);
-		m_particletimer = 0.4f;
+		m_particletimer = 2.0f;
 		break;
 	case WIND:
+		m_random.GetRandDouble();
 		//パーティクルの生成
 		m_particle = NewGO<CParticleEmitter>(0);
 		m_particle->Init(m_random, g_gameCamera->GetCamera(),
 		{
 			"Assets/paticle/wind.tga",						//!<テクスチャのファイwルパス。
-			{ 1.0f, 0.0f, 0.0f },							//!<初速度。
+			{ 10.0f, 0.0f, 0.0f },							//!<初速度。
 
-			0.4f,											//!<寿命。単位は秒。
-			0.4f,											//!<発生時間。単位は秒。
-			10.0f,											//!<パーティクルの幅。
-			10.0f,											//!<パーティクルの高さ。
-			{ 1.0f, 1.0f, 0.0f },							//!<初期位置のランダム幅。
-			{ 0.0f, 0.0f, 0.0f },							//!<初速度のランダム幅。
+			0.5f,											//!<寿命。単位は秒。
+			0.2f,											//!<発生時間。単位は秒。
+			10.0f * ((float)m_random.GetRandDouble() + 0.5f),											//!<パーティクルの幅。
+			10.0f * ((float)m_random.GetRandDouble() + 0.5f),											//!<パーティクルの高さ。
+			{ 5.0f, 3.0f, 0.0f },							//!<初期位置のランダム幅。
+			{ 3.0f, 5.0f, 1.0f },							//!<初速度のランダム幅。
 			{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
 			{
 				{ 0.0f, 0.0f, 1.0f, 1.0f },//0.25,0.5,0.75,1UとVの位置
@@ -343,7 +455,7 @@ void Enemy::Particle() {
 			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
 		},
 			target);
-		m_particletimer = 0.4f;
+		m_particletimer = 0.5f;
 		break;
 	}
 }

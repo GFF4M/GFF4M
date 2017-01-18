@@ -1,5 +1,7 @@
 #pragma once
 #include "tkEngine/character/tkCharacterController.h"
+#include "StatusAilment.h"
+
 class Enemy : public IGameObject
 {
 public:
@@ -74,12 +76,18 @@ public:
 		return m_radius;
 	}
 
-	void SetDamage(int damage)
+	void SetDamage(int damage, MagicNo magic)
 	{
 		if (damage <= 0)
 		{
 			return;
 		}
+
+		if (magic < MAGICNUM)
+		{
+			m_StatusAilment.Execute(StatusAilment::AttackStat::AS_OTHER, magic);
+		}
+
 		m_hp -= damage;
 		if (m_hp < 0)
 		{
@@ -102,6 +110,11 @@ public:
 		return m_scale;
 	}
 
+	StatusAilment GetStatusAilment()
+	{
+		return m_StatusAilment;
+	}
+
 	enum AnimationStat
 	{
 		AnimationAttack,
@@ -117,6 +130,8 @@ private:
 	CQuaternion				m_rotation;						//‰ñ“]B
 	CVector3				m_scale;						//Šg‘åB
 	float					m_angle;						//Šp“xB
+
+	StatusAilment			m_StatusAilment;
 
 	MagicNo					m_property;						//‘®«
 	float					m_radius;
@@ -138,6 +153,12 @@ private:
 
 	CParticleEmitter		*m_particle;
 	float					m_particletimer;
+
+	float					m_damagetimer_ABSORPTION_player;
+	float					m_damagetimer_ABSORPTION;
+	float					m_damagetimer_BLEEDING;
+	float					m_damagetimer_POISON;
+	float					m_damagetimer_IGNITION;
 
 	int						m_magicNo;
 };

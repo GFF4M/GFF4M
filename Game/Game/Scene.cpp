@@ -230,7 +230,6 @@ void Scene::ChangeData()
 		m_player_mp_bar = NewGO<SC_Bar>(0);
 		m_player_mp_bar->Start(SC_Bar::Bar_Target::PLAYER_MP);
 		break;
-
 	case CS_DELETE:
 		m_play->Delete();
 		m_play = nullptr;

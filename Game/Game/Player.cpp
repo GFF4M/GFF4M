@@ -39,6 +39,12 @@ Player::Player()
 	m_particle_charge = nullptr;
 
 	m_particletimer_charge = 0.0f;
+
+	m_damagetimer_ABSORPTION_enemy = 0.0f;
+	m_damagetimer_ABSORPTION = 0.0f;
+	m_damagetimer_BLEEDING = 0.0f;
+	m_damagetimer_POISON = 0.0f;
+	m_damagetimer_IGNITION = 0.0f;
 }
 
 Player::~Player()
@@ -54,27 +60,133 @@ void Player::Start()
 
 	m_animation.SetAnimationLoopFlag(AnimationAttack, false);
 	m_animation.SetAnimationLoopFlag(AnimationStand, false);
+	m_animation.SetAnimationLoopFlag(AnimationStand2, false);
 	m_animation.SetAnimationLoopFlag(Animationmagic, false);
 	m_animation.SetAnimationLoopFlag(AnimationDamage, false);
 }
 
 void Player::Update()
 {
+	m_StatusAilment.Update();
+
+	if (g_scene->GetEnemy() != nullptr && g_scene->GetEnemy()->GetNearestEnemy(m_position, 0) != nullptr)
+	{
+		if (g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->GetStatusAilment().GetStatusAilment(StatusAilment::SA_Eng::SA_ABSORPTION) > 0.0f)
+		{
+			m_damagetimer_ABSORPTION_enemy += DELTA_TIME;
+			if (m_damagetimer_ABSORPTION_enemy > 1.0f)
+			{
+				m_hp += 20;
+				if (m_maxhp < m_hp)
+				{
+					m_hp = m_maxhp;
+				}
+				m_mp += 10;
+				if (m_maxmp < m_mp)
+				{
+					m_mp = m_maxmp;
+				}
+				m_damagetimer_ABSORPTION_enemy = 0.0f;
+			}
+		}
+		else
+		{
+			m_damagetimer_ABSORPTION_enemy = 0.0f;
+		}
+	}
+
+	if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_ABSORPTION) > 0.0f)
+	{
+		m_damagetimer_ABSORPTION += DELTA_TIME;
+		if (m_damagetimer_ABSORPTION > 1.0f)
+		{
+			SetDamage(m_maxhp*0.05f, MAGICNUM);
+			m_mp -= 10;
+			if (m_mp < 0.0f)
+			{
+				m_mp = 0.0f;
+			}
+			m_damagetimer_ABSORPTION = 0.0f;
+		}
+	}
+	else
+	{
+		m_damagetimer_ABSORPTION = 0.0f;
+	}
+
+	if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_BLEEDING) > 0.0f)
+	{
+		m_damagetimer_BLEEDING += DELTA_TIME;
+		if (m_damagetimer_BLEEDING > 1.0f)
+		{
+			SetDamage(m_maxhp*0.04f, MAGICNUM);
+			m_damagetimer_BLEEDING = 0.0f;
+		}
+	}
+	else
+	{
+		m_damagetimer_BLEEDING = 0.0f;
+	}
+
+	if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_POISON) > 0.0f)
+	{
+		m_damagetimer_POISON += DELTA_TIME;
+		if (m_damagetimer_POISON > 1.0f)
+		{
+			SetDamage(m_maxhp*0.03f, MAGICNUM);
+			m_damagetimer_POISON = 0.0f;
+		}
+	}
+	else
+	{
+		m_damagetimer_POISON = 0.0f;
+	}
+
+	if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_IGNITION) > 0.0f)
+	{
+		m_damagetimer_IGNITION += DELTA_TIME;
+		if (m_damagetimer_IGNITION > 1.0f)
+		{
+			SetDamage(m_maxhp*0.02f, MAGICNUM);
+			m_damagetimer_IGNITION = 0.0f;
+		}
+	}
+	else
+	{
+		m_damagetimer_IGNITION = 0.0f;
+	}
+
 	DeadCheck();
 
 	Charge();
 
 	DeleteCheck();
 
-	MagicChange();
-
-	Magic();
-
-	if (m_moveflg && !m_ismagic)
+	if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FAINT) <= 0.0f)
 	{
-		Move();
+		MagicChange();
+
+		Magic();
+
+		if (m_moveflg && !m_ismagic)
+		{
+			Move();
+		}
+		else if (m_moveflg && m_ismagic)
+		{
+			CVector3 move = m_characterController.GetMoveSpeed();
+			move.Scale({ 0.0f,1.0f,0.0f });
+			//決定した移動速度をキャラクタコントローラーに設定。
+			m_characterController.SetMoveSpeed(move);
+			//キャラクターコントローラーを実行。
+			m_characterController.Execute();
+			//実行結果を受け取る。
+			m_position = m_characterController.GetPosition();
+
+			m_rotation.SetRotation(CVector3::AxisY, CMath::DegToRad(m_angle));
+		}
 	}
-	else if (m_moveflg && m_ismagic)
+	else
 	{
 		CVector3 move = m_characterController.GetMoveSpeed();
 		move.Scale({ 0.0f,1.0f,0.0f });
@@ -85,7 +197,7 @@ void Player::Update()
 		//実行結果を受け取る。
 		m_position = m_characterController.GetPosition();
 
-		m_rotation.SetRotation(CVector3::AxisY, CMath::DegToRad(m_angle));
+		m_ismagic = false;
 	}
 	
 	switch (m_animationStat)
@@ -154,9 +266,36 @@ void Player::Move()
 		//カメラによる補正
 		m_angle -= g_gameCamera->GetAngle().x;
 
+		float scale = 1000.0f;
+
+		if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FROZEN) > 0.0f)
+		{
+			scale = 0.0f;
+		}
+		if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FEAR) > 0.0f)
+		{
+			scale /= 5.0f;
+		}
+		if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_FAINT) > 0.0f)
+		{
+			scale = 0.0f;
+		}
+		if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_PARALYSIS) > 0.0f)
+		{
+			scale /= 10.f;
+		}
+
+		CVector3 move_rand = CVector3::One;
+
+		if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_DARKNESS) > 0.0f)
+		{
+			move_rand.x = sin(m_random.GetRandDouble() * scale * CMath::PI);
+			move_rand.z = cos(m_random.GetRandDouble() * scale * CMath::PI);
+		}
+
 		//回転した方向に移動
-		move.x = sin(CMath::DegToRad(m_angle)) * 1000.0f * DELTA_TIME;
-		move.z = cos(CMath::DegToRad(m_angle)) * 1000.0f * DELTA_TIME;
+		move.x = sin(CMath::DegToRad(m_angle)) * scale * DELTA_TIME * move_rand.x;
+		move.z = cos(CMath::DegToRad(m_angle)) * scale * DELTA_TIME * move_rand.z;
 	}
 	else
 	{
@@ -229,7 +368,7 @@ void Player::Particle() {
 			17.0f,											//!<パーティクルの幅。
 			17.0f,											//!<パーティクルの高さ。
 			{ 3.0f, 3.0f, 3.0f },							//!<初期位置のランダム幅。
-			{ 1.0f, 1.0f, 1.0f },							//!<初速度のランダム幅。
+			{ 10.0f, 10.0f, 10.0f },							//!<初速度のランダム幅。
 			{ 1.0f, 1.0f, 1.0f },							//!<速度の積分のときのランダム幅。
 			{
 				{ 0.0f, 0.0f,0.25f, 0.25f },//0.25,0.5,0.75,1UとVの位置
@@ -384,7 +523,7 @@ void Player::Particle() {
 			{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
 		},
 			target);
-		m_particletimer = .5f;
+		m_particletimer = 0.5f;
 		break;
 	}
 }
@@ -481,6 +620,13 @@ void Player::Magic()
 					{
 						if (KeyInput().GetPad(0).IsTrigger(enButtonB))
 						{
+							float time = 0.0f;
+
+							if (m_StatusAilment.GetStatusAilment(StatusAilment::SA_Eng::SA_PARALYSIS) > 0.0f)
+							{
+								time = 3.5f;
+							}
+
 							m_animationStat = Animationmagic;
 							m_animation.PlayAnimation(m_animationStat, 0.3f);
 							m_ismagic = true;
@@ -491,8 +637,8 @@ void Player::Magic()
 							{
 								"Assets/paticle/fx_Magiccircle_j.png",			//!<テクスチャのファイルパス。
 								{ 0.0f, 0.0f, 0.0f },							//!<初速度。
-								0.7f,											//!<寿命。単位は秒。
-								0.7f,											//!<発生時間。単位は秒。
+								0.7f + time,											//!<寿命。単位は秒。
+								0.7f + time,											//!<発生時間。単位は秒。
 								6.0f,											//!<パーティクルの幅。
 								7.0f,											//!<パーティクルの高さ。
 								{ 0.0f, 0.0f, 0.0f },							//!<初期位置のランダム幅。
@@ -515,7 +661,7 @@ void Player::Magic()
 								{ 1.0f, 1.0f, 1.0f },							//!<乗算カラー。
 							},
 								GetLookPos());
-							m_particletimer_charge = 0.7f;
+							m_particletimer_charge = 0.7f + time;
 						}
 					}
 				}
@@ -523,7 +669,7 @@ void Player::Magic()
 				{
 					m_mp -= m_magic_mp[m_magicNo];
 					Particle();
-					g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->SetDamage(m_magic_mp[m_magicNo]);
+					g_scene->GetEnemy()->GetNearestEnemy(m_position, 0)->SetDamage(m_magic_mp[m_magicNo], (MagicNo)m_magicNo);
 					m_ismagic = false;
 				}
 			}
